@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+NOTICE OF LICENSE
+
+This source file is subject to the SafeMageEULA that is bundled with this package in the file LICENSE.txt.
+
+It is also available at this URL: https://www.safemage.com/LICENSE_EULA.txt
+
+Copyright (c)  SafeMage (https://www.safemage.com/)
+-->
+<config>
+    <modules>
+        <SafeMage_Permissions>
+            <active>true</active>
+            <codePool>community</codePool>
+            <extension_name>Advanced Permissions Manager</extension_name>
+            <depends>
+                <SafeMage_Extensions />
+                <SafeMage_Plugin />
+            </depends>
+            <cache_key>gAPsEr</cache_key>
+            <url>advanced-permissions-manager</url>
+        </SafeMage_Permissions>
+    </modules>
+</config>

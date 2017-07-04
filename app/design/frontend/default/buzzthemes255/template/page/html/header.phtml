@@ -1,0 +1,223 @@
+<?php
+$currentCategory = Mage::registry('current_category');
+$currentProduct = Mage::registry('current_product');
+?>
+<div class="header-container">
+    <div class="header-top">
+        <div class="nav-top-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-5 col-md-6 top-link-left">
+                        <div class="left-nav-top">
+                            <div>
+                                <a href="#"
+                                   title="<?php echo $this->__('Need Help? '); ?>">
+                                    <?php echo $this->__('Need Help? '); ?>
+                                </a>
+                            </div>
+                            <div class="contact-phone">
+                                <?php echo Mage::getStoreConfig('general/store_information/phone'); ?>
+                            </div>
+                            <div class="contact-mail">
+                                <a title="<?php echo $this->__('Send Mail'); ?>"
+                                   href="mailto:<?php echo Mage::getStoreConfig('trans_email/ident_general/email'); ?>">
+                                    <?php echo Mage::getStoreConfig('trans_email/ident_general/email'); ?>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-7 col-md-6 top-link-right">
+                        <div class="right-banner">
+                            <ul class="social">
+                                <li>
+                                    <a href="<?php echo $this->getUrl('faq'); ?>"><?php echo $this->__('FAQS'); ?></a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo $this->getUrl('contacts'); ?>">
+                                        <?php echo $this->__('CONTACT'); ?>
+                                    </a>
+                                </li>
+                            </ul>
+                            <?php if (Mage::getSingleton('customer/session')->isLoggedIn()): ?>
+                                <div class="login">
+                                    <p class="welcome-msg">
+                                        <a title="<?php echo $this->__('Go To My Account'); ?>"
+                                           href="<?php echo $this->getUrl('customer/account'); ?>">
+                                            <?php echo $this->getChildHtml('welcome') ?>
+                                            <?php echo $this->getAdditionalHtml() ?>
+                                        </a>&nbsp;&nbsp;
+                                        <a title="<?php echo $this->__('Logout'); ?>"
+                                           href="<?php echo $this->getUrl('customer/account/logout'); ?>">
+                                            <?php echo $this->__('[ Logout ]'); ?>
+                                        </a>
+                                    </p>
+                                </div>
+                            <?php else: ?>
+                                <div class="sing-up">
+                                    <a href="<?php echo $this->getUrl('customer/account/create'); ?>"
+                                       title="<?php echo $this->__('Sign Up'); ?>">
+                                        <?php echo $this->__('Sign Up'); ?>
+                                    </a>
+                                </div>
+                                <div class="login">
+                                    <a href="<?php echo $this->getUrl('customer/account/login'); ?>"
+                                       title="<?php echo $this->__('login'); ?>">
+                                        <?php echo $this->__('Login'); ?>
+                                    </a>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="nav-bottom-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 col-logo">
+                        <?php if ($this->getIsHomePage()): ?>
+                            <h1 class="logo">
+                                <a href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_DIRECT_LINK); ?>"
+                                   title="<?php echo $this->getLogoAlt(); ?>"
+                                   class="logo">
+                                    <img class="logo-desk"
+                                         src="<?php echo $this->getLogoSrc(); ?>"
+                                         alt="<?php echo $this->getLogoAlt(); ?>"/>
+                                    <img class="logo-mobile"
+                                         src="<?php echo $this->getLogoSrcSmall(); ?>"
+                                         alt="<?php echo $this->getLogoAlt(); ?>"/>
+                                </a>
+                            </h1>
+                        <?php else: ?>
+                            <h1 class="logo">
+                                <a href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_DIRECT_LINK); ?>"
+                                   title="<?php echo $this->getLogoAlt(); ?>"
+                                   class="logo">
+                                    <img class="logo-desk"
+                                         src="<?php echo $this->getLogoSrc(); ?>"
+                                         alt="<?php echo $this->getLogoAlt(); ?>"/>
+                                    <img class="logo-mobile"
+                                         src="<?php echo $this->getLogoSrcSmall(); ?>"
+                                         alt="<?php echo $this->getLogoAlt(); ?>"/>
+                                </a>
+                            </h1>
+                        <?php endif ?>
+                    </div>
+                    <div class="col-md-9 col-links">
+                        <div class="mobile-menu">
+                            <a href="#header-nav" class="button-menu skip-link">
+                                <span class="line-1"></span>
+                                <span class="line-2"></span>
+                                <span class="line-3"></span>
+                            </a>
+                            <a href="#skip-account" class="button-account skip-link">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        <div class="mini-cart">
+                            <?php echo $this->getChildHtml('topCart'); ?>
+                        </div>
+                        <div id="header-nav" class="skip-content">
+                            <a href="#header-nav" class="skip-link"><i class="fa fa-times" aria-hidden="true"></i></a>
+                            <?php echo $this->getChildHtml('topMenu') ?>
+                        </div>
+                        <div id="skip-account" class="skip-content">
+                            <ul>
+                                <?php if (!Mage::getSingleton('customer/session')->isLoggedIn()): ?>
+                                    <li class="link-signup">
+                                        <a href="<?php echo $this->getUrl('customer/account/create'); ?>"
+                                           title="<?php echo $this->__('Sign Up'); ?>">
+                                            <?php echo $this->__('<i class="fa fa-user-plus" aria-hidden="true"></i> Sign Up'); ?>
+                                        </a>
+                                    </li>
+                                    <li class="link-login">
+                                        <a href="<?php echo $this->getUrl('customer/account/login'); ?>"
+                                           title="<?php echo $this->__('login'); ?>">
+                                            <?php echo $this->__('<i class="fa fa-sign-in" aria-hidden="true"></i> Login'); ?>
+                                        </a>
+                                    </li>
+                                <?php else: ?>
+                                    <li>
+                                        <p class="welcome-msg">
+                                            <a title="<?php echo $this->__('Go To My Account'); ?>"
+                                               href="<?php echo $this->getUrl('customer/account'); ?>">
+                                                <?php echo $this->getChildHtml('welcome') ?>
+                                                <?php echo $this->getAdditionalHtml() ?>
+                                            </a>
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <a title="<?php echo $this->__('Logout'); ?>"
+                                           href="<?php echo $this->getUrl('customer/account/logout'); ?>">
+                                            <?php echo $this->__('Logout'); ?>
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container search-in-top">
+            <div class="row">
+                <div class="search-top-forms">
+                    <?php echo $this->getChildHtml('topSearch'); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header-img header_new_text">
+        <div class="text_hs">
+            <?php
+            $controllerName = Mage::app()->getRequest()->getModuleName();
+
+            if ($currentCategory):
+                /** @var Mage_Catalog_Helper_Output $helper */
+                $helper = $this->helper('catalog/output');
+                $category = Mage::registry('current_category');
+                $imgHtml = '';
+
+                if ($imgUrl = $category->getImageUrl()):
+                    $imgHtml = sprintf(
+                        '<img src="%s" alt="%s" title="%s" />',
+                        $imgUrl,
+                        $this->escapeHtml($category->getName()),
+                        $this->escapeHtml($category->getName())
+                    );
+
+                    $imgHtml = $helper->categoryAttribute($category, $imgHtml, 'image');
+                endif;
+
+                $blockImage = $this->getLayout()->createBlock('cms/block')->setBlockId('banner-all-category')->toHtml();
+
+                if ($imgUrl || $blockImage):
+                    if ($imgHtml):
+                        echo $imgHtml;
+                    else:
+                        echo $blockImage;
+                    endif;
+                endif;
+            elseif ($controllerName == 'customer'):
+                echo $this->getLayout()->createBlock('cms/block')->setBlockId('banner-customer')->toHtml();
+            else:
+                echo $this->getLayout()->createBlock('cms/block')->setBlockId('banner-contact')->toHtml();
+            endif;
+            ?>
+            <div class="content-above-img">
+                <h2 class="title">
+                    <?php if ($currentCategory && !$currentProduct): ?>
+                        <?php echo $currentCategory->getName(); ?>
+                    <?php elseif ($currentProduct): ?>
+                        <?php echo $currentProduct->getName(); ?>
+                    <?php else: ?>
+                        <?php echo $this->getLayout()->getBlock('head')->getTitle(); ?>
+                    <?php endif; ?>
+                </h2>
+                <div class="breadcrumbs">
+                    <?php echo $this->getLayout()->getBlock('breadcrumbs')->toHtml(); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+	 <reference name="head" >
+	  <action method="addItem" ifconfig="navigationmenupro/general/module_enable_disable">
+			<type>skin_css</type>
+			<name>css/navigationmenupro/basic.css</name>
+	</action>
+	<action method="addJs" ifconfig="navigationmenupro/general/jquery_enable_disable"><script>navigationmenupro/jquery.min_1.11.0.js</script></action>
+			<block type="core/text" name="google.jquery.noconflict" after="google.jquery">
+				<action method="setText"><text><![CDATA[<script type="text/javascript">var jQuery = jQuery.noConflict(); </script>]]></text></action>
+			</block>
+			<action method="addJs" ifconfig="navigationmenupro/general/module_enable_disable"><script>navigationmenupro/jquery-ui.min.js</script><params><![CDATA[name="zjs_last"]]></params></action>
+			<action method="addJs" ifconfig="navigationmenupro/general/module_enable_disable"><script>navigationmenupro/menu.js</script><params><![CDATA[name="zjs_last"]]></params></action>
+		</reference>
+    </default>
+</layout> 

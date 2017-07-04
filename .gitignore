@@ -35,6 +35,7 @@
 !/media/xmlconnect/system/ok.gif
 
 /var/*
+.idea/*
 !/var/.htaccess
 
 !/var/package

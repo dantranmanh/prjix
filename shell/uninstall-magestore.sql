@@ -1,0 +1,18 @@
+DROP TABLE IF EXISTS magenotification_license;
+DROP TABLE IF EXISTS magenotification_log;
+DROP TABLE IF EXISTS magenotification_extension_feedbackmessage;
+DROP TABLE IF EXISTS magenotification_extension_feedback;
+DROP TABLE IF EXISTS magenotification;
+DROP TABLE IF EXISTS brand_store_value;
+DROP TABLE IF EXISTS brand_subscriber;
+DROP TABLE IF EXISTS brand_products;
+DROP TABLE IF EXISTS brand;
+DELETE FROM admin_rule WHERE resource_id LIKE '%magestore%';
+DELETE FROM admin_rule WHERE resource_id LIKE '%magenotification%';
+DELETE FROM admin_rule WHERE resource_id LIKE '%shopbybrand%';
+DELETE FROM core_config_data WHERE `path` LIKE '%Magestore%';
+DELETE FROM core_config_data WHERE `path` LIKE '%magenotification%';
+DELETE FROM core_config_data WHERE `path` LIKE '%shopbybrand%';
+DELETE FROM core_resource WHERE code = 'magenotification_setup';
+DELETE FROM core_resource WHERE code = 'shopbybrand_setup';
+DELETE FROM permission_block WHERE block_name LIKE '%shopbybrand%';

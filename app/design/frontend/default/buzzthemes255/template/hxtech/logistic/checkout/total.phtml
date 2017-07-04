@@ -1,0 +1,90 @@
+<?php
+$quote = Mage::getSingleton('checkout/session')->getQuote();
+$shippingRateId = $quote->getShippingRateId();
+$_shippingRate = Mage::getModel('logistic/shippingrate')->load($shippingRateId);
+$totalRowValues = Mage::helper('logistic/logistic')->getTotalRowValues();
+$documentationFee = Mage::helper('document/documentation')->getDocumentationFeeByQuote($quote);
+$importerCommissionFee = Mage::helper('logistic/importer')->getImporterCommissionFee($totalRowValues['total_line_value']);
+$grandTotal = Mage::helper('logistic/logistic')->getCalculatedGrandTotal();
+?>
+<div class="shipping-rate-footer">
+    <div class="row">
+        <div class="col-md-4 col-1">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th colspan="2"><?php echo $this->__('Volumetrics'); ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><?php echo $this->__('Gross Weight (kg)'); ?></td>
+                        <td><?php echo number_format($totalRowValues['total_gross_weight'], 2, '.', ''); ?></td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $this->__('Volume (m3)'); ?></td>
+                        <td><?php echo number_format($totalRowValues['total_line_volume'], 3, '.', ''); ?></td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $this->__('Total Cases'); ?></td>
+                        <td><?php echo $totalRowValues['total_outers']; ?></td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $this->__('Total Units'); ?></td>
+                        <td><?php echo $totalRowValues['total_units']; ?></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4 col-2">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th colspan="2"><?php echo $this->__('Order Value'); ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><?php echo $this->__('AUD ($)') ?></td>
+                        <td><?php echo Mage::helper('core')->currency($totalRowValues['total_line_value'], true, false); ?></td>
+                    </tr>
+                    <?php if($_shippingRate): ?>
+                        <tr>
+                            <td><?php echo $this->__('Freight Amount:') ?></td>
+                            <td><?php echo Mage::helper('core')->currency($totalRowValues['total_line_volume'] * $_shippingRate->getPriceCbm(), true, false); ?></td>
+                        </tr>
+                        <tr>
+                            <td><?php echo $this->__('Documentation Fee'); ?></td>
+                            <td><?php echo Mage::helper('core')->currency($_shippingRate->getDocumentationFee(), true, false); ?></td>
+                        </tr>
+                    <?php endif; ?>
+                    <tr>
+                        <td><?php echo $this->__('Importers Fee'); ?></td>
+                        <td><?php echo Mage::helper('core')->currency(Mage::helper('logistic/importer')->getImporterCommissionFee($quote->getSubtotal()), true, false); ?></td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $this->__('Export Documentation Fee'); ?></td>
+                        <td id="documentation-fee"><?php echo Mage::helper('core')->currency($documentationFee, true, false); ?></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4 col-3">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th><?php echo $this->__('Invoice Total'); ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="temp-grant-total"><?php echo Mage::helper('core')->currency($grandTotal, true, false); ?></td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $this->__('Forgot an Item? <a href="%s">Edit Your Cart</a>', $this->getUrl('customer/checkout/cart'));?></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

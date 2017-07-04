@@ -1,0 +1,122 @@
+<?php
+$_productCollection = $this->getLoadedProductCollection();
+$_helper = $this->helper('catalog/output');
+$quote = Mage::getSingleton('checkout/session')->getQuote();
+$baseUrl = Mage::getBaseUrl();
+$currentUrl = Mage::helper('core/url')->getCurrentUrl();
+$url = Mage::getSingleton('core/url')->parseUrl($currentUrl);
+$path = $url->getPath();
+$filter = Mage::app()->getRequest()->getParam('filter');
+?>
+<?php if(!$_productCollection->count()): ?>
+    <p class="note-msg"><?php echo $this->__('There are no products matching the selection.') ?></p>
+<?php else: ?>
+    <div class="fillter-products">
+        <?php echo $this->getToolbarHtml() ?>
+    </div>
+    <div class="category-products list-sub-products">
+        <?php if($this->getMode()!='grid'): ?>
+        <?php $_iterator = 0; ?>
+        <ol class="products-list" id="products-list">
+        <?php foreach ($_productCollection as $_product): ?>
+            <li class="item<?php if( ++$_iterator == sizeof($_productCollection) ): ?> last<?php endif; ?>">
+                <div class="item-content">
+                    <div class="amlabel-div">
+                        <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(140,250); ?>" width="140" height="250" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" /></a>
+                        <?php if(!$_product->isSaleable()): ?>
+                            <div class="product-out-stock">
+                                <span><?php echo $this->__('Out Of Stock');?></span>
+                            </div>
+                        <?php endif;?>
+                    </div>
+                    <div class="product-shop">
+                        <?php $_productNameStripped = $this->stripTags($_product->getName(), null, true); ?>
+                        <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><?php echo $_helper->productAttribute($_product, $_product->getName() , 'name'); ?> <?php echo '('.Mage::helper('logistic/logistic')->getProductUnitWeightHtml($_product).')'; ?></a></h2>
+                        <?php // if($_product->getRatingSummary()): ?>
+                        <div class="review-box">
+                            <?php echo $this->getReviewsSummaryHtml($_product,'short') ?>
+                        </div>
+                        <?php // endif; ?>
+                        <?php if($_product->isSaleable()): ?>
+                            <label><?php echo $this->__('<span>Status: </span>');?><?php echo $this->__('In stock') ?></label>
+                        <?php else:?>
+                            <label><?php echo $this->__('<span>Status: </span>');?><?php echo $this->__('Out of stock') ?></label>
+                        <?php endif; ?>
+                        <div class="newstyle">
+                            <div class="p-type">
+                                <?php echo Mage::helper('logistic/logistic')->getProductUnitLabel($_product); ?>
+                                <!-- <?php echo Mage::helper('logistic/logistic')->getProductTypeLabel($_product); ?> -->
+                            </div>
+                            <div class="p-qty">
+                                <label><?php echo $this->__('Qty');?></label>
+                                <input oninput="maxLengthCheck(this)" type="number" min="0" max="9999" class="input-text input-cart product-qty-<?php echo $_product->getId(); ?>" value="1" />
+                            </div>
+                        </div>
+                        <?php if($_product->isSaleable()): ?>
+                        <div class="actions">
+                            <?php echo $this->getPriceHtml($_product, true) ?>
+                            <?php $stocklevel = (int)Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty();?>
+                            <?php $manageStock = Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getManageStock();?>                            <button data-product-id="<?php echo $_product->getId(); ?>" class="button btn-cart add-cart-button" type="button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')">
+                                <span class="text"><?php echo $this->__('Add to Order') ?></span>
+                                </button>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </li>
+        <?php endforeach; ?>
+        </ol>
+        <script type="text/javascript">decorateList('products-list', 'none-recursive')</script>
+        <?php else:?>
+        <?php // Grid Mode ?>
+        <?php $_collectionSize = $_productCollection->count() ?>
+        <?php $_columnCount = 6; ?>
+        <?php $i=0; foreach ($_productCollection as $_product): ?>
+            <?php if ($i++%$_columnCount==0): ?>
+                <ul class="products-grid col-6">
+            <?php endif ?>
+            <li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?> col-md-2 col-sm-2">
+                <div class="item-content">
+                    <div class="amlabel-div">
+                        <?php // echo Mage::helper('amlabel')->getLabels($_product) ?>
+                        <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image">
+                            <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(160,190); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
+                        </a>
+                        <?php if(!$_product->isSaleable()): ?>
+                            <div class="product-out-stock">
+                                <span><?php echo $this->__('Out Of Stock');?></span>
+                            </div>
+                        <?php endif;?>
+                    </div>
+                    
+                    <h2 class="product-name 1"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?> <?php echo '('.Mage::helper('logistic/logistic')->getProductUnitWeightHtml($_product).')'; ?></a></h2>
+                    <div class="product-actions">
+                      <div class="item-price">
+                        <?php echo $this->getPriceHtml($_product, true).' / Case' ?>
+                      </div>
+                      <div class="actions">
+                        <?php if($_product->isSaleable()): ?>
+                          <button type="button" title="<?php echo Mage::helper('core')->quoteEscape($this->__('More Info')) ?>" class="button btn-cart add-cart-button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span class="text"><?php echo $this->__('More Info') ?></span></button>
+                        <?php else: ?>
+                          <p class="availability out-of-stock"><button title="<?php echo $this->__('Notify me');?>" product_id="<?php echo $_product->getId() ?>" class="button btn-outstock"><span><span><?php echo $this->__('Notify me');?></span></span></button></p>
+                        <?php endif; ?>
+                      </div>
+                    </div>
+                </div>
+            </li>
+            <?php if ($i%$_columnCount==0 || $i==$_collectionSize): ?>
+                </ul>
+            <?php endif ?>
+        <?php endforeach ?>
+        <script type="text/javascript">decorateGeneric($$('ul.products-grid'), ['odd','even','first','last'])</script>
+        <?php endif;?>
+    </div>
+    <div class="toolbar-bottom">
+        <?php echo $this->getToolbarHtml() ?>
+    </div>
+<script type="text/javascript">
+    jQuery(document).ready(function(){
+        jQuery('body').addClass('catalog-sub-category');
+    });
+</script>
+<?php endif; ?>

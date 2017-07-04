@@ -1,0 +1,70 @@
+<?php
+/*
+* Copyright (c) 2014 www.magebuzz.com
+*/
+?>
+  <div id="messages_shoppinglist"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+<?php $_helper = Mage::helper('shoppinglist') ?>
+<?php $reminder = $this->getReminder(); ?>
+<?php if ($_helper->isActive()) : ?>
+  <div class="page-title">
+    <h1><?php echo $this->getTitle(); ?></h1>
+  </div>
+  <?php echo $this->getChildHtml('groupShoppingList') ?>
+  <div style="clear:both; margin: 20px 0px 20px 0px;"></div>
+  <?php if ($_helper->allowReminder()): ?>
+    <div class="box-account">
+      <h2><?php echo $this->__('Reminder Config') ?></h2>
+
+      <form method="post" id="reminder_config_form" action="<?php echo $this->getConfigSaveUrl() ?>">
+        <ul class="form-list">
+          <li class="control">
+            <input type="checkbox" name="receive_email_config" value="1" id="receive_email_config"
+                   class="checkbox" <?php if ($this->isConfigSelected()): ?> checked <?php endif; ?>/><label
+              for="receive_email_config"><?php echo $this->__('Receive Shopping List Notifications') ?></label>
+          </li>
+          <li class="fields" id="reminder-option"
+              <?php if (!$this->isConfigSelected()): ?>style="display:none" <?php endif; ?>>
+            <label for="reminder-option"><?php echo $this->__('Send reminders every: ')?></label>
+						<?php $options = $this->getReminderOptions(); ?>
+            <?php if (count($options)): ?>
+              <div class="interval-number"><input type="text" class="input-text validate-number required-entry"
+                                                  maxlength="255" title="Inter Var"
+                                                  value="<?php if ($reminder) echo $reminder->getIntervalNumber(); ?>"
+                                                  name="interval_number" id="interval_number"/></div>
+              <select type="text" style="width:100px;" name="reminder_option">
+                <?php foreach ($options as $option): ?>
+                  <option
+                    value="<?php echo $option['value'] ?>" <?php if ($option['value'] == $this->getSelectedOption()): ?> selected<?php endif; ?>><?php echo $option['label'] ?></option>
+                <?php endforeach; ?>
+              </select>
+            <?php endif; ?>
+          </li>
+          <li class="fields" id="number_reminder"
+              <?php if (!$this->isConfigSelected()): ?>style="display:none" <?php endif; ?>>
+            <label><?php echo $this->__('Number of Reminder') ?></label><input type="text" style="width:50px;"
+                                                                                 class="input-text" maxlength="255"
+                                                                                 title="Number of reminder"
+                                                                                 value="<?php if ($reminder) echo $reminder->getCountSend(); ?>"
+                                                                                 name="count_send" id="count_send">
+          </li>
+        </ul>
+        <button class="button" type="submit"><span><span><?php echo $this->__('Save'); ?></span></span></button>
+      </form>
+    </div>
+    <script>
+      var config = $('receive_email_config');
+      var form = new VarienForm('reminder_config_form', true);
+
+      Event.observe('receive_email_config', 'click', function () {
+        if (config.checked) {
+          $('reminder-option').show();
+          $('number_reminder').show();
+        } else {
+          $('reminder-option').hide();
+          $('number_reminder').hide();
+        }
+      });
+    </script>
+  <?php endif; ?>
+<?php endif; ?>

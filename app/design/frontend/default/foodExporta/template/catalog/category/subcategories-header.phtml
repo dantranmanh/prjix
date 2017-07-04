@@ -1,0 +1,35 @@
+<?php
+$_currentCategory = $this->getCurrentCategory();
+$_parentCategory = $_currentCategory->getParentCategory();
+$children = $_currentCategory->getChildrenCategories();
+if(count($children->getData()) == 0){
+    $children = $_parentCategory->getChildrenCategories();
+}
+?>
+<?php if(count($children->getData()) > 0):?>
+<div class="block-subcategories">
+    <ul>
+        <?php foreach ($children as $category):?>
+            <?php if(!Mage::helper('logistic/logistic')->hasProducts($category)): continue; endif; ?>
+            <?php if($_currentCategory->getId() == $category->getId()){ continue; }?>
+            <?php $childrens = $category->getChildrenCategories(); ?>
+            <?php $countChildrens = $childrens->count(); ?>
+            <li <?php if($countChildrens):?>class="parent"<?php endif;?>>
+                <a title="<?php echo $category->getName();?>" href="<?php echo $category->getUrl();?>"><?php echo $category->getName();?></a>
+                <?php if($countChildrens):?>
+                <ul>
+                    <?php foreach ($childrens as $child): ?>
+                        <?php if(!$child->getProductCount() > 0): continue; endif; ?>
+                        <li>
+                            <a title="<?php echo $child->getName();?>" href="#<?php echo $child->getUrl();?>"><?php echo $child->getName();?></a>
+                        </li>
+                    <?php endforeach;?>
+                </ul>
+                <?php endif; ?>
+            </li>
+        <?php endforeach;?>
+    </ul>
+</div>
+<?php else: ?>
+
+<?php endif;?>

@@ -1,0 +1,59 @@
+<?php
+$_collection = $this->getCollection();
+$countryCode = $this->getExporterCountryCode();
+$importerCurrencyCode = $this->getImporterCurrencyCode();
+$exporterCurrencyCode = $this->getExporterCurrencyCode();
+$importerRate = $this->getRate('importer');
+$exporterRate = $this->getRate('exporter');
+$quote = $this->getQuote();
+$grandTotal = $this->getCalculatedGrandTotal();
+?>
+<?php if($_collection->getSize() > 0): ?>
+<div class="box-provider" id="forex-rate-table">
+  <div class="box-title">
+    <h3><?php echo $this->__('forex ') ?><span class="count"><?php echo $_collection->getSize() + 1;?></span></h3>
+  </div>
+  <ul class="list-methods lis-freight list-forex">
+    <li class="method-item">
+      <input type="radio" class="radio" name="forex_requirement" onclick="shippingMethod.selectFinancier('0', '<?php echo Mage::getUrl('forex/financier/setFinancier') ?>')"/>
+      <div class="item-content">
+        <div class="top-title">
+          <label><?php echo $this->__('Self Sourced'); ?></label>
+        </div>
+        <span class="select"><?php echo $this->__('select'); ?></span>
+      </div>
+    </li>
+    <?php $size = $_collection->getSize(); ?>
+    <?php if($size > 0): ?>
+      <?php foreach($_collection->getData() as $_item): ?>
+        <?php $exchangeRate = $this->getExchangeRate($_item['id']); ?>
+        <li class="method-item">
+          <input type="radio" class="radio" name="forex_requirement" onclick="shippingMethod.selectFinancier('<?php echo $_item['id']; ?>', '<?php echo Mage::getUrl('forex/financier/setFinancier') ?>')">
+          <div class="item-content">
+            <div class="top-title">
+              <div><small><?php echo $importerCurrencyCode; ?></small><?php echo Mage::helper('core')->currency($grandTotal); ?><span><?php echo $this->__('Invoice Total'); ?></span></div>
+              <div><small><?php echo $exporterCurrencyCode; ?></small><?php echo Mage::app()->getLocale()->currency($importerCurrencyCode)->toCurrency($grandTotal * $exchangeRate); ?><span><?php echo $this->__('Total Owning'); ?></span></div>
+            </div>
+            <div class="box-content">
+              <ul>
+                <li><?php echo $importerCurrencyCode; ?><span><?php echo $this->__('From'); ?></span></li>
+                <li><?php echo number_format($exchangeRate, 4,',', ' '); ?><span><?php echo $this->__('Rates'); ?></li>
+                <li><?php echo $exporterCurrencyCode; ?><span><?php echo $this->__('To'); ?></li>
+              </ul>
+              <div class="image-method">
+                <?php echo Mage::helper('forex')->getFinancierLogo($_item['id']); ?>
+              </div>
+            </div>
+            <span class="select"><?php echo $this->__('select'); ?></span>
+          </div>
+        </li>
+      <?php endforeach; ?>
+    <?php endif; ?>
+  </ul>
+  <script type="text/javascript">
+    jQuery(function () {
+      jQuery('#forex-rate-table').customRadioCheckbox();
+    })
+  </script>
+</div>
+<?php endif; ?>

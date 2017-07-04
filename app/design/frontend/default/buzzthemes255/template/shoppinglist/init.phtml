@@ -1,0 +1,31 @@
+<script type="text/javascript">
+  <?php if (Mage::getStoreConfig('shoppinglist/general/active')): ?>
+  document.observe("dom:loaded", function () {
+    shoppingList = new ShoppingList(
+      {
+        <?php if (!Mage::getSingleton('customer/session')->isLoggedIn()):?>
+        'addToShoppingListPath': 'shoppinglist/item/login',
+        <?php else: ?>
+        'addToShoppingListPath': 'shoppinglist/index/add',
+        <?php endif; ?>
+        'addToShoppingListLabel': '<?php echo $this->__('Add to Shopping List'); ?>',
+        <?php if (!(strpos(Mage::app()->getRequest()->getPathInfo(),'catalog/product/view') === false)):?>
+        'isProductPage': true,
+        <?php else: ?>
+        'isProductPage': false,
+        <?php endif; ?>
+        <?php if (Mage::helper('shoppinglist')->isShowSaveForLater()
+        && (!(strpos(Mage::app()->getRequest()->getPathInfo(),'checkout/cart') === false))
+        && (Mage::helper('checkout/cart')->getItemsCount() > 0)) : ?>
+        'needSaveForLater': false
+        /*'needSaveForLater': true,
+        'save_for_later_label': '<?php echo $this->__('Save for Later'); ?>',
+        'save_for_later_url': '<?php echo Mage::getUrl('shoppinglist/index/savelater'); ?>'*/
+        <?php else: ?>
+        'needSaveForLater': false
+        <?php endif; ?>
+      }
+    );
+  });
+  <?php endif; ?>
+</script>

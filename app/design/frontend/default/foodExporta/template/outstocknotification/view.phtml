@@ -1,0 +1,23 @@
+<?php 
+  /*
+  * @copyright   Copyright (c) 2014 www.magebuzz.com
+  */
+?>     
+<?php $outstockenable = Mage::getStoreConfig('outstocknotification/general/module_enable'); ?>
+<?php $_product = Mage::registry('product');?>
+<script type="text/javascript">
+  var jQ = jQuery.noConflict();
+  jQ(document).ready(function() {
+    /* Open add popup form */
+    jQ(".notify-outstock").colorbox();
+  });
+</script>    
+<div style="margin-top: 5px;">
+  <?php if($outstockenable):?>   
+    <?php if(!$_product->isSaleable()): ?>
+      <a href="<?php echo Mage::getUrl('outstocknotification/index/popupnotify',array('productid'=>$_product->getId())); ?>" class="notify-outstock">
+        <button type="button" title="<?php echo $this->__(Mage::getStoreConfig('outstocknotification/general/labelbutton')); ?>" class="button"><span><span><?php echo $this->__(Mage::getStoreConfig('outstocknotification/general/labelbutton')) ?></span></span></button>
+      </a> 
+      <?php endif;?>                       
+    <?php endif;?>
+</div>

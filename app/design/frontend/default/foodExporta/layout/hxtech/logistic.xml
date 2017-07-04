@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <logistic_sales_email_order_items>
+        <block type="sales/order_email_items" name="items" template="hxtech/logistic/email/order/items.phtml">
+            <action method="addItemRender"><type>default</type><block>sales/order_email_items_order_default</block><template>email/order/items/order/default.phtml</template></action>
+            <action method="addItemRender"><type>grouped</type><block>sales/order_email_items_order_grouped</block><template>email/order/items/order/default.phtml</template></action>
+            <block type="sales/order_totals" name="order_totals" template="sales/order/totals.phtml">
+                <action method="setLabelProperties"><value>colspan="3" align="right" style="padding:3px 9px"</value></action>
+                <action method="setValueProperties"><value>align="right" style="padding:3px 9px"</value></action>
+                <block type="tax/sales_order_tax" name="tax" template="tax/order/tax.phtml">
+                    <action method="setIsPlaneMode"><value>1</value></action>
+                </block>
+            </block>
+        </block>
+        <block type="core/text_list" name="additional.product.info" />
+    </logistic_sales_email_order_items>
+
+    <logistic_supplier_index>
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="logistic/supplier" name="supplier-sign-up" template="hxtech/logistic/register/form.phtml"/>
+        </reference>
+    </logistic_supplier_index>   
+
+    <sales_email_order_items>
+        <reference name="order_totals">
+            <block type="logistic/sales_totals_order_importerfee" name="importerfee"/>
+        </reference>
+    </sales_email_order_items>
+</layout>

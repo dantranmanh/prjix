@@ -1,0 +1,41 @@
+<?php
+/**
+ * Hxtech 2016
+ */
+
+?>
+<?php if($this->getCategoryIds()):?>
+<?php
+
+$strCategoryIds = $this->getCategoryIds();
+$categoryIds = explode(",",$strCategoryIds);
+?>
+<ul class="row">
+    <?php foreach($categoryIds as $categoryId):?>
+        <?php 
+            $category = Mage::getModel('catalog/category')->load($categoryId);
+            // $categoryPageTitle = $category->getMetaTitle();
+            $imgUrl = $category->getImageUrl();
+            $imgThumbnail = $category->getThumbnail();
+            $urlThumbnail = '';
+            if($imgThumbnail){
+                $urlThumbnail = Mage::getBaseUrl('media').'catalog/category/'.$imgThumbnail;
+            }
+            $collection = Mage::getModel('catalog/layer')->setCurrentCategory($category)->getProductCollection();
+            
+            $count = $collection->getSize();
+        ?>
+        <?php if($imgThumbnail):?>
+        <li class="col-md-4">
+            <a href="<?php echo $category->getUrl();?>" title="<?php echo $category->getMetaTitle();?>">
+                <img alt="<?php echo $category->getMetaTitle();?>" src="<?php echo $urlThumbnail;?>" />
+                <div class="category-info">
+                    <span><?php echo $category->getMetaTitle();?></span>
+                    <span><?php echo $count;?> <?php echo $this->__('Products');?></span>
+                </div>
+            </a>
+        </li>
+        <?php endif;?>
+    <?php endforeach;?>
+</ul>
+<?php endif;?>

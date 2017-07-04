@@ -1,0 +1,79 @@
+<?php
+$_collection = $this->getCollection();
+$_count = 0;
+$shippingrateId = $this->getShippingrateId();
+?>
+<table class="data-table shipping-rate-table" id="shipping-rate-table">
+    <thead>
+        <tr>
+            <th colspan="30"><h3><?php echo $this->__('Shipping Options'); ?></h3></th>
+        </tr>
+    </thead>
+    <thead>
+        <tr>
+            <th></th>
+            <th><?php echo $this->__('Service Rating'); ?></th>
+            <th><?php echo $this->__('Container Size (ft)'); ?></th>
+            <th><?php echo $this->__('Shipping Terms'); ?></th>
+            <th><?php echo $this->__('Transport Method'); ?></th>
+            <th><?php echo $this->__('Origin'); ?></th>
+            <th><?php echo $this->__('Destination'); ?></th>
+            <th><?php echo $this->__('Transit Time (days)'); ?></th>
+            <th><?php echo $this->__('Price / CBM'); ?></th>
+            <th><?php echo $this->__('Documentation'); ?></th>
+            <th><?php echo $this->__('Transport fees'); ?></th>
+            <th><?php echo $this->__('Other Fees'); ?></th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><?php echo $this->__('Self Sourced'); ?></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td><?php echo Mage::helper('core')->currency(0, true, false); ?></td>
+            <td><input type="radio" class="input-radio" name="shipping_method" value="freeshipping_freeshipping" checked="checked" onclick="shippingMethod.selectShippingRate('0', '<?php echo Mage::getUrl('logistic/shippingrate/setShippingrate') ?>')"></td>
+        </tr>
+        <?php $count = 0; $size = $_collection->getSize(); ?>
+        <?php foreach($_collection as $_item): ?>
+            <?php $logistic = Mage::helper('logistic/logistic')->getLogisticOfShippingrate($_item); ?>
+            <?php $selected = ($shippingrateId == $_item->getId()) ? 'checked = "checked"' : ''; ?>
+            <?php $numberStar = Mage::helper('logistic')->getLogisticAverageStars($logistic->getId()); ?>
+            <?php $count++; ?>
+            <?php if($count == $size): ?>
+                <?php $validate = 'validate-one-required-by-name'; ?>
+            <?php else: ?>
+                <?php $validate = ''; ?>
+            <?php endif; ?>        
+            <tr>
+                <td><?php echo Mage::helper('logistic/logistic')->getLogisticNameOfShippingrate($_item); ?></td>
+                <td>
+                <span id="summary_rating">    
+                    <div class="rating-box">
+                        <div class="rating" style="width:<?php echo $numberStar * 20; ?>%;"></div>
+                    </div>
+                </span>
+                </td>
+                <td><?php echo $_item->getContainerSize(); ?></td>
+                <td><?php echo $_item->getShippingTerms(); ?></td>
+                <td><?php echo $_item->getTransportMethod(); ?></td>
+                <td><?php echo $this->getOriginPort(); ?></td>
+                <td><?php echo $this->getClosestPort(); ?></td>
+                <td><?php echo $_item->getTransitTime(); ?></td>
+                <td><?php echo Mage::helper('core')->currency($_item->getPriceCbm(), true, false); ?></td>
+                <td><?php echo Mage::helper('core')->currency($_item->getDocumentationFee(), true, false); ?></td>
+                <td><?php echo Mage::helper('core')->currency($_item->getAustralianPortCharges(), true, false); ?></td>
+                <td><?php echo Mage::helper('core')->currency($_item->getOtherFees(), true, false); ?></td>
+                <td><input type="radio" class="input-radio <?php echo $validate; ?>" <?php echo $selected; ?> name="shipping_method" value="freeshipping_freeshipping" onclick="shippingMethod.selectShippingRate('<?php echo $_item->getId(); ?>', '<?php echo Mage::getUrl('logistic/shippingrate/setShippingrate') ?>')"></td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>

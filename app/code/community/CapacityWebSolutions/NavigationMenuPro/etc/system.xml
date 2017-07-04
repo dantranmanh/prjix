@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <tabs>
+		<cws>
+            <label>MageBees</label>
+            <sort_order>100</sort_order>
+        </cws>
+    </tabs>
+    <sections>
+        <navigationmenupro translate="label">
+            <class>separator-top</class>
+            <label>Navigation Menu Pro</label>
+            <tab>cws</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>40</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+			    <general translate="label">
+                    <label>Navigation Menu Pro Option</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>200</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <module_enable_disable translate="label">
+							<label>Enabled</label>	
+							<comment>Select Yes for display menu using Navigation Menu Pro extension on frontend.</comment>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<frontend_type>select</frontend_type>
+							<sort_order>0</sort_order>
+							<show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+						</module_enable_disable> 				
+						<jquery_enable_disable translate="label">
+							<label>jQuery Enabled</label>	
+							<comment>Select Yes / No for jQuery enable or disabled.</comment>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<frontend_type>select</frontend_type>
+							<sort_order>1</sort_order>
+							<show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+						</jquery_enable_disable>
+						<!--<responsive_break_point translate="label">
+							<label>Responsive Break Point</label>	
+							<comment>Set Responsive Break point value in px.</comment>
+							<frontend_type>text</frontend_type>
+							<sort_order>2</sort_order>
+							<show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+						</responsive_break_point> -->
+					</fields>
+                </general>
+				 <optimize_performance translate="label">
+                    <label>Super Cache (Improves Performance)</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>300</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+						<menu_refresh translate="label">
+                            <label>Publish Static HTML Menu</label>
+							<comment>
+							If Developer Mode is set to "No" and you made any changes in menu items ( like add,add-sub,edit,delete,re-order menu items or change in the menu group ) then you must PUBLISH Static HTML Menu again so that your changes reflect in frontend.
+							</comment>
+							
+							<frontend_type>button</frontend_type>
+							 <frontend_model>navigationmenupro/adminhtml_system_config_form_button</frontend_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </menu_refresh>
+                        <developer_mode_enable_disable translate="label">
+							<label>Developer Mode</label>	
+							<comment>Select "Yes" when you are working on staging/development environment. In production envionment(when you make your site live) set this to "No", by doing this it will generate Static HTML Code for your menu(s).Please note that this will decrease page load time, and help you in making your site load fast.
+							</comment>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<frontend_type>select</frontend_type>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+						</developer_mode_enable_disable> 				
+					</fields>
+                </optimize_performance>
+            </groups>
+        </navigationmenupro>
+	</sections>
+</config>

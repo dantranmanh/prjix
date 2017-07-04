@@ -1,0 +1,462 @@
+<?php
+    $isMandatory = Mage::getStoreConfig('deliverydate/deliverydate_general/is_mandatory');
+    $deliverydateLabel = Mage::getStoreConfig('deliverydate/deliverydate_general/deliverydate_label');
+    $deliverydateLabel = $deliverydateLabel ? $deliverydateLabel . ':' : 'Delivery Date:';
+
+    $deliverydateCommentsLabel = Mage::getStoreConfig('deliverydate/deliverydate_general/deliverydate_comments_label');
+    $deliverydateCommentsLabel = $deliverydateCommentsLabel ? $deliverydateCommentsLabel . ':' : 'Delivery Comments:';
+?>
+
+<dd>
+    <ul class="form-list date-selection">
+        <li>
+            <label for="page_date-end"><?php echo $deliverydateLabel; ?></label>
+            <div class="input-box">
+                <input name="shipping_arrival_date_display" id="shipping_arrival_date_display" value="" title="date" class="input-text<?php
+                        if ($isMandatory == 1) {
+                            echo ' required-entry';
+                        }
+                    ?>" type="text"> 
+                <img src="<?php echo Mage::getBaseUrl('skin') ?>adminhtml/default/default/images/grid-cal.gif" alt="" class="ico-cal" id="shipping_arrival_date_trig" title="Select Date" />
+
+                <a href="javascript:void(0)" id="link_reset"  class="ico-reset" ><img src="<?php echo $this->getSkinUrl('images/ico_reset.png'); ?>" alt="" class="v-middle" title="Reset"></a>
+                <input name="shipping_arrival_date" id="shipping_arrival_date" value="" onChange="shippingArrivalDateOnChange(this);
+                    return false;" title="date"  type="hidden"> 
+            </div>
+        </li>
+        <li>
+            <label for="shipping_arrival_comments"><?php echo $deliverydateCommentsLabel; ?></label>
+            <div class="input-box">
+                <textarea name="shipping_arrival_comments" id="shipping_arrival_comments"></textarea>
+            </div>
+        </li>
+        <?php if (Mage::getStoreConfig('deliverydate/deliverydate_general/show_html')) { ?>
+            <li class="notice-msg">
+                <ul><li><span><?php echo nl2br(Mage::getStoreConfig('deliverydate/deliverydate_general/deliverydate_html')); ?></span></li></ul>
+            </li>
+            <?php } ?>
+    </ul>
+</dd>
+
+
+<?php
+    $deliverydate_dayoff = Mage::getStoreConfig('deliverydate/deliverydate_dayoff/deliverydate_dayoff');
+    $day_off = explode(',', $deliverydate_dayoff);
+    if(isset($day_off[0]) && $day_off[0] == '')
+    {
+        unset($day_off[0]);
+        $day_off = array_values($day_off);
+    }
+
+    $nonworking_days = Mage::helper('deliverydate')->getFormattedNonWorkingDays();
+    $nonworking_period = Mage::helper('deliverydate')->getFormattedNonWorkingPeriod();
+
+    $day_diff = ceil(Mage::getStoreConfig('deliverydate/deliverydate_general/deliverytime_day_diff'));
+    if ($day_diff == null || $day_diff == "") {
+        $day_diff = 0;
+    }
+
+    $off_days = array_merge( (array)$nonworking_days,  (array)$nonworking_period);
+
+    $days_array = array('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday');
+
+    $final_date = '';
+
+    $dt = new DateTime();
+    $enabled_days_before = array();
+    $bool = false;
+    if(sizeof($day_off) != 7){
+        do{
+            foreach($days_array as $key => $value)
+            {
+                $next_day_date = $dt->format('d-m-Y');
+                $day = date('l', strtotime($next_day_date));
+
+                if ($day == 'Sunday') {
+                    $day_no = 0;
+                } else {
+                    $day_no = date('N', strtotime($next_day_date));
+                }
+
+                if(!$bool && in_array($next_day_date, $off_days)){
+                    $dt->modify('+1 day');
+                }elseif(!$bool && in_array($day_no,$day_off)){
+                    $dt->modify('+1 day');
+                }elseif(!$bool && $next_day_date == date('d-m-Y')){
+                    array_push($enabled_days_before,$dt->format('d-m-Y'));
+                    $dt->modify('+1 day');
+                }elseif(!$bool && $day_diff){
+                    $day_diff -= 1;
+                    if($day_diff)
+                    {
+                        array_push($enabled_days_before,$dt->format('d-m-Y'));
+                        $dt->modify('+1 day');
+                    }
+                }else{
+                    $bool = true;
+                    $final_date = $next_day_date;
+                    break;
+                }
+            }
+        }while(!$bool);
+    }
+    $first_enabled_date = date("d",strtotime($final_date));
+    $off_days = array_merge( (array)$off_days,  (array)$enabled_days_before);
+?>
+
+<script type="text/javascript">
+
+    Calendar.prototype._init = function(firstDayOfWeek, date) {
+        var today = new CalendarDateObject(),
+        TY = today.getFullYear(),
+        TM = today.getMonth(),
+        TD = today.getDate();
+
+        //today.setDate(today.getMonth() + parseInt(1));
+
+        this.table.style.visibility = "hidden";
+        var year = date.getFullYear();
+        if (year < this.minYear) {
+            year = this.minYear;
+            date.setFullYear(year);
+        } else if (year > this.maxYear) {
+            year = this.maxYear;
+            date.setFullYear(year);
+        }
+        this.firstDayOfWeek = firstDayOfWeek;
+        this.date = new CalendarDateObject(date);
+
+        date.setDate(parseInt('<?php echo $first_enabled_date ?>'));
+
+        var month = date.getMonth();
+        var mday = date.getDate();
+        var no_days = date.getMonthDays();
+        var check_flag = false;
+
+        date.setDate(1);
+        var day1 = (date.getDay() - this.firstDayOfWeek) % 7;
+        if (day1 < 0)
+            day1 += 7;
+        date.setDate(-day1);
+        date.setDate(date.getDate() + 1);
+
+        var row = this.tbody.firstChild;
+        var MN = Calendar._SMN[month];
+        var ar_days = this.ar_days = new Array();
+        var weekend = Calendar._TT["WEEKEND"];
+        var dates = this.multiple ? (this.datesCells = {}) : null;
+        for (var i = 0; i < 6; ++i, row = row.nextSibling) {
+            var cell = row.firstChild;
+            if (this.weekNumbers) {
+                cell.className = "day wn";
+                cell.innerHTML = date.getWeekNumber();
+                cell = cell.nextSibling;
+            }
+            row.className = "daysrow";
+            var hasdays = false, iday, dpos = ar_days[i] = [];
+            for (var j = 0; j < 7; ++j, cell = cell.nextSibling, date.setDate(iday + 1)) {
+                iday = date.getDate();
+                var wday = date.getDay();
+                cell.className = "day";
+                cell.pos = i << 4 | j;
+                dpos[j] = cell;
+                var current_month = (date.getMonth() == month);
+                if (!current_month) {
+                    if (this.showsOtherMonths) {
+                        cell.className += " othermonth";
+                        cell.otherMonth = true;
+                    } else {
+                        cell.className = "emptycell";
+                        cell.innerHTML = "&nbsp;";
+                        cell.disabled = true;
+                        continue;
+                    }
+                } else {
+                    cell.otherMonth = false;
+                    hasdays = true;
+                }
+                cell.disabled = false;
+                cell.innerHTML = this.getDateText ? this.getDateText(date, iday) : iday;
+                if (dates)
+                    dates[date.print("%Y%m%d")] = cell;
+                if (this.getDateStatus) {
+                    var status = this.getDateStatus(date, year, month, iday);
+                    if (this.getDateToolTip) {
+                        var toolTip = this.getDateToolTip(date, year, month, iday);
+                        if (toolTip)
+                            cell.title = toolTip;
+                    }
+                    if (status === true) {
+                        cell.className += " disabled";
+                        cell.disabled = true;
+                    } else {
+                        if (/disabled/i.test(status))
+                            cell.disabled = true;
+                        cell.className += " " + status;
+                    }
+                }
+
+                if (!cell.disabled) {
+                    cell.caldate = new CalendarDateObject(date);
+                    cell.ttip = "_";
+
+                    if (!this.multiple && current_month
+                        && iday == mday && this.hiliteToday) {
+                        cell.className += " selected";
+                        this.currentDateEl = cell;
+                    }
+                    if (date.getFullYear() == TY &&
+                        date.getMonth() == TM &&
+                        iday == TD) {
+                        cell.className += " today";
+                        cell.ttip += Calendar._TT["PART_TODAY"];
+                    }
+                    if (weekend.indexOf(wday.toString()) != -1)
+                        cell.className += cell.otherMonth ? " oweekend" : " weekend";
+                    if (check_flag) {
+                        cell.className += " selected";
+                        this.currentDateEl = cell;
+                        check_flag = false;
+                    }
+                } else {
+                    if (!this.multiple && current_month
+                        && iday == mday && this.hiliteToday) {
+                        check_flag = true;
+                    }
+
+                }
+            }
+            //alert(iday);
+            if (!(hasdays || this.showsOtherMonths))
+                row.className = "emptyrow";
+        }
+        this.title.innerHTML = Calendar._MN[month] + ", " + year;
+        this.onSetTime();
+        this.table.style.visibility = "visible";
+        this._initMultipleDates();
+    };
+
+    var dayoff = '<?php echo $deliverydate_dayoff; ?>';
+    var spe_dayoff = '<?php echo json_encode($off_days); ?>';
+    var test_flag = false;
+    var is_time = '<?php echo Mage::getStoreConfig('deliverydate/deliverydate_general/deliverytime_enable_time'); ?>';
+    var dateFormat = '<?php echo Mage::getStoreConfig('deliverydate/deliverydate_general/deliverydate_format'); ?>';
+    var timeFormat = '<?php echo Mage::getStoreConfig('deliverydate/deliverydate_general/deliverytime_format'); ?>';
+    Calendar.setup({
+            inputField: "shipping_arrival_date",
+            ifFormat: "%Y-%mm-%ee %H:%M:%S",
+            showsTime: is_time,
+            button: "shipping_arrival_date_trig",
+            align: "Bl",
+            singleClick: true,
+            onSelect: function()
+            {
+                currentTime1 = new Date();
+                var m = parseInt(currentTime1.getMonth()) + parseInt(1);
+                var y = currentTime1.getFullYear();
+                var d = currentTime1.getDate();
+
+                currentTime = new Date(calendar.date.getTime());
+                var d1 = currentTime.getDate();
+                var d2 = currentTime.getDay();
+                var m1 = parseInt(currentTime.getMonth()) + parseInt(1);
+                var y1 = currentTime.getFullYear();
+                var h1 = currentTime.getHours();
+                var min1 = currentTime.getMinutes();
+
+                var d3 = currentTime.getDate();
+                var m2 = parseInt(currentTime.getMonth()) + parseInt(1);
+                var y2 = currentTime.getFullYear();
+                var h2 = currentTime.getHours();
+                var min2 = currentTime.getMinutes();
+
+                var month1 = new Array("January","February","March","April","May","June","July","August","September","October","November","December");
+                var weekday = new Array("Sun","Mon","Tue","Wed","Thu","Fri","Sat");
+                var month2 = new Array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
+
+                if (calendar.dateClicked){
+                    if (d1 < d && m1 == m && y1 == y){
+
+                        alert("You can not select previous date.")
+                        document.getElementById('shipping_arrival_date_display').value = "";
+                        document.getElementById('shipping_arrival_date').value = "";
+                        calendar.hide();
+
+                    }
+                    else
+                        {
+                        var selectedDateFormat,selectedTimeFormat;
+                        var day = d1.toString();
+                        d1 = day.length > 1 ? day : '0' + day;
+                        m1 = month2[m1 - 1];
+
+
+                        if(dateFormat == 'd/M/Y'){
+                            selectedDateFormat = d1 + "/" + m1 + "/" + y1;
+                        }
+                        else if(dateFormat == 'M/d/y'){
+                            y1 = y1.toString().substr(2,2);
+                            selectedDateFormat = m1 + "/" + d1 + "/" + y1;
+                        }
+                        else if(dateFormat == 'd-M-Y'){
+                            selectedDateFormat = d1 + "-" + m1 + "-" + y1;
+                        }
+                        else if(dateFormat == 'M-d-y'){
+                            y1 = y1.toString().substr(2,2);
+                            selectedDateFormat = m1 + "-" + d1 + "-" + y1;
+                        }
+                        else if(dateFormat == 'd.M.Y'){
+                            selectedDateFormat = d1 + "." + m1 + "." + y1;
+                        }
+                        else if(dateFormat == 'M.d.y'){
+                            y1 = y1.toString().substr(2,2);
+                            selectedDateFormat = m1 + "." + d1 + "." + y1;
+                        }
+                        else if(dateFormat == 'F j ,Y'){
+                            m1 = month1[m1 - 1];
+                            selectedDateFormat = m1 + " " + d1 + " ," + y1;
+                        }
+                        else if(dateFormat == 'D M j'){
+                            d2 = weekday[d2];
+                            selectedDateFormat = d2 + " " + m1 + " " + d1;
+                        }
+                        if(dateFormat == 'Y-m-d'){
+                            var month = m1.toString();
+                            m1 = month.length > 1 ? month : '0' + month;
+                            selectedDateFormat = y1 + "-" + m1 + "-" + d1;
+                        }
+                        if (is_time == 1) {
+                            var min = min1.toString();
+                            min1 = min.length > 1 ? min : '0' + min;
+
+                            if(timeFormat == 'H:i:s'){
+                                var hour = h1.toString();
+                                h1 = hour.length > 1 ? hour : '0' + hour;
+                                selectedTimeFormat = h1 + ":" + min1;
+                            }
+                            else if(timeFormat == 'g:i a'){                            
+                                var ampm = h1 >= 12 ? 'PM' : 'AM';
+                                hours = h1 % 12;
+                                h1 = hours ? hours : 12;
+                                selectedTimeFormat = h1 + ":" + min1 + " " + ampm;
+                            }
+                        }
+
+                        if (is_time == 1) {
+                            document.getElementById('shipping_arrival_date_display').value = selectedDateFormat + " " + selectedTimeFormat;
+                            document.getElementById('shipping_arrival_date').value = y2 + "-" + m2 + "-" + d3 + " " + h2 + ":" + min2;
+                        } else {
+                            document.getElementById('shipping_arrival_date_display').value = selectedDateFormat;
+                            document.getElementById('shipping_arrival_date').value = y2 + "-" + m2 + "-" + d3;
+
+                        }
+                        calendar.hide();
+                    }
+                }
+                else
+                    {
+                    calendar.show();
+                }
+            },
+            disableFunc: function(date)
+            {
+                var y = calendar.date.getFullYear();
+                var m = calendar.date.getMonth();
+                var d = calendar.date.getDate();
+
+                var day_off_array = dayoff.split(",");
+                var date_off_array = [];
+
+                date_off_array[y] = spe_dayoff.evalJSON();
+
+                currentTime = new Date();
+                var d1 = currentTime.getDate();
+                var m1 = currentTime.getMonth();
+                var y1 = currentTime.getFullYear();
+                var counter = 1;
+
+                var weekend_days = [];
+                var today_date = new Date();
+
+                if (date <= today_date)
+                    return true;
+                for (var i in weekend_days)
+                if (weekend_days[i] == date.getDay())
+                    return true;
+                if (date_off_array[y])
+                    {
+                    for (var j = 0; j <= date_off_array[y].length; j++)
+                    {
+
+                        var no_delivery = date_off_array[y][j];
+                        if (no_delivery) {
+                            var no_delivery_array = no_delivery.split("-");
+
+                            var currentDate = date.getDate().toString();
+                            currentDate = currentDate.length > 1 ? currentDate : '0' + currentDate;  
+
+                            var currentMonth = (date.getMonth() + 1).toString();
+                            currentMonth = currentMonth.length > 1 ? currentMonth : '0' + currentMonth;
+
+                            if ((no_delivery_array[0] == currentDate && no_delivery_array[1] == currentMonth && no_delivery_array[2] == date.getFullYear()))
+                                return true;
+                        }
+                    }
+                }
+
+                for (var i = 0; i < day_off_array.length; i++) {
+                    if (day_off_array[i] >= 0 && day_off_array[i] != '') {
+                        if (date.getDay() == day_off_array[i]) {
+                            if (date.getDate() == currentTime.getDate()) {
+                                test_flag = true;
+                            }
+                            return true;
+                        }
+                    }
+                }
+                if (y < y1)
+                    {
+                    return true;
+                }
+                else if (m1 > m && y == y1)
+                    {
+                    return true;
+                }
+            }
+    });
+
+    function shippingArrivalDateOnChange(el)
+    {
+        var displayDate = $('shipping_arrival_date_display');
+        var date = $('shipping_arrival_date').getValue();
+        displayDate.setValue(date);
+    }
+
+
+
+    Event.observe($('link_reset'), 'click', function() {
+            $('shipping_arrival_date').setValue('');
+            $('shipping_arrival_date_display').setValue('');
+    });
+
+    $('shipping_arrival_date_display').readOnly = true;
+    Event.observe($('shipping_arrival_date_display'), 'click', function() {
+            triggerEvent($('shipping_arrival_date_trig'), 'click');
+    });
+
+    function triggerEvent(element, eventName) {
+        // safari, webkit, gecko
+        if (document.createEvent)
+            {
+            var evt = document.createEvent('HTMLEvents');
+            evt.initEvent(eventName, true, true);
+
+            return element.dispatchEvent(evt);
+        }// Internet Explorer
+        if (element.fireEvent) {
+            return element.fireEvent('on' + eventName);
+        }
+    }
+
+    //]]>
+</script>

@@ -1,0 +1,243 @@
+#ajax_cart_loading {
+    width: 200px;
+    height: 100px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -100px;
+    background: #f1f1f1 url('../images/loading.gif') no-repeat center;
+    text-align: center;
+    opacity: 0.8;
+    filter: alpha(opacity=80);
+    box-shadow: 5px 5px 5px #888888;
+    z-index: 10000;
+}
+
+#ajaxcart_content_option_product {
+    position: fixed;
+    left: 50%;
+    top: 50%;/*top: 30%;*/
+    width: 300px;
+    margin-left: -150px;
+    /*margin-top: -100px;*/
+    margin-top: -50px;
+    min-height: 100px;
+    background-color: #f1f1f1;
+    text-align: center;
+    padding: 10px;
+    box-shadow: 5px 5px 5px #888888;
+    overflow-y: auto!important;
+    max-height: 480px;
+    z-index: 9999;
+}
+
+@media (max-width: 480px) and (orientation:landscape) {
+    #ajaxcart_content_option_product {
+        overflow-y: auto!important;
+        max-height: 300px;
+    }
+}
+
+#plus_one {
+    width: 256px;
+    height: 256px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -128px;
+    margin-left: -128px;
+    background: url('../images/cart.png') no-repeat center;
+}
+
+.ajaxcart-product-image {
+    display: inline;
+    margin: 5px;
+}
+
+.ajaxcart-buttons button {
+    margin: 5px;
+}
+
+button.add-cart-button span.counter {
+    float: left;
+    font-size: 14px;
+    height: 35px;
+    left: 0;
+    line-height: 35px;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    width: 36px;
+    z-index: 6;
+    overflow: hidden;
+}
+
+button.add-cart-button span.counter span {
+    height: 35px;
+    width: 36px;
+    line-height: 35px;
+    float: none;
+}
+
+.product-view .add-to-cart button.btn-cart {
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    width: 200px;
+}
+
+.product-view .add-to-cart button.btn-cart span.counter {
+    display: block;
+    height: 100px;
+    padding: 0;
+    position: absolute;
+    width: 135px;
+    z-index: 90;
+}
+
+.product-view .add-to-cart button.btn-cart span.counter span {
+    font-size: 45px;
+    line-height: 100px;
+}
+
+.product-view .add-to-cart button.btn-cart > span {
+    font-size: 14px;
+    font-family: 'PoppinsBold';
+    line-height: 38px;
+}
+
+.product-view .add-to-cart button.btn-cart > span.up {
+    background: #e7363e url(../images/i-up.png) no-repeat center center;
+    display: block;
+    height: 50px;
+    position: absolute;
+    right: 0;
+    border-left: 1px solid;
+    border-bottom: 1px solid;
+    top: 0;
+    width: 35px;
+    padding: 0;
+    z-index: 90;
+    border-radius: 4px;
+}
+
+.product-view .add-to-cart button.btn-cart span.down {
+    background: #e7363e url(../images/i-down.png) no-repeat center center;
+    display: block;
+    height: 50px;
+    position: absolute;
+    border-left: 1px solid;
+    border-top: 1px solid;
+    right: 0;
+    bottom: 0;
+    width: 35px;
+    padding: 0;
+    z-index: 90;
+    border-radius: 4px;
+}
+
+#cart-sidebar .shipment-methods {
+    display: none;
+}
+
+.products-grid .product-image .item-in-cart {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+    left: 0;
+    top: 0px;
+    color: #fff;
+}
+
+.products-grid .product-image .item-in-cart .counter-top {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    margin-top: -37px;
+    overflow: hidden;
+    display: block;
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    font-size: 30px;
+    line-height: 50px;
+}
+
+.products-grid .product-image .item-in-cart .counter-top span {
+    display: block;
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+}
+
+.products-grid .product-image .item-in-cart span.text {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    margin-top: 12px;
+    display: block;
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    text-transform: uppercase;
+    font-size: 15px;
+}
+
+
+
+
+
+.products-list .product-image .item-in-cart {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+    left: 0;
+    top: 0px;
+    color: #fff;
+}
+
+.products-list .product-image .item-in-cart .counter-top {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    margin-top: -37px;
+    overflow: hidden;
+    display: block;
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    font-size: 30px;
+    line-height: 50px;
+}
+
+.products-list .product-image .item-in-cart .counter-top span {
+    display: block;
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+}
+
+.products-list .product-image .item-in-cart span.text {
+    position: absolute;
+    top: 50%;
+    left: 0;    
+    display: block;
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    text-transform: uppercase;
+    font-size: 10px;
+}
+
+
+
+.block-postcode .postcode-suggestion {
+    position: absolute;
+    background: #fff;
+    padding: 5px;
+}

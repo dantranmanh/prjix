@@ -1,0 +1,28 @@
+<?php
+/*
+NOTICE OF LICENSE
+
+This source file is subject to the SafeMageEULA that is bundled with this package in the file LICENSE.txt.
+
+It is also available at this URL: https://www.safemage.com/LICENSE_EULA.txt
+
+Copyright (c)  SafeMage (https://www.safemage.com/)
+*/
+?>
+<?php
+$id = $this->getParentBlock()->getId();
+$varName = $this->getParentBlock()->getSelectedProductsVarName();
+
+$selector1 = "{$id}_product_filter_{$varName}";
+$selector2 = "product_filter_{$varName}";
+?>
+<script type="text/javascript">
+window.safemageSetHiddenSelectedProducts = function() {
+	// compatibility with CE 1.5
+	//var
+    hiddenSelectedProducts = $('<?php echo $selector1; ?>') ? $('<?php echo $selector1; ?>') : $('<?php echo $selector2; ?>');
+	if (hiddenSelectedProducts) {
+		hiddenSelectedProducts.setValue(<?php echo $id; ?>_massactionJsObject.grid.reloadParams.internal_massaction);
+	}
+}
+</script>

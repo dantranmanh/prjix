@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+  <default>
+    <reference name="head">
+      <action method="addJs">
+        <script>magebuzz/shoppinglist/shoppinglist.js</script>
+      </action>
+      <block type="shoppinglist/init" template="shoppinglist/init.phtml" name="magebuzz.shoppinglist.init"/>
+      <action method="addJs">
+        <script>varien/product.js</script>
+      </action>
+      <action method="addJs">
+        <script>magebuzz/shoppinglist/configurable.js</script>
+      </action>
+      <action method="addCss">
+        <stylesheet>css/magebuzz/shoppinglist/style.css</stylesheet>
+      </action>
+      <block type="core/template" name="shoppinglist.head" template="shoppinglist/head.phtml"/>
+    </reference>
+  </default>
+  <shoppinglist_index_index>
+    <update handle="customer_account"/>
+    <reference name="my.account.wrapper">
+      <block type="shoppinglist/customer_view" name="customer.shoppinglist" template="shoppinglist/customer/view.phtml">
+        <action method="setTitle" translate="title">
+          <title>Your Shopping List</title>
+        </action>
+        <block type="shoppinglist/customer_group" name="customer.list.groups" as="groupShoppingList"
+               template="shoppinglist/customer/group/list.phtml"/>
+      </block>
+    </reference>
+  </shoppinglist_index_index>
+  <shoppinglist_group_edit>
+    <update handle="customer_account"/>
+    <reference name="my.account.wrapper">
+      <block type="shoppinglist/customer_group_edit" name="customer.group.form" as="createNewGroup"
+             template="shoppinglist/customer/group/form.phtml">
+        <action method="setTitle" translate="title">
+          <title>Your Shopping List</title>
+        </action>
+      </block>
+    </reference>
+  </shoppinglist_group_edit>
+  <shoppinglist_group_view>
+    <update handle="customer_account"/>
+    <reference name="my.account.wrapper">
+      <block type="shoppinglist/customer_group" name="customer.list.groups"
+             template="shoppinglist/customer/group/view.phtml">
+        <block type="shoppinglist/customer_item" name="list.items" as="items"
+               template="shoppinglist/customer/item/default.phtml"/>
+      </block>
+    </reference>
+  </shoppinglist_group_view>
+  <shoppinglist_group_sendmail>
+    <block type="core/template" name="root" output="toHtml" template="shoppinglist/customer/group/sendmail.phtml"/>
+  </shoppinglist_group_sendmail>
+  <shoppinglist_group_sendmail_post>
+    <block type="core/template" name="root" output="toHtml" template="shoppinglist/customer/group/message.phtml"/>
+  </shoppinglist_group_sendmail_post>
+  <shoppinglist_email_list_item>
+    <block type="core/template" name="email.list.items" template="shoppinglist/customer/item/email.phtml"/>
+  </shoppinglist_email_list_item>
+  <shoppinglist_email_friend_list_items>
+    <block type="core/template" name="email.send.friends.list.items"
+           template="shoppinglist/customer/item/email_friends.phtml"/>
+  </shoppinglist_email_friend_list_items>
+  <shoppinglist_item_add>
+    <reference name="content">
+      <block type="shoppinglist/item_add" template="shoppinglist/form.phtml"/>
+    </reference>
+    <update handle="customer_account"/>
+  </shoppinglist_item_add>
+  <shoppinglist_index_add>
+    <block type="shoppinglist/item_add" name="root" output="toHtml" template="shoppinglist/popup.phtml"/>
+  </shoppinglist_index_add>
+  <shoppinglist_item_login>
+    <block type="shoppinglist/item_add" name="root" output="toHtml" template="shoppinglist/customer/login.phtml"/>
+  </shoppinglist_item_login>
+  <shoppinglist_index_detailform>
+    <block type="shoppinglist/item_add" name="root" output="toHtml" template="shoppinglist/detail_popup.phtml"/>
+  </shoppinglist_index_detailform>
+  <shoppinglist_index_add_option>
+    <reference name="root">
+      <action method="setTemplate">
+        <template>shoppinglist/root.phtml</template>
+      </action>
+    </reference>
+  </shoppinglist_index_add_option>
+  <shoppinglist_index_additem>
+    <block type="shoppinglist/add" name="root" output="toHtml" template="shoppinglist/message.phtml"/>
+  </shoppinglist_index_additem>
+  <customer_account>
+    <reference name="customer_account_navigation">
+      <action method="addLink" translate="label" module="customer" ifconfig="shoppinglist/general/active">
+        <name>shoppinglist</name>
+        <path>shoppinglist</path>
+        <label>Your Shopping List</label>
+      </action>
+    </reference>
+  </customer_account>
+  <catalog_product_view>
+    <reference name="product.info.addto">
+      <action method="setTemplate">
+        <template>shoppinglist/catalog/product/view/addto.phtml</template>
+      </action>
+    </reference>
+  </catalog_product_view>
+  <shoppinglist_group_publicview>
+    <reference name="root">
+      <action method="setTemplate">
+        <template>page/2columns-left.phtml</template>
+      </action>
+    </reference>
+    <reference name="head">
+      <block type="shoppinglist/customer_group" name="shoppinglist.group.social_tags" template="shoppinglist/public/group/social_tags.phtml" />
+    </reference>
+    <reference name="content">
+      <block type="shoppinglist/customer_group" name="shoppinglist.group.view" template="shoppinglist/public/group/view.phtml">
+      </block>
+    </reference>
+  </shoppinglist_group_publicview>
+</layout> 

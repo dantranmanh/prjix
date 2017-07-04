@@ -1,0 +1,135 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/**
+ * Product additional attributes template
+ *
+ * @see Mage_Catalog_Block_Product_View_Attributes
+ */
+?>
+<?php $_helper = $this->helper('catalog/output'); ?>
+<?php $_product = $this->getProduct(); ?>
+<?php
+$productBarcodeUnit = $_product->getResource()->getAttribute('product_barcode_unit')->getFrontend()->getValue($_product);
+$productBarcodeInner = $_product->getResource()->getAttribute('product_barcode_inner')->getFrontend()->getValue($_product);
+$productBarcodeOuter = $_product->getResource()->getAttribute('product_barcode_outer')->getFrontend()->getValue($_product);
+$productBestbeforedate = $_product->getResource()->getAttribute('product_best_before_date')->getFrontend()->getValue($_product);
+$productHsCode = $_product->getResource()->getAttribute('product_hs_code')->getFrontend()->getValue($_product);
+$productAllergens = $_product->getResource()->getAttribute('product_allergens')->getFrontend()->getValue($_product);
+$productcountry_of_manufacture = $_product->getResource()->getAttribute('country_of_manufacture')->getFrontend()->getValue($_product);
+$productUnitsPerCase = $_product->getResource()->getAttribute('product_units_per_case')->getFrontend()->getValue($_product);
+$productOutersPerLayer = $_product->getResource()->getAttribute('product_cases_per_layer')->getFrontend()->getValue($_product);
+$productLayersPerPallet = $_product->getResource()->getAttribute('product_layers_per_pallet')->getFrontend()->getValue($_product);
+$productCasesPerPallet = $_product->getResource()->getAttribute('product_cases_per_pallet')->getFrontend()->getValue($_product);    
+$productIngredients = $_product->getResource()->getAttribute('product_ingredients')->getFrontend()->getValue($_product);
+$productPackaging = $_product->getResource()->getAttribute('product_packaging_format')->getFrontend()->getValue($_product);
+$productStorageConditions = $_product->getResource()->getAttribute('product_storage_conditions')->getFrontend()->getValue($_product);
+$productVolumePerCase = $_product->getResource()->getAttribute('product_case_volume')->getFrontend()->getValue($_product);
+$productVolumePerPallet = $_product->getResource()->getAttribute('product_volume_per_pallet')->getFrontend()->getValue($_product);
+$productHalaalCertified = $_product->getResource()->getAttribute('product_halaal_certified')->getFrontend()->getValue($_product);
+$productKosher = $_product->getResource()->getAttribute('product_kosher')->getFrontend()->getValue($_product);
+
+
+?>
+<div class="box-col2">
+  <div class="col-item">
+    <table class="data-table data-products">
+      <tr>
+        <td><?php echo $this->__('Units/Case:') ?></td>
+        <td><?php echo nl2br($this->htmlEscape($productUnitsPerCase)); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $this->__('Cases/Layer') ?></td>
+        <td><?php echo nl2br($this->htmlEscape($productOutersPerLayer)); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $this->__('Layers/Pallet') ?></td>
+        <td><?php echo nl2br($this->htmlEscape($productLayersPerPallet)); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $this->__('Cases/Pallet') ?></td>
+        <td><?php echo nl2br($this->htmlEscape($productCasesPerPallet)); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $this->__('Unit Barcode (EAN -13):') ?></td>
+        <td><?php echo nl2br($this->htmlEscape($productBarcodeUnit)); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $this->__('Inner Barcode (EAN -13):') ?></td>
+        <td><?php echo nl2br($this->htmlEscape($productBarcodeInner)); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $this->__('Outer Barcode (EAN -13):') ?></td>
+        <td><?php echo nl2br($this->htmlEscape($productBarcodeOuter)); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $this->__('Country of Origin:') ?></td>
+        <td><?php echo nl2br($this->htmlEscape($productcountry_of_manufacture)); ?></td>
+      </tr>
+
+      <tr>
+        <td><?php echo $this->__('Volume (m³)/Case:') ?></td>
+        <td><?php echo nl2br($this->htmlEscape($productVolumePerCase)); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $this->__('Volume (m³)/Pallet:') ?></td>
+        <td><?php echo nl2br($this->htmlEscape($productVolumePerPallet)); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $this->__('HS/Tariff Code') ?></td>
+        <td><?php echo nl2br($this->htmlEscape($productHsCode)); ?></td>
+      </tr>
+    </table>
+  </div>
+  <div class="col-item">
+    <table class="data-table data-products">
+      <tr>
+        <td><?php echo $this->__('Halaal Certified:') ?></td>
+        <td><?php echo nl2br($this->htmlEscape($productHalaalCertified)); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $this->__('Product Kosher:') ?></td>
+        <td><?php echo nl2br($this->htmlEscape($productKosher)); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $this->__('Allergens:') ?></td>
+        <td><?php echo nl2br($this->htmlEscape($productAllergens)); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $this->__('Ingredients:') ?></td>
+        <td><?php echo nl2br($this->htmlEscape($productIngredients)); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $this->__('Best Before Date:') ?></td>
+        <td><?php echo nl2br($this->htmlEscape($productBestbeforedate)); ?></td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+
+
+

@@ -1,0 +1,21 @@
+<?php
+$currentCategory = $this->getCategory();
+$secondLevelCategories = Mage::getModel('catalog/category')->load($currentCategory->getId())->getChildrenCategories();
+?>
+<?php if($secondLevelCategories):?>
+    <div class="list-sub">
+        <?php foreach ($secondLevelCategories as $category):?>
+            <?php if(!$category->getProductCount() > 0): continue; endif; ?>
+            <div class="category-title cate-sub-product" style="background: url('<?php if ($image = Mage::getModel('catalog/category')->load($category->getId())->getThumbnail()) { ?>
+               <?php echo $url = Mage::getBaseUrl('media').'catalog/category/'.$image; }?>') no-repeat;background-size: cover;">
+               <h3 class="category-name category-level-2" id="<?php echo $category->getUrlKey();?>"><?php echo $category->getName();?></h3>
+               <a class="see-all" href="<?php echo $category->getUrl();?>" title="<?php echo $this->__('See All');?>"><?php echo $this->__('See All');?></a>
+            </div>
+            <?php echo Mage::app()->getLayout()->createBlock('catalog/product_list')
+                ->setCategory($category)
+                ->setTemplate('catalog/product/list/list-all-sub-category.phtml')
+                ->toHtml();
+            ?>
+        <?php endforeach; ?>
+    </div>
+<?php endif;?>

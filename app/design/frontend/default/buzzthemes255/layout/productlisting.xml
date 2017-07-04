@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>	
+	</default>
+    <productlisting_index_index>
+        <reference name="content">
+            <block type="productlisting/productlisting" name="productlisting" template="productlisting/productlisting.phtml" />
+        </reference>
+    </productlisting_index_index>
+	<productlisting_mostviewed_index>
+        <reference name="content">
+            <block type="productlisting/mostviewed" name="productlisting.mostviewed" template="productlisting/productlisting.phtml">
+			</block>
+        </reference>
+    </productlisting_mostviewed_index>
+	<productlisting_random_index>
+        <reference name="content">
+            <block type="productlisting/random" name="productlisting.random" template="productlisting/productlisting.phtml">
+			</block>
+        </reference>
+    </productlisting_random_index>
+	<productlisting_bestseller_index>
+        <reference name="content">
+            <block type="productlisting/bestseller" name="productlisting.bestseller" template="productlisting/productlisting.phtml">
+			</block>
+        </reference>
+    </productlisting_bestseller_index>
+	<productlisting_recentlyadded_index>
+        <reference name="content">
+            <block type="productlisting/recentlyadded" name="productlisting.recentlyadded" template="productlisting/productlisting.phtml">
+			</block>
+        </reference>
+    </productlisting_recentlyadded_index>
+	<productlisting_special_index>
+        <reference name="content">
+          <block type="productlisting/special" name="productlisting.special" template="productlisting/special-products.phtml">
+		  </block>
+        </reference>
+    </productlisting_special_index>
+</layout> 

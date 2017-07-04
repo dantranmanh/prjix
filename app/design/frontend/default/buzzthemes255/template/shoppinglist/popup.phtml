@@ -1,0 +1,98 @@
+<?php
+/*
+* Copyright (c) 2014 www.magebuzz.com
+*/
+
+$_customer = Mage::getSingleton('customer/session')->getCustomer();?>
+<?php if (Mage::getSingleton('customer/session')->isLoggedIn()): ?>
+  <?php $_product = $this->getProduct() ?>
+
+  <?php /* redirect to product page if product is bundle and not staying in product page */ ?>
+  <?php if ($_product->getTypeId() == 'bundle'): ?>
+    <div id="messages_shoppinglist" style="margin:20px">      
+      <p><?php echo $this->__("Redirecting to '%s' page. Please wait a moment...", $_product->getName()); ?></p>
+    </div>
+    <script type="text/javascript">
+      if (!shoppingList.getInitConfig('isProductPage')) setLocation('<?php echo $_product->getProductUrl();?>');
+    </script>
+  <?php else: ?>
+
+    <form action="javascript:submitAddItem();" method="post" id="form-add-item">
+      <div class="form-add">
+        <h2 class="legend"><?php echo $this->__('Add item to shopping list') ?></h2>
+        <ul class="form-list">
+          <li>
+            <div class="field">
+            <?php //echo $this->getPriceHtml($_product);?>
+          </div>
+          </li>
+          <li>
+            <div class="fields">
+              <div class="pro-shop">
+                <h5 id="product_name" class="product_name"><?php echo $_product->getName() ?></h5>
+
+                <p class="required"><?php echo $this->__('* Required Fields'); ?></p>
+              </div>
+              <?php echo Mage::helper('shoppinglist')->getProductOptionsHtml($_product); ?>
+            </div>
+          </li>
+          <li>
+            <label class="required"><em>*</em><?php echo $this->__('Choose a group add to shopping list') ?></label>
+
+            <div class="input-box">
+            <?php echo Mage::helper('shoppinglist/group')->getGroupHtmlSelect($_customer->getId(), null, null, TRUE); ?>
+          </div>
+          </li>
+          <li class="control">
+            <input type="checkbox" name="create_group" id="create_group" value="1"
+                   onclick="setCreateGroup(this.checked)"
+                   title="<?php echo $this->__('Create New Group') ?>" class="checkbox"/><label
+              for="create_group"><?php echo $this->__('Create New Group') ?></label>
+          </li>
+          <li>
+            <div id="form-create-group" style='display:none'>
+              <label for="group-name"
+                     class="required"><em>*</em><?php echo Mage::helper('shoppinglist')->__('Group Name') ?></label>
+
+              <div class="input-box">
+                <input name="group-name" id="group-name"
+                       title="<?php echo Mage::helper('shoppinglist')->__('Group Name') ?>" value=""
+                       class="input-text required-entry" type="text"/>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="field">
+              <input name="customer_id" id="customer_id" type="hidden" value="<?php echo $_customer->getId() ?>">
+              <input name="product_id" id="product_id" type="hidden" value="<?php echo $_product->getId() ?>">
+              <input name="product_type_id" id="product_type_id" type="hidden"
+                     value="<?php echo $_product->getTypeId() ?>">
+            </div>
+          </li>
+        </ul>
+        <div class="buttons-set">
+          <button onclick="javascript:resizePopup();" class="button btn-submit right" id="btn-submit-add-item"
+                  title="<?php echo $this->__('Submit') ?>"
+                  type="submit">
+            <span><span><?php echo $this->__('Submit') ?></span></span>
+          </button>
+          <button onclick="javascript:resetFields();" class="button btn-reset right" id="btn-reset"
+                  title="<?php echo $this->__('Reset') ?>" type="button">
+            <span><span><?php echo $this->__('Reset') ?></span></span>
+          </button>
+        </div>
+      </div>
+    </form>
+  <?php endif; ?>
+<?php endif ?>
+<script type="text/javascript">
+  //<![CDATA[
+  var formAdd = new VarienForm('form-add-item', false);
+  function resetFields() {
+    Form.reset('form-add-item');
+    jQ('#form-create-group').hide();
+    jQ('select[name=select-group]').addClass('validate-select');
+    jQ('select[name=select-group]').removeAttr('disabled', 'disabled');
+    resizePopup();
+  }
+</script>	

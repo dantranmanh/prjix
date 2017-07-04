@@ -1,0 +1,54 @@
+<?php
+/**
+* @author Amasty Team
+* @copyright Copyright (c) 2008-2012 Amasty (http://www.amasty.com)
+* @package Amasty_Customerattr
+*/ 
+$formElements = $this->getFormElements();
+?>
+<div class="register-step additional-box">
+    <?php if ($this->isShowHeader()): ?>
+        <div style="clear: both;"></div>
+        <div class="fieldset box-additional">
+            <h2 class="legend"><?php echo $this->__('Additional Information') ?></h2>
+    <?php endif; ?>
+            <div style="float: left;width:100%;">
+                <ul class="form-list">
+                <?php foreach ($formElements as $element): ?>
+                    <li class="fields">
+                        <div class="field">
+                            <?php echo $element->toHtml(); ?>
+                        </div>
+                    </li>
+                <?php endforeach; ?>
+                </ul>
+                 <div class="button_form">
+                    <div class="button_text">
+                        <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+                        <a href="#">Clear all</a>
+                    </div>
+                    <div class="button_check">
+                        <button type="submit" title="<?php echo $this->__('Submit') ?>" class="button"><span><span><?php echo $this->__('Submit') ?></span></span></button>
+                    </div>
+                </div>
+            </div>
+            <div style="clear: both;"></div>
+    <?php if ($this->isShowHeader()): ?>
+        </div>
+    <?php endif;?>
+    <?php if ($this->needRelations()): ?>
+    <!-- Customer Attributes Relations -->
+    <?php endif; ?>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready(function(){
+        jQuery('.button_check .button').click(function(){
+            var adValidate = jQuery('.validation-advice');
+            if(adValidate){
+                var prevChild = adValidate.prev();
+                prevChild.append(adValidate);
+            }
+        });
+        
+    });
+</script>

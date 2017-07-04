@@ -1,0 +1,27 @@
+<?php $group_id = $this->getRequest()->getParam('id'); ?>
+<?php $group = Mage::getModel('shoppinglist/group')->load($group_id); ?>
+<?php $owner_group = Mage::getModel('customer/customer')->load($group->getCustomerId()); ?>
+<?php
+$title = $this->__(sprintf('An interesting shopping list from %s: ', $owner_group->getName()));
+$description = '';
+foreach ($group->getItems() as $item) {
+  $product = Mage::getModel('catalog/product')->load($item->getProductId());
+  $description .= $product->getName();
+  $description .= ', ';
+}
+$description .= '...';
+?>
+
+<meta property="og:url" content="<?php echo Mage::getUrl('shoppinglist/group/publicView', array('id' => $group_id)); ?>"/>
+
+<meta property="og:type" content="website"/>
+
+<meta property="og:title" content="<?php echo $title; ?>"/>
+
+<meta property="og:description" content="<?php echo $description; ?>"/>
+
+<!--<meta property="og:image" content=""/>-->
+
+
+
+ 

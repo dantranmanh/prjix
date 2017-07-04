@@ -1,0 +1,18 @@
+<script type="text/javascript">
+	var $gg = jQuery.noConflict();
+	$gg(document).ready(function() {
+		$gg('.mega-menu-sidebar').append('<div id="back-top" title="Top"></div>');
+			$gg(window).scroll(function() {
+				if($gg(window).scrollTop() != 0) {
+				$gg('#back-top').fadeIn();
+					} else {
+				$gg('#back-top').fadeOut();
+					}
+					});
+				$gg('#back-top').click(function() {
+				$gg('html, body').animate({scrollTop:0},1000);
+				});
+    var heightW = $gg(window).height();
+	}); 
+			
+</script>

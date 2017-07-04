@@ -1,0 +1,165 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/**
+ * Product additional attributes template
+ *
+ * @see Mage_Catalog_Block_Product_View_Attributes
+ */
+?>
+<?php $_helper = $this->helper('catalog/output'); ?>
+<?php $_product = $this->getProduct(); ?>
+
+<?php
+$productBarcodeInner = $_product->getResource()->getAttribute('product_barcode_inner')->getFrontend()->getValue($_product);
+$productBarcodeOuter = $_product->getResource()->getAttribute('product_barcode_outer')->getFrontend()->getValue($_product);
+
+$productDisplayBestBeforeDate = $_product->getResource()->getAttribute('product_best_before_date_show')->getFrontend()->getValue($_product);
+$productBestbeforedate = $_product->getResource()->getAttribute('product_best_before_date')->getFrontend()->getValue($_product);
+$productHsCode = $_product->getResource()->getAttribute('product_hs_code')->getFrontend()->getValue($_product);
+$productAllergens = $_product->getResource()->getAttribute('product_allergens')->getFrontend()->getValue($_product);
+$productcountry_of_manufacture = $_product->getResource()->getAttribute('country_of_manufacture')->getFrontend()->getValue($_product);
+$productOutersPerLayer = $_product->getResource()->getAttribute('product_cases_per_layer')->getFrontend()->getValue($_product);
+$productOutersPerPallet = $_product->getResource()->getAttribute('product_cases_per_pallet')->getFrontend()->getValue($_product);
+$productPackaging = $_product->getResource()->getAttribute('product_packaging_format')->getFrontend()->getValue($_product);
+$productQtyPerOuter = $_product->getResource()->getAttribute('product_units_per_case')->getFrontend()->getValue($_product);
+$productStorageConditions = $_product->getResource()->getAttribute('product_storage_conditions')->getFrontend()->getValue($_product);
+$productVolume = $_product->getResource()->getAttribute('product_case_volume')->getFrontend()->getValue($_product);
+?>
+
+
+<?php
+$_customer = Mage::getSingleton('customer/session')->getCustomer();
+$_customer_group = $_customer->getAttribute('customer_group')->getSource()->getOptionText($_customer->getData('customer_group'));
+if (Mage::getSingleton('customer/session')->isLoggedIn()
+    && $_customer_group && $_customer_group!= 'Consumer') : ?>
+    <div class="box-content">
+        <div class="box-collateral style2 barcode-inner col-md-6 col-xs-12">
+            <h2 class="col-md-5"><?php echo $this->__('Barcode (inner):') ?></h2>
+
+            <div class="col-md-7">
+                <?php echo nl2br($this->htmlEscape($productBarcodeInner)); ?>
+            </div>
+        </div>
+        <div class="box-collateral style2 barcode-outer col-md-6 col-xs-12">
+            <h2 class="col-md-5"><?php echo $this->__('Barcode (outer):') ?></h2>
+
+            <div class="col-md-7">
+                <?php echo nl2br($this->htmlEscape($productBarcodeOuter)); ?>
+            </div>
+        </div>
+    </div>
+    <div class="box-content">
+        <div class="box-collateral style2 before-date col-md-6 col-xs-12">
+            <h2 class="col-md-5"><?php echo $this->__('Best Before Date:') ?></h2>
+
+            <div class="col-md-7">
+                <?php echo nl2br($this->htmlEscape($productBestbeforedate)); ?>
+            </div>
+        </div>
+		    <div class="box-collateral style2 ingredients col-md-6 col-xs-12">
+            <h2 class="col-md-5"><?php echo $this->__('Ingredients:') ?></h2>
+
+            <div class="col-md-7">
+                <?php echo nl2br($this->htmlEscape($productIngredients)); ?>
+            </div>
+        </div>
+    </div>
+	
+    <div class="box-content">
+        <div class="box-collateral style2 country-origin col-md-6 col-xs-12">
+            <h2 class="col-md-5"><?php echo $this->__('Country of Origin:') ?></h2>
+
+            <div class="col-md-7">
+                <?php echo nl2br($this->htmlEscape($productcountry_of_manufacture)); ?>
+            </div>
+        </div>	
+		<div class="box-collateral style2 qty-outer col-md-6 col-xs-12">
+            <h2 class="col-md-5"><?php echo $this->__('Units / Case:') ?></h2>
+
+            <div class="col-md-7">
+                <?php echo nl2br($this->htmlEscape($productQtyPerOuter)); ?>
+            </div>
+        </div>
+        <div class="box-collateral style2 outer-perlayer col-md-6 col-xs-12">
+            <h2 class="col-md-5"><?php echo $this->__('Cases / Layer') ?></h2>
+
+            <div class="col-md-7">
+                <?php echo nl2br($this->htmlEscape($productOutersPerLayer)); ?>
+            </div>
+        </div>
+    </div>
+    <div class="box-content">
+        <div class="box-collateral style2 outer-perpallet col-md-6 col-xs-12">
+            <h2 class="col-md-5"><?php echo $this->__('Cases / Pallet') ?></h2>
+
+            <div class="col-md-7">
+                <?php echo nl2br($this->htmlEscape($productOutersPerPallet)); ?>
+            </div>
+        </div>
+        <div class="box-collateral style2 packaing col-md-6 col-xs-12">
+            <h2 class="col-md-5"><?php echo $this->__('Packaging') ?></h2>
+
+            <div class="col-md-7">
+                <?php echo nl2br($this->htmlEscape($productPackaging)); ?>
+            </div>
+        </div>
+    </div>
+    <div class="box-content">
+        <div class="box-collateral style2 hs-code col-md-6 col-xs-12">
+            <h2 class="col-md-5"><?php echo $this->__('HS/Tarrif Code:') ?></h2>
+
+            <div class="col-md-7">
+                <?php echo nl2br($this->htmlEscape($productHsCode)); ?>
+            </div>
+        </div>
+
+		
+		<div class="box-collateral style2 volume-out col-md-6 col-xs-12">
+            <h2 class="col-md-5"><?php echo $this->__('Volume(m³):') ?></h2>
+
+            <div class="col-md-7">
+                <?php echo nl2br($this->htmlEscape($productVolume)); ?>
+            </div>
+		</div>	
+    </div>
+	<div class="box-content">
+        <div class="box-collateral style2 allergens col-md-6 col-xs-12">
+            <h2 class="col-md-5"><?php echo $this->__('Allergens:') ?></h2>
+
+            <div class="col-md-7">
+                <?php echo nl2br($this->htmlEscape($productAllergens)); ?>
+            </div>
+        </div>
+	        <div class="box-collateral style2 storage-cond col-md-6 col-xs-12">
+            <h2 class="col-md-5"><?php echo $this->__('Storage Conditions:') ?></h2>
+
+            <div class="col-md-7">
+                <?php echo nl2br($this->htmlEscape($productStorageConditions)); ?>
+            </div>
+        </div>	
+    </div>
+<?php endif;

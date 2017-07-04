@@ -1,0 +1,47 @@
+<?php
+$_product = $this->getProduct();
+$_id = $_product->getId();
+$_item = $this->getItem();
+$_qty = $_item->getQty();
+?>
+<td>
+    <?php echo $_product->getName().' '.Mage::helper('logistic/logistic')->getProductUnitWeightHtml($_product); ?>
+</td>
+<td>
+    <?php echo Mage::helper('logistic/logistic')->getProductType($_product); ?>
+</td>
+<td>
+    <?php echo Mage::helper('logistic')->getProductAttribute($_id, 'product_units_per_case'); ?>
+</td>
+<td class="a-center">
+    <label class="label-status"><?php echo $this->__('Qty');?></label>
+    <?php echo $_qty ?>
+</td>
+<td>
+    <span class="cart-price">
+        <span class="price"><?php echo Mage::helper('core')->currency($_product->getFinalPrice(), true, false); ?></span>
+    </span>
+</td>
+<td>
+    <?php echo Mage::helper('logistic')->getProductAttribute($_id, 'product_case_volume');?>
+</td>
+<td>
+    <?php echo number_format(Mage::helper('logistic/logistic')->getTotalLineVolumeOfProduct($_product, $_qty), 4, '.', ''); ?>
+</td>
+<!-- <td>
+    <?php echo $_product->getProductNetWeight(); ?>
+</td> -->
+<td>
+    <?php echo number_format($_qty * Mage::helper('logistic')->getProductAttribute($_id, 'product_net_weight'), 2, '.', ''); ?>
+</td>
+<td>
+    <?php echo number_format($_qty * $_product->getWeight(), 2, '.', '');?>
+</td>
+<td>
+    <?php echo Mage::helper('logistic/logistic')->getTotalUnits($_product, $_qty); ?>
+</td>
+<td>
+    <span class="cart-price">
+        <span class="price"><?php echo Mage::helper('core')->currency($_item->getRowTotalInclTax(), true, false); ?></span>
+    </span>
+</td>

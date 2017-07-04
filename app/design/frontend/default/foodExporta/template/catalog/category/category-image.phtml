@@ -1,0 +1,24 @@
+<?php
+/**
+ * Magebuzz 2015
+ */
+?>
+<?php
+    $_helper    = $this->helper('catalog/output');
+    $_category  = Mage::registry('current_category');
+    $_imgHtml   = '';
+    if ($_imgUrl = $_category->getImageUrl()) {
+        $_imgHtml = '<div class="category-image"><img src="'.$_imgUrl.'" alt="'.$this->escapeHtml($_category->getName()).'" title="'.$this->escapeHtml($_category->getName()).'" /></div>';
+        $_imgHtml = $_helper->categoryAttribute($_category, $_imgHtml, 'image');
+    }
+    $blockImage = $this->getLayout()->createBlock('cms/block')->setBlockId('banner-all-category')->toHtml();
+?>
+<?php if($_imgUrl || $blockImage): ?>
+<div class="category-top container">
+	<?php if($_imgHtml):?>
+		<?php echo $_imgHtml; ?>
+	<?php else:?>
+		<?php echo $blockImage;?>
+	<?php endif;?>
+</div>
+<?php endif; ?>

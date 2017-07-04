@@ -1,0 +1,58 @@
+<?php
+$_collection = $this->getCollection();
+$countryCode = $this->getExporterCountryCode();
+$importerCurrencyCode = $this->getImporterCurrencyCode();
+$exporterCurrencyCode = $this->getExporterCurrencyCode();
+$importerRate = $this->getRate('importer');
+$exporterRate = $this->getRate('exporter');
+$quote = $this->getQuote();
+$grandTotal = $this->getCalculatedGrandTotal();
+?>
+<?php if($_collection->getSize() > 0): ?>
+<table class="data-table shipping-rate-table" id="shipping-rate-table">
+    <thead>
+        <tr>
+            <th colspan="30"><h3><?php echo $this->__('Forex'); ?></h3></th>
+        </tr>
+    </thead>
+    <thead>
+        <tr>
+            <th>&nbsp;</th>
+            <th><?php echo $this->__('Invoice Total'); ?></th>
+            <th><?php echo $this->__('From'); ?></th>
+            <th><?php echo $this->__('Rates'); ?></th>
+            <th><?php echo $this->__('To'); ?></th>
+            <th><?php echo $this->__('Total Owning'); ?></th>
+            <th><?php echo $this->__('Select'); ?></th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <tr>
+                <td><?php echo $this->__('Self Sourced'); ?></td>
+                <td><?php echo $this->__('-'); ?></td>
+                <td><?php echo $this->__('-'); ?></td>
+                <td><?php echo $this->__('-'); ?></td>
+                <td><?php echo $this->__('-'); ?></td>
+                <td><?php echo $this->__('-'); ?></td>
+                <td><input type="radio" name="forex_requirement" onclick="shippingMethod.selectFinancier('0', '<?php echo Mage::getUrl('forex/financier/setFinancier') ?>')"/></td>
+            </tr>
+        </tr>
+        <?php $size = $_collection->getSize(); ?>
+        <?php if($size > 0): ?>
+            <?php foreach($_collection->getData() as $_item): ?>
+                <?php $exchangeRate = $this->getExchangeRate($_item['id']); ?>
+                <tr>
+                    <td><?php echo Mage::helper('forex')->getFinancierLogo($_item['id']); ?></td>
+                    <td><?php echo Mage::helper('core')->currency($grandTotal); ?></td>
+                    <td><?php echo $importerCurrencyCode; ?></td>
+                    <td><?php echo $exchangeRate; ?></td>
+                    <td><?php echo $exporterCurrencyCode; ?></td>
+                    <td><?php echo Mage::app()->getLocale()->currency($importerCurrencyCode)->toCurrency($grandTotal * $exchangeRate); ?></td>
+                    <td><input type="radio" name="forex_requirement" onclick="shippingMethod.selectFinancier('<?php echo $_item['id']; ?>', '<?php echo Mage::getUrl('forex/financier/setFinancier') ?>')"></td>
+                </tr>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </tbody>
+</table>
+<?php endif; ?>

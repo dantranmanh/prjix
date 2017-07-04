@@ -1,0 +1,49 @@
+<?php
+
+$baseUrl = Mage::getBaseUrl();
+$_helper = $this->helper('catalog/output');
+$currentCategory = Mage::registry('current_category');
+$firstLevelCategories = $currentCategory->getChildrenCategories();
+?>
+<?php if($firstLevelCategories):?>
+    <?php if(count($firstLevelCategories) > 0):?>
+    <div class="list-sub">
+        <?php // Zend_Debug::dump($firstLevelCategories->getData());die;?>
+        <?php foreach ($firstLevelCategories as $category):?>
+            <?php if(!Mage::helper('logistic/logistic')->hasProducts($category)): continue; endif; ?>
+            <?php $secondLevelCategories = $category->getChildrenCategories(); ?>
+            <?php 
+            $categoryImage = $category->getId();
+            $category_new = Mage::getModel('catalog/category')
+                            ->setStoreId(Mage::app()->getStore()->getId())
+                            ->load($categoryImage);
+            $img = $category_new->getImageUrl();
+            if (!$img) {
+                $img = Mage::getBaseUrl('media') . 'catalog/category/bgCa.jpg';
+            }
+            $meta_title = $category_new->getMetaTitle();
+            ?>
+            <?php if(count($secondLevelCategories) > 0):?>
+                <?php if($meta_title){
+                    echo '<h3 class="meta_title">'.$meta_title.'</h3>';
+                } ?>
+            <?php endif;?>
+            <div class="category-title <?php if(count($secondLevelCategories) > 0): ?>cate-product has-childs<?php endif; ?>"  <?php if(count($secondLevelCategories) == 0){?>  style="background: url('<?php if ($image = Mage::getModel('catalog/category')->load($category->getId())->getThumbnail()) { ?>
+               <?php echo $url = Mage::getBaseUrl('media').'catalog/category/'.$image; }?>') no-repeat;background-size: cover;"  <?php }?>>
+                <h2 class="category-name category-level-1" id="<?php echo $category->getUrlKey();?>"><?php echo $category->getName();?></h2>
+                <?php if(count($secondLevelCategories) == 0): ?><a class="see-all" href="<?php echo $category->getUrl();?>" title="<?php echo $this->__('See All');?>"><?php echo $this->__('See All');?></a><?php endif; ?>
+            </div>  
+
+            <?php echo Mage::app()->getLayout()->createBlock('catalog/product_list')
+                ->setCategory($category)
+                ->setTemplate('catalog/product/list/list-all-sub-category.phtml')
+                ->toHtml();
+            ?>
+
+        <?php endforeach; ?>
+        <script type="text/javascript">decorateGeneric($$('ul.products-grid li'), ['odd','even','first','last'])</script>
+    </div>
+    <?php else:?>
+        <p class="note-msg"><?php echo $this->__('There are no sub categories matching the selection.') ?></p>
+    <?php endif;?>
+<?php endif;?>

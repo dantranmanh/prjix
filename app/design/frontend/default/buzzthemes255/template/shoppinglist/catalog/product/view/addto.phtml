@@ -1,0 +1,54 @@
+<?php
+/*
+* Copyright (c) 2014 www.magebuzz.com
+*/
+?>
+
+<?php $_product = $this->getProduct(); ?>
+<?php $_wishlistSubmitUrl = $this->helper('wishlist')->getAddUrl($_product); ?>
+
+<ul class="add-to-links">
+  <?php if ($this->helper('wishlist')->isAllow()) : ?>
+    <li>
+			<div class="add-to-wishlist">
+				<button type="button" title="<?php echo $this->__('Add to Wishlist') ?>" class="button btn-add-wishlist" onclick="setLocation('<?php echo $_wishlistSubmitUrl ?>')"><span><span><?php echo $this->__('Add to Wishlist') ?></span></span></button>
+				<?php echo $this->getChildHtml('', true, true) ?>
+			</div>
+		</li>
+  <?php endif; ?>
+  <?php if (Mage::helper('shoppinglist')->isActive()) : ?>
+    <?php if (!Mage::getSingleton('customer/session')->isLoggedIn()): ?>
+      <?php $_shoppingListUrl = $this->getUrl('customer/account/login'); ?>
+      <li>
+				<a href="<?php echo $this->getUrl('shoppinglist/item/login', array('product' => $_product->getId(), 'type' => $_product->getTypeId())); ?>" class="link-shoppinglist"><span><?php echo $this->__('Add to List') ?></span></a>			
+			</li>
+    <?php else: ?>
+      <?php $_shoppingListUrl = $this->getUrl('shoppinglist/index/additem'); ?>
+      <li>
+				<div class="add-to-list">
+					<button type="button" title="<?php echo $this->__('Add to List') ?>" class="button btn-add-shoppinglist" onclick="javascript:addToShoppingList('<?php echo $_shoppingListUrl; ?>'); return false;"><span><span><?php echo $this->__('Add to List') ?></span></span></button>
+					<?php echo $this->getChildHtml('', true, true) ?>
+				</div>																			
+      </li>
+    <?php endif; ?>
+  <?php endif; ?>
+</ul>
+<script type="text/javascript">
+  function addToShoppingList(url) {
+    var form = $('product_addtocart_form');
+    if (form) {
+      var validator = new Validation(form);
+      if (validator.validate()) {
+        var data = form.serialize();
+        jQ.colorbox({
+          href: "<?php echo Mage::getUrl('shoppinglist/index/detailform/'); ?>" + "?" + data,
+          scrolling: false
+        });
+      }
+      //			
+    }
+    else
+      document.location.href = url;
+    return false;
+  }
+</script>

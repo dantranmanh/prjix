@@ -1,0 +1,22 @@
+<?php $_product = $this->getProduct(); ?>
+<p>
+  <?php
+    if (Mage::getStoreConfig('ajaxcart/general/success_message_content')) {
+      echo Mage::getStoreConfig('ajaxcart/general/success_message_content', Mage::app()->getStore()->getId());
+    } else {
+      echo $this->__("You have recently added this product to your Cart");
+    }
+  ?>
+</p>
+<h2 class="product-name"><?php echo $_product->getName() ?></h2>
+<img class="ajaxcart-product-image" src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(135); ?>"
+     width="135" height="135"/>
+<div class="ajaxcart-buttons">
+  <button type="button" id="ajaxcart_continue_shopping" class="button" title="<?php echo $this->__('Continue Shopping')?>">
+    <span><?php echo $this->__('Continue Shopping')?></span>
+  </button>
+  <button type="button" id="ajaxcart_checkout" class="focus button" title="<?php echo $this->__('View Cart & Checkout')?>"
+          onclick="setLocation('<?php echo $this->getUrl('checkout/cart'); ?>')">
+    <span><?php echo $this->__('View Cart & Checkout')?></span>
+  </button>
+</div>

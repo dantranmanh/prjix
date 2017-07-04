@@ -1,0 +1,22 @@
+<?php
+$_helper = $this->helper('catalog/output');
+$_product = $this->getProduct();
+?>
+<div class="box-col2">
+  <div class="col-item">
+    <table class="data-table data-products">
+      <tr>
+        <td><?php echo $_product->getResource()->getAttribute('product_nutritional_claims')->getFrontend()->getLabel($_product); ?></td>
+        <td><?php echo nl2br($this->htmlEscape($_product->getResource()->getAttribute('product_nutritional_claims')->getFrontend()->getValue($_product))); ?></td>
+      </tr>
+    </table>
+  </div>
+  <div class="col-item">
+    <table class="data-table data-products">
+      <tr>
+        <td><?php echo $_product->getResource()->getAttribute('product_allergens')->getFrontend()->getLabel($_product); ?></td>
+        <td><?php echo nl2br($this->htmlEscape($_product->getResource()->getAttribute('product_allergens')->getFrontend()->getValue($_product))); ?></td>
+      </tr>
+    </table>
+  </div>
+</div>

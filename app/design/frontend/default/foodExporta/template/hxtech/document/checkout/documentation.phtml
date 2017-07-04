@@ -1,0 +1,53 @@
+<?php
+$_collection = $this->getCollection();
+$documentation = Mage::getSingleton('checkout/session')->getDocumentation();
+$documentationId = $documentation ? $documentation->getId() : 0;
+?>
+<div class="box-provider" id="shipping-rate-table">
+  <div class="box-title">
+    <h3><?php echo $this->__('Documentation') ?><span class="count"><?php echo $_collection->getSize() + 1;?></span></h3>
+    <span id="price-update" class="price-update"></span>
+  </div>
+  <ul class="list-methods lis-documentation">
+    <li class="method-item">
+      <input type="radio" class="radio" name="documentation_requirement" onclick="shippingMethod.selectDocumentation('0', '<?php echo Mage::getUrl('document/documentation/setDocumentation') ?>', '')" <?php if(!$documentation): ?> checked="checked" <?php endif; ?>/>
+      <div class="item-content">
+        <div class="top-title">
+          <label><?php echo $this->__('Self Sourced'); ?></label>
+        </div>
+        <span class="select"><?php echo $this->__('select'); ?></span>
+      </div>
+    </li>
+    <?php $size = $_collection->getSize(); ?>
+    <?php if($size > 0): ?>
+      <?php foreach($_collection->getData() as $_item): ?>
+        <?php $checked = ($documentationId == $_item['id']) ? 'checked = "checked"' : ''; ?>
+        <li class="method-item">
+          <input type="radio" class="radio" name="documentation_requirement" onclick="shippingMethod.selectDocumentation('<?php echo $_item["id"]; ?>', '<?php echo Mage::getUrl('document/documentation/setDocumentation') ?>', '<?php echo Mage::helper('core')->currency($_item['price'], true, false); ?>')" <?php echo $checked; ?> >
+          <div class="item-content">
+            <div class="top-title">
+              <label><?php echo Mage::helper('document/documentation')->getDocumentTypeHtml($_item['id']); ?></label>
+              <div class="box-price"><?php echo Mage::helper('core')->currency($_item['price'], true, false); ?></div>
+            </div>
+            <div class="box-content">
+              <div class="image-method">
+                <?php echo Mage::helper('document/documentation')->getSupplierLogoOfDocumentation($_item['id']); ?>
+              </div>
+            </div>
+            <span class="select"><?php echo $this->__('select'); ?></span>
+          </div>
+          <?php if($documentationId == $_item['id']): ?>
+            <script type="text/javascript">
+              $('price-update').innerHTML = '<?php echo Mage::helper('core')->currency($_item['price'], true, false); ?>';
+            </script>
+          <?php endif;?>
+        </li>
+      <?php endforeach; ?>
+    <?php endif; ?>
+  </ul>
+  <script type="text/javascript">
+    jQuery(function () {
+      jQuery('#shipping-rate-table').customRadioCheckbox();
+    })
+  </script>
+</div>

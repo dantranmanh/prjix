@@ -1,0 +1,17 @@
+<div id="result">
+    <?php
+
+        if(Mage::getStoreConfig('deliverydate/deliverydate_general/enabled')){
+            $calendar = new Biztech_Deliverydate_Model_Calendar();
+            echo $calendar->show(); 
+        }
+        else{
+            Mage::getSingleton('core/session')->addSuccess("This feature is not Available for now.");
+            $url=Mage::getBaseUrl(). "sales/order/history/";
+            Mage::app()->getResponse()
+            ->setRedirect($url, 301)
+            ->sendResponse(); 
+        }
+
+    ?>
+</div>

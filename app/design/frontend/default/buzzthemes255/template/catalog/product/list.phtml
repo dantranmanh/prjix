@@ -1,0 +1,8 @@
+<?php
+$currentCategory = Mage::registry('current_category'); 
+if(isset($currentCategory) && $currentCategory->getLevel() == 2){
+    echo Mage::app()->getLayout()->createBlock('catalog/product_list')->setTemplate('catalog/product/list-all-sub.phtml')->toHtml(); 
+}else{
+    echo Mage::app()->getLayout()->createBlock('catalog/product_list')->setTemplate('catalog/product/list-common.phtml')->toHtml();
+}
+

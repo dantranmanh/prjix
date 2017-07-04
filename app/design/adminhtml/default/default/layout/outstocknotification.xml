@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <outstocknotification_adminhtml_outstocknotification_edit>
+		<update handle="editor"/>
+    </outstocknotification_adminhtml_outstocknotification_edit>
+    <outstocknotification_adminhtml_outstocknotification_index>
+		<update handle="editor"/>
+        <reference name="content">
+            <block type="outstocknotification/adminhtml_outstocknotification" name="outstocknotification" />
+        </reference>
+    </outstocknotification_adminhtml_outstocknotification_index>
+    <outstocknotification_adminhtml_outstocknotification_alertsstockgrid>
+        <block type="outstocknotification/adminhtml_productalert_gridtab" name="product.edit.tab.alerts.stock" output="toHtml" />
+    </outstocknotification_adminhtml_outstocknotification_alertsstockgrid>
+</layout>

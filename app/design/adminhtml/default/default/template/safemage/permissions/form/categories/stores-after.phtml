@@ -1,0 +1,26 @@
+<?php
+/*
+NOTICE OF LICENSE
+
+This source file is subject to the SafeMageEULA that is bundled with this package in the file LICENSE.txt.
+
+It is also available at this URL: https://www.safemage.com/LICENSE_EULA.txt
+
+Copyright (c)  SafeMage (https://www.safemage.com/)
+*/
+?>
+<?php
+
+?>
+<script type="text/javascript">
+//<![CDATA[
+<?php echo $this->getCategoryTreeUpdaterVarName(); ?> = new SafeMageCategoryTreeUpdater({
+    parameters: <?php echo Mage::helper('safemage_permissions/request')->toRequestParams($this->getCategoryTree()->getData()); ?>,
+    url: "<?php echo $this->getCategoryTree()->getLoadTreeHtmlUrl(); ?>",
+    idToUpdate: "<?php echo $this->getCategoryTree()->getHtmlId(); ?>",
+    idStoreMultiselect: "<?php echo $this->getStoreMultiselectId(); ?>",
+    storeIdsVarName: "<?php echo $this->getStoreIdsVarName(); ?>[]",
+});
+//]]>
+</script>
+

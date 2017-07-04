@@ -1,0 +1,91 @@
+<?php if ($this->canShow()): ?>
+<script type="text/javascript">
+//<![CDATA[
+    var termPopupClosed = false;
+    function openTermPopup() {
+        var height = $('html-body').getHeight();
+        $('message-popup-window-mask').setStyle({'height':height+'px; overflow: auto;'});
+        toggleSelectsUnderBlock($('message-popup-window-mask'), false);
+        Element.show('message-popup-window-mask');
+        $('message-popup-window').addClassName('show');
+    }
+
+    function closeTermPopup() {
+        toggleSelectsUnderBlock($('message-popup-window-mask'), true);
+        Element.hide('message-popup-window-mask');
+        $('message-popup-window').removeClassName('show');
+        termPopupClosed = true;
+    }
+
+    Event.observe(window, 'load', openTermPopup);
+    Event.observe(window, 'keyup', function(evt) {
+        if(termPopupClosed) return;
+        var code;
+        if (evt.keyCode) code = evt.keyCode;
+        else if (evt.which) code = evt.which;
+        if (code == Event.KEY_ESC) {
+            closeTermPopup();
+        }
+    });
+
+    function submitTermCondition() {
+        if(!$('term_condition').checked){
+            alert('You are not agreed to these terms & conditions');
+            return false; 
+        }
+        new Ajax.Request(
+            "<?php echo Mage::helper('adminhtml')->getUrl('logistic/adminhtml_term/submitPost'); ?>",
+            {
+                method: 'post',
+                onSuccess: function (transport) {
+                    closeTermPopup();
+                },
+                onFailure: function() {
+                    closeTermPopup();
+                }
+            }
+        );
+    }
+//]]>
+</script>
+<div id="message-popup-window-mask" style="display:none;"></div>
+<div id="message-popup-window" class="message-popup term-message-popup">
+    <div class="message-popup-head">
+       <!--  <a href="#" onclick="closeTermPopup(); return false;" title="<?php echo $this->getCloseText(); ?>"><span><?php echo $this->getCloseText(); ?></span></a> -->
+        <h2><?php echo $this->__('Terms & Conditions'); ?></h2>
+    </div>
+    <div class="message-popup-content">
+        <div class="message">
+            <p><?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('terms-conditions-sellers')->toHtml(); ?></p>
+            <span>
+                <input type="checkbox" id="term_condition" name="term_condition"/>
+                <?php echo $this->__('I agree to these terms and conditions'); ?>
+            </span>
+            <button title="submit" type="button" class="scalable" onclick="submitTermCondition();"><span><span><span><?php echo $this->__('Continue'); ?></span></span></span></button> 
+            <a href="<?php echo Mage::helper('adminhtml')->getUrl('adminhtml/index/logout'); ?>">
+                <button title="submit" type="button" class="scalable"><span><span><span><?php echo $this->__('Cancel'); ?></span></span></span></button> 
+            </a>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+
+<style type="text/css">
+	.term-message-popup{
+		height: 600px;
+	    overflow-y: scroll;
+	    position: absolute;
+	    z-index: 990;
+	    width: 650px;
+	    top: -9999em;
+	    left: 42%;
+	    margin: -169px 0 0 -204px;
+	    background: #f3bf8f;
+	    padding: 0 4px 4px;
+	}
+
+    .term-message-popup button{
+        float: right;
+        margin-left: 10px;
+    }
+</style>

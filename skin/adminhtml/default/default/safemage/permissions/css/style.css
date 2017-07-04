@@ -1,0 +1,17 @@
+#role_info_tabs_categories_content .fieldset#fs-cat-attr-permissions .label,
+#role_info_tabs_products_content .fieldset#fs-prod-attr-permissions .label,
+#role_info_tabs_customers_content .fieldset#fs-customer-attr-permissions .label,
+#role_info_tabs_config_content .fieldset#fs-conf-sec-permissions .label {
+    width: 100% !important;
+}
+
+#role_info_tabs_products_content #productGrid,
+#role_info_tabs_products_content #selectedProductsGrid {
+    margin-left: -205px;
+}
+
+#role_info_tabs_products_content .grid select {
+    max-width: 70px;
+}
+
+

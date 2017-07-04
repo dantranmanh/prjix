@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Globo_Calculatorvolume>
+            <version>0.0.1</version>
+        </Globo_Calculatorvolume>
+    </modules>
+    <global>
+        <models>
+            <globo_calculatorvolume>
+                <class>Globo_Calculatorvolume_Model</class>
+            </globo_calculatorvolume>
+        </models>
+    </global>
+    <adminhtml>
+        <events>
+            <catalog_product_save_before><!-- observe the event -->
+                <observers>
+                    <globo_calculatorvolume>
+                        <class>globo_calculatorvolume/observer</class>
+                        <method>autoCalculatorVolume</method>
+                    </globo_calculatorvolume>
+                </observers>
+            </catalog_product_save_before>
+        </events>
+    </adminhtml>
+</config>

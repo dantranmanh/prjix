@@ -1,0 +1,45 @@
+<!-- #217 - HungDQ - container template -->
+<?php
+$number40ft = $this->getNumber40ft();
+$number20ft = $this->getNumber20ft();
+$percent = $this->getPercent(); 
+?>
+<div class="container-section">
+	<!--<div id="cb-percent-full">
+		<span>Total cart CBM :<?php /*echo $this->getTotalCbm(); */?> | </span>
+		<span>Total Pallets used :<?php /*echo $this->getPalletUsed(); */?></span>
+	</div>-->
+	<?php if($number20ft > 0): ?>
+		<?php if($number40ft > 0): ?>
+			<?php for($i = 1; $i <= $number40ft; $i++): ?>
+				<div id="cbm-40ft-container">
+					<span><?php echo $this->__('40FT Container'); ?></span>
+          <div class="cb-percent-full"><span style="width:100%;"></span></div>
+				</div>
+			<?php endfor; ?>
+		<?php endif; ?>
+		<div id="cbm-20ft-container" class="is-percent">
+      <span><?php echo $this->__('Fills %s / 20FT Container',$this->getPercent().'%'); ?></span>
+			<div class="cb-percent-full"><span style="width:<?php echo $percent;?>%;"></span></div>
+
+		</div>
+	<?php endif; ?>
+
+	<?php if(($number20ft == 0) && ($number40ft > 0)):?>
+		<?php for($i = 1; $i <= $number40ft; $i++): ?>
+			<div id="cbm-40ft-container" <?php if($i == $number40ft): ?>class="is-percent"<?php endif;?>>
+        <span>
+					<?php echo $this->__('40FT Container'); ?>
+          <?php if($i == $number40ft):?>
+            <?php echo $this->getPercent().'%';?>
+          <?php endif;?>
+			 	</span>
+				<?php if($i == $number40ft):?>
+					<div class="cb-percent-full"><span style="width:<?php echo $this->getPercent();?>%;"></span></div>
+        <?php else: ?>
+          <div class="cb-percent-full"><span style="width:100%;"></span></div>
+				<?php endif;?>
+			</div>
+		<?php endfor; ?>
+	<?php endif; ?>
+</div>

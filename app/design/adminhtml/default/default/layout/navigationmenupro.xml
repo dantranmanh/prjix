@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+	<adminhtml_menucreator_manageitem>
+	  <reference name="head">
+	 <action method="addItem">
+                <type>js_css</type>
+                <name>prototype/windows/themes/default.css</name>
+            </action>
+			<action method="addCss">
+                <name>lib/prototype/windows/themes/magento.css</name>
+            </action>
+	<action method="addItem"><type>skin_css</type><name>navigationmenupro/popupbox.css</name></action>
+	
+	</reference>
+        <reference name="content">
+             <block type="navigationmenupro/adminhtml_menucreator" name="menucreator_form" template="navigationmenupro/grid.phtml"/>
+        </reference>
+    </adminhtml_menucreator_manageitem>
+
+	<adminhtml_menucreator_index>
+	
+        <reference name="content">
+            <block type="navigationmenupro/adminhtml_menucreator" name="menucreator" />
+		</reference>
+    </adminhtml_menucreator_index>
+	<adminhtml_menucreatorgroup_index>
+		<reference name="content">
+            <block type="navigationmenupro/adminhtml_menucreatorgroup" name="menucreatorgroup" />
+        </reference>
+    </adminhtml_menucreatorgroup_index>
+	<adminhtml_menucreatorgroup_edit>
+		 <reference name="head">
+       	<action method="addItem"><type>skin_js</type><name>navigationmenupro/jscolor/jscolor.js</name><params><![CDATA[name="zjs_last"]]></params></action>
+	</reference>
+    </adminhtml_menucreatorgroup_edit>
+</layout>

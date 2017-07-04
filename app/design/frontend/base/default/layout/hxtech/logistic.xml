@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="logistic">
+                <name>logistic</name>
+                <path>logistic/frontend/logistic</path>
+                <label>Logistic Information</label>
+            </action>
+        </reference>
+    </customer_account>
+    <logistic_frontend_logistic>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="logistic/frontend_edit" name="frontend.logistic" template="hxtech/logistic/frontend/edit.phtml">
+                <action method="setTitle" translate="title">
+                    <title>Logistic Information</title>
+                </action>
+            </block>
+        </reference>
+    </logistic_frontend_logistic>
+</layout>

@@ -1,0 +1,61 @@
+/* General */
+.h-scroll{ overflow-x: auto;}
+
+/* For Both checkout steps */
+.date-selection{ margin: 13px 0;}
+.date-selection textarea{ height: 6em; }
+.date-selection img{ margin:  0 2px;}
+.date-selection .input-box{ position: relative;}
+.date-selection .ico-reset{ position: absolute;  right: -45px;  top: 0;}
+.date-selection .ico-cal{  position: absolute;  right: -22px;  top: 3px;}
+
+/* Only for Singlecheckout */
+.opc .sp-methods .date-selection{  border-top: 1px solid #e4e4e4;   padding-top: 20px; padding-left: 0;}
+
+/* Only for Multishipping checkout */
+.multiple-checkout .inner-title{ margin-top: 13px;}
+
+/* Table time slot design */
+.slots_table {margin-top: 20px;}
+.slots_table td,th {text-align: center;}
+.slots_table td.disabled{ background: #cfcfcf;}
+.slots_table .label{ font-weight: normal;}
+.slots_table input{    display: block;  text-align: center;  width: 100%;}
+.slots_table .am{     display: inline-block; min-width: 38px;} 
+.slots_table .seperator{     display: inline-block;}
+.slots_table .pm{     display: inline-block;}
+.opc .sp-methods .slots_table td{text-align: center; min-width: 109px;}
+.opc .sp-methods .slots_table td.disabled { cursor: not-allowed;}
+.opc .sp-methods .slots_table td.disabled .label{ cursor: not-allowed;}
+.opc .sp-methods .slots_table td:first-child{text-align: left;}
+
+/** Changes for timeslot view in multiple checkout
+*  14-08-2015
+*/
+.multiple-checkout .slots_table td{text-align: center; min-width: 109px;}
+.multiple-checkout .slots_table td.disabled { cursor: not-allowed;}
+.multiple-checkout .slots_table td.disabled .label{ cursor: not-allowed;}
+.multiple-checkout .slots_table td:first-child{text-align: left;}
+
+.opc .order-review .slots_table td{text-align: center; min-width: 109px;}
+.opc .order-review .slots_table td.disabled { cursor: not-allowed;}
+.opc .order-review .slots_table td.disabled .label{ cursor: not-allowed;}
+.opc .order-review .slots_table td:first-child{text-align: left;}
+
+/* ends */
+
+#opc-review .buttons-set p {
+    line-height: 19px;
+    margin: 0;
+}
+.sp-methods ul.notice-msg li{margin: 0;}
+@media (max-width: 480px){
+  .slots_table input {float:left; width:auto; margin:1px 10px 0 0;}
+}
+
+
+
+
+
+
+

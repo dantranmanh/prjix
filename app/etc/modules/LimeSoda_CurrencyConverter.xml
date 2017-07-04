@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<config>
+    <modules>
+        <LimeSoda_CurrencyConverter>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+            	<Mage_Directory />
+            	<Mage_Adminhtml />
+            </depends>
+        </LimeSoda_CurrencyConverter>
+    </modules>
+</config>

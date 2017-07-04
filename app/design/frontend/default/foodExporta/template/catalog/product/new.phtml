@@ -1,0 +1,108 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2006-2014 X.commerce, Inc. (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+$quote = Mage::getSingleton('checkout/session')->getQuote();
+$baseUrl = Mage::getBaseUrl();
+?>
+<?php if (($_products = $this->getProductCollection()) && $_products->getSize()): ?>
+    <div class="new-product">
+        <div class="category-title">
+            <h2><?php echo $this->__('New Products');?></h2>
+        </div>
+        <div class="fillter-products">
+            <div class="fillter-content">
+                <div class="fill-all">
+                    <a onclick="showAll()" class="fill-all-a tab-all" href="javascript:void(0);" title="<?php echo $this->__('All');?>"><?php echo $this->__('All');?></a>
+                </div>
+                <div class="fill-options">
+                    <?php echo $this->getToolbarHtml() ?>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            jQuery(document).ready(function(){
+                var widthContent = jQuery('.new-product .category-title > h2').outerWidth();
+                var widthParent = jQuery('.new-product .category-title').outerWidth();
+                var margin = (widthParent - widthContent)/2;
+                jQuery('.new-product .category-title > h2').css('margin-left',margin);
+            });
+        </script>
+
+        <?php $_columnCount = 6; ?>
+        <?php $i=0; foreach ($_products->getItems() as $_product): ?>
+            <?php if ($i++%$_columnCount==0): ?>
+                <ul class="products-grid">
+            <?php endif ?>
+            <li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
+                <div class="item-content">
+                    <div class="amlabel-div">
+                        <?php echo Mage::helper('amlabel')->getLabels($_product) ?>
+                        <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->escapeHtml($_product->getName()) ?>" class="product-image">
+                            <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(143) ?>" width="143" height="143" alt="<?php echo $this->escapeHtml($_product->getName()) ?>" />
+                        </a>
+                        <?php if(!isset($showDefault) || $showDefault !== 'show'.$_product->getId()): ?>
+                            <div class="item-in-cart counter-top-<?php echo $_product->getId() ?>" style="display: none" >
+                                    <span class="counter-top counter-<?php echo $_product->getId() ?>" >
+                                      <span class="quantity-in-cart 1-item quantity-in-cart-top-<?php echo $_product->getId() ?>" data-margintop="null" style="margin-top: 0px">1</span>
+                                    </span>
+                                <span class="text text-counter-top-<?php echo $_product->getId() ?>"><?php echo $this->__('in your cart') ?></span>
+                            </div>
+                        <?php endif; ?>
+
+                    </div>
+
+                    <h3 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->escapeHtml($_product->getName()) ?>"><?php echo $this->escapeHtml($_product->getName()) ?> <?php echo Mage::helper('logistic/logistic')->getProductUnitWeightHtml($_product); ?></a></a></h3>
+
+                    <?php echo $this->getPriceHtml($_product, true, '-new') ?>
+                    <div class="actions">
+                        <?php if($_product->isSaleable()): ?>
+                            <?php $stocklevel = (int)Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty();?>
+                            <?php $manageStock = Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getManageStock();?>
+                            <input oninput="maxLengthCheck(this)" type="number" min="0" max="9999" class="input-text input-cart" value="" />
+                            <button class="button btn-cart add-cart-button" type="button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')">
+                                <span class="text"><?php echo $this->__('Add to Order') ?></span>
+                            </button>
+                        <?php else: ?>
+                            <p class="availability out-of-stock"><button title="<?php echo $this->__('Notify me');?>" class="button btn-outstock"><span><span><?php echo $this->__('Notify me');?></span></span></button></p>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </li>
+            <?php if ($i%$_columnCount==0 || $i==count($_products)): ?>
+                </ul>
+            <?php endif ?>
+        <?php endforeach; ?>
+    </div>
+
+<?php else:?>
+    <div class="new-product">
+        <div class="category-title">
+            <h2><?php echo $this->__('New Products');?></h2>
+        </div>
+        <p class="note-msg"><?php echo $this->__('There are no products matching the selection.') ?></p>
+    </div>
+<?php endif; ?>

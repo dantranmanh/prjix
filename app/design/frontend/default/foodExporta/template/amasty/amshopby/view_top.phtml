@@ -1,0 +1,73 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2017 Amasty (https://www.amasty.com)
+ * @package Amasty_Shopby
+ */
+?>
+<?php $helper = Mage::helper('amshopby'); ?>
+<?php if($this->canShowBlock()): ?>
+    <div class="block block-layered-nav">
+        <!--<div class="block-title">
+            <strong><span><?php /*echo $this->__('Shop By') */?></span></strong>
+        </div>-->
+        <div class="block-content">
+            <?php echo $this->getStateHtml() ?>
+            <?php if ($this->getLayer()->getState()->getFilters() && method_exists('Mage', 'getEdition')): // CE 1.7+, EE 1.12+?>
+                <div class="actions"><a href="<?php echo Mage::helper('amshopby/url')->getFullUrl(array(), 1) ?>">
+                        <?php echo Mage::helper('catalog')->__('Clear All') ?></a>
+                </div>
+            <?php endif; ?>
+            <?php if($this->canShowOptions()): ?>
+                <div class="amshopby-container-top block-layered-nav">
+                  <div class="tabs-title tabs-title-style1">
+                  <?php $i=0; foreach ($this->getFilters() as $_filter): ?>
+                  <?php if($_filter->getItemsCount()): $i++;?>
+                    <?php  $position = Mage::helper('amshopby')->getAttributePosition($_filter); ?>
+                      <div id="<?php echo $_filter->getAttributeModel()->getAttributeCode(); ?>" onclick="showcontent(this)" class="tab-title <?php if($i==1):?>active<?php endif; ?>">
+                        <span><?php echo $this->__($_filter->getName()) ?></span>
+                      </div>
+                    <?php endif; ?>
+                  <?php endforeach; ?>
+                  </div>
+                    <?php $i=0;foreach ($this->getFilters() as $_filter): ?>
+                        <?php if($_filter->getItemsCount()): $i++; ?>
+                            <?php  $position = Mage::helper('amshopby')->getAttributePosition($_filter); ?>
+                            <div id="tab-content-<?php echo $_filter->getAttributeModel()->getAttributeCode(); ?>" class="amshopby-item-top am-toggle-content tab-content <?php if($i==1):?>active<?php endif; ?>">
+                                <dl id="narrow-by-list" class="amshopby-narrow-by-list" data-position="<?php echo $position;?>">
+                                    <?php if ($_filter->getAttributeCode() == 'price') : ?>
+                                        <?php $_filter->addData(array('amprice-position' => 'top')); ?>
+                                    <?php endif; ?>
+                                    <dt><?php echo $this->__($_filter->getName()) ?></dt>
+                                    <dd style="background:none"><?php echo $_filter->getHtml() ?></dd>
+                                </dl>
+                            </div>
+                          <script type="text/javascript">
+                            jQuery('tab-content-<?php echo $_filter->getAttributeModel()->getAttributeCode(); ?>').mCustomScrollbar();
+                          </script>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
+                <script type="text/javascript">decorateDataList('narrow-by-list')</script>
+                <script type="text/javascript">
+
+                    function showcontent(elm){
+                      var id = elm.getAttribute('id');
+                      jQuery('.tab-title').removeClass('active');
+                      jQuery('.tab-content').removeClass('active');
+                      jQuery('#'+id).addClass('active');
+                      jQuery('#tab-content-'+id).addClass('active');
+                    }
+                </script>
+            <?php endif; ?>
+        </div>
+    </div>
+<?php else: ?>
+    <div style="display:none" class="<?php echo $this->getBlockId()?>"></div>
+<?php endif; ?>
+
+<?php  if($helper->isNeedAjax()): ?>
+    <script>
+        window.amshopby_scroll_to_products = <?php echo $helper->isAjaxScrollEnabled() ? 'true' : 'false'; ?> ;
+    </script>
+<?php endif; ?>

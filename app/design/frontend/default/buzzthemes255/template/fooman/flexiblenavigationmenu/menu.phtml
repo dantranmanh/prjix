@@ -1,0 +1,17 @@
+<?php $_menu = $this->getMenuItems() ?>
+<?php if($_menu): ?>
+    <?php if ($this->isRWD()) {?>
+    <nav id="nav">
+        <ol class="nav-primary">
+            <?php echo $_menu ?>
+        </ol>
+    </nav>
+    <?php } else {?>
+    <div class="nav-container">
+        <ul id="nav">
+            <?php echo $_menu ?>
+        </ul>
+    </div>
+    <?php } ?>
+<?php endif; ?>
+<?php echo $this->getAfterMenuHtml()?>

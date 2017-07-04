@@ -1,0 +1,34 @@
+<?php
+$collection = $this->getOrders();
+$date_format = Mage::getStoreConfig('deliverydate/deliverydate_general/deliverydate_format');
+$time_format = Mage::getStoreConfig('deliverydate/deliverydate_general/deliverytime_format');
+if ($date_format == '') {
+    $date_format = 'd/M/Y';
+}
+if ($time_format == '') {
+    $date_format.=" ,g:i a";
+} else {
+    $is_time = Mage::getStoreConfig('deliverydate/deliverydate_general/deliverytime_enable_time');
+    $delivery_method = Mage::getStoreConfig('deliverydate/deliverydate_general/delivery_method');
+    if ($is_time && ($delivery_method == 1 && $order->getShippingArrivalSlot() == null)) {
+        $date_format.=" " . $time_format;
+    } else {
+        $date_format.=" ";
+    }
+}
+foreach ($collection as $order) {
+    $shipping_arrival_date = $order->getShippingArrivalDate();
+    ?>
+    <tr>
+        <td align="left" valign="top" style="font-size:11px; padding:3px 9px; border-bottom:1px dotted #CCCCCC;"><?php echo $order->getIncrementId(); ?></td>
+        <td align="left" valign="top" style="font-size:11px; padding:3px 9px; border-bottom:1px dotted #CCCCCC;"><?php echo $order->getCreatedAt(); ?></td>
+        <td align="left" valign="top" style="font-size:11px; padding:3px 9px; border-bottom:1px dotted #CCCCCC;"><?php echo $order->getBillingFirstname() . " " . $order->getBillingLastname(); ?></td>
+        <td align="left" valign="top" style="font-size:11px; padding:3px 9px; border-bottom:1px dotted #CCCCCC;"><?php echo $order->getShippingFirstname() . " " . $order->getShippingLastname(); ?></td>
+        <td align="left" valign="top" style="font-size:11px; padding:3px 9px; border-bottom:1px dotted #CCCCCC;"><?php echo Mage::helper('core')->currency($order->getBaseGrandTotal(), true, false); ?></td>
+        <td align="left" valign="top" style="font-size:11px; padding:3px 9px; border-bottom:1px dotted #CCCCCC;"><?php echo Mage::helper('core')->currency($order->getGrandTotal(), true, false); ?></td>
+        <td align="left" valign="top" style="font-size:11px; padding:3px 9px; border-bottom:1px dotted #CCCCCC;"><?php echo $order->getStatus(); ?></td>
+        <td align="left" valign="top" style="font-size:11px; padding:3px 9px; border-bottom:1px dotted #CCCCCC;"><?php date ($date_format,strtotime($shipping_arrival_date)). ' ' . $order->getShippingArrivalSlot(); ?></td>
+    </tr>
+    <?php
+}
+?>

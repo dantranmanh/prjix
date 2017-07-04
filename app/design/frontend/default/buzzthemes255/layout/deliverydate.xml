@@ -1,0 +1,184 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <deliverydate_index_index>
+        <reference name="content">
+            <block type="deliverydate/deliverydate" name="deliverydate" template="deliverydate/deliverydate.phtml" />
+        </reference>
+    </deliverydate_index_index>
+    
+    <customer_account>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>deliverydate/css/calendar.css</name>
+            </action>    
+            <action method="addItem">
+                <type>js</type>
+                <name>biztech/deliverydate/deliverydate.js</name>
+            </action>    
+        </reference>
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="deliverydate">
+                <name>deliverydate</name>
+                <path>deliverydate/index/deliveryview</path>
+                <label>Your Delivery Dates</label>
+            </action>
+        </reference>
+    </customer_account>
+    
+    <deliverydate_index_deliveryview>
+        <reference name="head">
+            <action method="setTitle">
+                <title>Your Delivery Dates</title>
+            </action>
+        </reference>
+        
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="deliverydate/deliverydate" name="deliverydate" template="deliverydate/myordersdeliverydate.phtml" />
+        </reference>
+    </deliverydate_index_deliveryview>
+
+    <checkout_onepage_index>
+        <reference name="head">    
+            <action method="addItem">
+                <type>js_css</type>
+                <name>calendar/calendar-win2k-1.css</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>js</type>
+                <name>calendar/calendar.js</name>
+            </action>
+            <action method="addItem">
+                <type>js</type>
+                <name>biztech/deliverydate/deliverydate.js</name>
+            </action>
+            <action method="addItem">
+                <type>js</type>
+                <name>calendar/calendar-setup.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>deliverydate/css/style.css</name>
+            </action>        
+        </reference>
+    </checkout_onepage_index>
+
+
+    <checkout_onepage_shippingmethod> 
+        <reference name="root">
+            <block type="core/html_calendar" name="head.calendar" as="calendar" output="toHtml" template="deliverydate/js/calendar.phtml"/> 
+            <action method="setTemplate">
+                <template>deliverydate/shipping_method/available.phtml</template> 
+            </action> 
+        </reference> 
+    </checkout_onepage_shippingmethod> 
+
+    <!--<checkout_onepage_review>-->
+        <!--<reference name="root">-->
+            <!--<action method="setTemplate">-->
+                <!--<template>deliverydate/review/info.phtml</template>-->
+            <!--</action>-->
+            <!--<block type="checkout/agreements" name="checkout.onepage.agreements" as="agreements">-->
+                <!--<action method="setTemplate">-->
+                    <!--<template>deliverydate/agreements.phtml</template>-->
+                <!--</action>-->
+            <!--</block>-->
+        <!--</reference>-->
+    <!--</checkout_onepage_review>-->
+
+    <paypal_express_review>
+        <reference name="head">    
+            <action method="addItem">
+                <type>js_css</type>
+                <name>calendar/calendar-win2k-1.css</name>
+                <params></params>
+            </action>
+            <action method="addItem">
+                <type>js</type>
+                <name>calendar/calendar.js</name>
+            </action>
+            <action method="addItem">
+                <type>js</type>
+                <name>calendar/calendar-setup.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>deliverydate/css/style.css</name>
+            </action>        			
+        </reference>
+        <reference name="content">
+            <reference name="paypal.express.review.details.agreements">
+                <action method="setTemplate">
+                    <template>deliverydate/agreements.phtml</template>
+                </action>
+            </reference>
+        </reference>
+    </paypal_express_review>
+
+    <deliverydate_email_information>
+        <block type="deliverydate/email_info" name="deliverydate_email_info" template="deliverydate/email/info.phtml"/>
+    </deliverydate_email_information>
+
+    <checkout_multishipping_shipping>
+        <reference name="head">  
+            <action method="addItem">
+                <type>js</type>
+                <name>biztech/deliverydate/deliverydate.js</name>
+            </action>  
+            <action method="addItem" ifconfig="deliverydate/deliverydate_general/enabled_multishipping">
+                <type>js_css</type>
+                <name>calendar/calendar-win2k-1.css</name>
+                <params></params>
+            </action>
+            <action method="addItem" ifconfig="deliverydate/deliverydate_general/enabled_multishipping">
+                <type>js</type>
+                <name>calendar/calendar.js</name>
+            </action>
+            <action method="addItem" ifconfig="deliverydate/deliverydate_general/enabled_multishipping">
+                <type>js</type>
+                <name>calendar/calendar-setup.js</name>
+            </action>
+            <action method="addItem" ifconfig="deliverydate/deliverydate_general/enabled_multishipping">
+                <type>skin_css</type>
+                <name>deliverydate/css/style.css</name>
+            </action>    
+
+            <block type="core/html_calendar" name="head.calendar" as="calendar" output="toHtml" template="deliverydate/js/calendar.phtml"/> 
+        </reference>
+        <reference name="checkout_shipping">
+            <action method="setTemplate" ifconfig="deliverydate/deliverydate_general/enabled_multishipping">
+                <template>deliverydate/checkout/multishipping/shipping.phtml</template>
+            </action>
+        </reference>
+    </checkout_multishipping_shipping>
+    <checkout_multishipping_overview>
+        <reference name="checkout_overview">
+            <action method="setTemplate" ifconfig="deliverydate/deliverydate_general/enabled_multishipping">
+                <template>deliverydate/checkout/multishipping/overview.phtml</template>
+            </action>
+        </reference>
+    </checkout_multishipping_overview>
+    <sales_order_print>
+        <reference name="sales.order.print">
+            <action method="setTemplate">
+                <template>deliverydate/order/print.phtml</template>
+            </action>
+        </reference>
+    </sales_order_print>
+    <sales_order_printinvoice>
+        <reference name="sales.order.print.invoice">
+            <action method="setTemplate">
+                <template>deliverydate/order/print/invoice.phtml</template>
+            </action>
+        </reference>
+    </sales_order_printinvoice>
+    <sales_order_printshipment>
+        <reference name="sales.order.print.shipment">
+            <action method="setTemplate">
+                <template>deliverydate/order/print/shipment.phtml</template>
+            </action>
+        </reference>
+    </sales_order_printshipment>
+</layout> 

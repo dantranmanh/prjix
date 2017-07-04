@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<config>
+<!-- rajoute un menu dans la partie admin -->
+		<menu>
+			<quote translate="title" module="quotation">
+				<title>Quote</title>
+				<sort_order>900</sort_order>
+				<children>
+					<quotation_list translate="title" module="quotation">
+						<title>Manage quotes</title>
+						<action>adminhtml/Quotation_Admin/List</action>
+						<sort_order>20</sort_order>
+					</quotation_list>
+					<new translate="title" module="quotation">
+						<title>New quote</title>
+						<action>adminhtml/Quotation_Admin/SelectOrCreateCustomer</action>
+						<sort_order>30</sort_order>
+					</new>
+					<configuration translate="title" module="quotation">
+						<title>Configuration</title>
+						<action>adminhtml/Quotation_Admin/Config</action>
+						<sort_order>50</sort_order>
+					</configuration>
+				</children>
+			</quote>
+        </menu>
+
+        <translate>
+        	<modules>
+                <MDN_Quotation>
+                    <files>
+                        <default>MDN_Quotation.csv</default>
+                    </files>
+                </MDN_Quotation>
+            </modules>
+        </translate>
+		<layout>
+            <updates>
+                <Quotation>
+                    <file>quotation.xml</file>
+                </Quotation>
+            </updates>
+        </layout>
+
+        <acl>
+	        <resources>
+	            <admin>
+	                <children>
+	                    <system>
+	                        <children>
+	                            <config>
+	                                <children>
+	                                    <quotation module="quotation">
+												<title>Quotations</title>
+	                                    </quotation>
+	                                </children>
+	                            </config>
+	                        </children>
+	                    </system>
+	                    <quote module="quotation">
+							<title>Quote</title>
+	                    	<children>
+	                    		<quotation_list module="quotation">
+	                    			<title>Manage quotes</title>
+	                    		</quotation_list>
+								<new module="quotation">
+									<title>New quote</title>
+								</new>
+	                    	</children>
+	                    </quote>
+	                </children>
+	            </admin>
+	         </resources>
+	    </acl>
+</config>

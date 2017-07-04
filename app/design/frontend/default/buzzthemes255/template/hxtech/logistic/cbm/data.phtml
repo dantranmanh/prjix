@@ -1,0 +1,41 @@
+<?php
+$this->calculateTotalPalletUsed(); 
+$number40ft = $this->getTotal40ftContainer();
+$number20ft = $this->getTotal20ftContainer();
+$percent = $this->getPercent();
+?>
+<div class="container-section">
+	<div id="cbm-total-pallet">
+		<span>Total cart CBM :<?php echo Mage::helper('logistic/logistic')->getTotalCbm(); ?> | </span>
+		<span>Total Pallets used :<?php echo $this->getTotalPallets(); ?></span>
+	</div>
+	<?php if($number20ft > 0): ?>
+		<?php if($number40ft > 0): ?>
+			<?php for($i = 0; $i <= $number40ft; $i++): ?>
+				<div id="cbm-40ft-container">
+					<span><?php echo $this->__('40FT Container'); ?></span>
+				</div>
+			<?php endfor; ?>
+		<?php endif; ?>
+		<div id="cbm-20ft-container" class="is-percent">
+			<div class="cb-percent-full" style="width:<?php echo $percent;?>%;"></div>
+			<span><?php echo $this->__('20FT Container'); ?> <?php echo $this->getPercent().'%';?></span>
+		</div>
+	<?php endif; ?>
+
+	<?php if(($number20ft == 0) && ($number40ft > 0)):?>
+		<?php for($i = 0; $i <= $number40ft; $i++): ?>
+			<div id="cbm-40ft-container" <?php if($i == $number40ft): ?>class="is-percent"<?php endif;?>>
+				<?php if($i == $number40ft):?>
+					<div class="cb-percent-full" style="width:<?php echo $this->getPercent();?>%;"></div>
+				<?php endif;?>
+				<span>
+					<?php echo $this->__('40FT Container'); ?>
+					<?php if($i == $number40ft):?>
+					 	<?php echo $this->getPercent().'%';?>
+					<?php endif;?>		
+			 	</span>
+			</div>
+		<?php endfor; ?>
+	<?php endif; ?>
+</div>

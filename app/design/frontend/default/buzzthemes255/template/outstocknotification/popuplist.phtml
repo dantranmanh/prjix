@@ -1,0 +1,82 @@
+<?php 
+  /*
+  * @copyright   Copyright (c) 2014 www.magebuzz.com
+  */
+?>
+<?php
+  $productid= $this->getRequest()->getParam('productid');
+  $product= $this->getProductCurrent($productid);    
+  $associated = $this->getAssociatedProducts($productid);
+  $helper = Mage::helper('outstocknotification');    
+  $customer= Mage::helper('outstocknotification')->getCustomer();
+  $showname = Mage::getStoreConfig('outstocknotification/general/displayname');     
+?>
+<div>
+  <div id="messages_product_view" style="margin-top: 30px; max-width:280px;">
+    <?php echo $this->__(Mage::getStoreConfig('outstocknotification/general/introductionlabel')); ?>
+  </div>
+  <form id="formnotify" method="post" action="javascript:submitProductAlert();">
+
+    <div class="fieldset">
+      <h2 class="legend"><?php echo Mage::helper('outstocknotification')->__(Mage::getStoreConfig('outstocknotification/general/popup_heading')) ?></h2>
+      <ul class="form-list">
+        <li class="fields">
+          <div class="field">
+            <?php if(!empty($associated)) : ?>
+              <span style="display:block; padding: 2px 0;"> <b><?php echo $this->__('Out of stock item') ?>:</b>
+               <select name="productid" id="productid">
+                  <option value="0"><?php echo $this->__('select') ?></option>                  
+                  <?php foreach($associated as $child):?>
+                    <option value="<?php echo $child->getId();?>"><?php echo $helper->getProductOptionsHtml($product,$child->getId());?></option>
+                    <?php endforeach;?>                      
+                </select>
+              </span>
+              <?php else : ?>
+              <input type="hidden" value="<?php echo $productid?>" id="productid" name="productid"/>  
+              <?php endif;?>
+          </div>
+        </li> 
+        <?php if($showname):?>
+          <li class="fields">
+            <div class="field">
+              <label for="firstname" class="required"><em>*</em><?php echo Mage::helper('outstocknotification')->__('First Name') ?></label>
+              <input name="firstname" style="width: 175px;" id="firstname" title="<?php echo Mage::helper('outstocknotification')->__('First Name') ?>" value="<?php echo $customer['firstname'];?>" class="input-text required-entry" type="text" />
+            </div>
+          </li> 
+          <li class="fields">
+            <div class="field">
+              <label for="lastname" class="required"><em>*</em><?php echo Mage::helper('outstocknotification')->__('Last Name') ?></label>
+              <input name="lastname" id="lastname" style="width: 175px;" title="<?php echo Mage::helper('outstocknotification')->__('Last Name') ?>" value="<?php echo $customer['lastname'];?>" class="input-text required-entry" type="text" />
+            </div>
+          </li> 
+          <?php endif?>
+        <li class="fields"> 
+          <div class="field">
+            <label for="email" class="required"><em>*</em><?php echo Mage::helper('outstocknotification')->__('Email') ?></label>
+            <input name="email" id="email" title="<?php echo Mage::helper('outstocknotification')->__('Email') ?>" value="<?php echo $customer['email'];?>" class="input-text required-entry validate-email" style="width: 175px; margin-left: 30px;" type="text" />
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <button type="submit" id="btsubmit" title="<?php echo Mage::helper('outstocknotification')->__('Submit') ?>" value="baz" class="button" style="float: right;"><span><span><?php echo Mage::helper('outstocknotification')->__('Submit') ?></span></span></button>   
+  </form>
+</div>
+
+<script type="text/javascript">
+  //<![CDATA[
+  var notifyForm = new VarienForm('formnotify', true);
+  //]]>
+  function submitProductAlert() { 
+    var select = $('productid').value; 
+    var data = jQuery('form#formnotify').serialize();
+    if(select ==0){
+      alert('<?php echo $this->__('Please select out of stock product')?>');
+    }else{  
+      jQuery.colorbox({
+        href:"<?php echo Mage::getUrl('outstocknotification/index/stoctnotify');?>"+'?'+data
+      });
+    }    
+  }   
+
+</script>

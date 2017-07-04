@@ -1,0 +1,38 @@
+<?php
+/*
+NOTICE OF LICENSE
+
+This source file is subject to the SafeMageEULA that is bundled with this package in the file LICENSE.txt.
+
+It is also available at this URL: https://www.safemage.com/LICENSE_EULA.txt
+
+Copyright (c)  SafeMage (https://www.safemage.com/)
+*/
+?>
+<?php
+$perm = $this->getSession()->getPermissions('category');
+$inputsToAppend = array();
+if ($category = Mage::registry('current_category')) {
+    if ($category->getEntityId()) {
+        $inputsToAppend = array(
+            '<input type="hidden" name="general[id]"   value="' . $category->getEntityId() . '" />',
+            '<input type="hidden" name="general[path]" value="' . $category->getPath() . '" />'
+        );
+    }
+}
+?>
+<script type="text/javascript">
+<?php if (!$perm->isTabAllowed('General Information')): ?>
+var categoryEditForm = $('category_edit_form');
+if (categoryEditForm) {
+    <?php foreach($inputsToAppend as $input): ?>
+    categoryEditForm.insert('<?php echo $input; ?>');
+    <?php endforeach; ?>
+}
+<?php endif; ?>
+
+<?php if (!$perm->isTabAllowed('Category Products')): ?>
+catalog_category_productsJsObject = {rows:[]};
+<?php endif; ?>
+</script>
+

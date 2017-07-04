@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <block type="core/template" template="outstocknotification/init.phtml" name="magebuzz.outstocknotification.init" />
+        </reference>
+    </default>
+
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="outstocknotification"><name>notification</name><path>outstocknotification/index/viewstock</path><label>Out of Stock Subscriptions</label></action>
+        </reference>
+    </customer_account>
+
+    <outstocknotification_index_viewstock translate="label">
+        <label>Out of Stock Subscriptions</label>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="outstocknotification/outstocknotification" name="outstocknotification.outstocknotification.viewlist" template="outstocknotification/viewstock.phtml">
+                <block type="core/text_list" name="outstocknotification.history.viewlist" as="stock.info" translate="label">
+                    <label>Stock Notification Info</label>
+                </block>
+            </block>
+            <block type="customer/account_dashboard" name="customer.account.link.back" template="customer/account/link/back.phtml"/>
+        </reference>
+    </outstocknotification_index_viewstock>
+</layout>

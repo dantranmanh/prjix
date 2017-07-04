@@ -1,0 +1,32 @@
+<?php
+$collection = Mage::getModel('testimonial/testimonial')->getCollection();
+$collection->addFieldToFilter('status', 1);
+?>
+<?php if($collection->getSize() > 0): ?>
+<div class="custom-say-wapper">
+    <div class="container">
+        <div class="row">
+            <div class="custom-say-title block-banner-bottom-footer-dest"><?php echo $this->__('What our customers think'); ?></div>
+            <ul class="owl-carousel" id="owl-demo">
+            	<?php foreach($collection as $item): ?>
+	                <li>
+	                    <div class="slider-wapper-wapper">
+	                        <div class="slider-wapper">
+	                            <div class="top-slider">&nbsp;</div>
+	                            <div class="slider-text"><?php echo $item->getTestimonial(); ?></div>
+	                        </div>
+	                    </div>
+	                    <div class="slider-wapper-bottom">
+	                    	<?php if($item->getAvatarName()): ?>
+	                        	<div class="icon-avata"><img width="80px" height="81px" alt="" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'magebuzz/avatar'.DS.$item->getAvatarName(); ?>" /></div>
+	                    	<?php endif; ?>
+	                        <div class="slider-text-name"><?php echo $item->getName(); ?></div>
+	                        <!-- <div class="from-address"><?php echo $item->getAddress(); ?></div> -->
+	                    </div>
+	                </li>
+            	<?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+</div>
+<?php endif; ?>

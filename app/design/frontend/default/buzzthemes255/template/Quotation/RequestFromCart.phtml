@@ -1,0 +1,57 @@
+<script>
+
+function SubmitCreateForm()
+{
+	//check if msg is filled
+	if (document.getElementById('description').value == '')	
+		alert('<?php echo $this->__('Please fill description field'); ?>');
+	else
+		document.getElementById('form_create').submit();
+}
+
+</script>
+
+<form id="form_create" name="form_create" method="POST" action="<?php echo $this->getSubmitUrl(); ?>">
+<div class="request-cart-quote">
+<div class="my-account">
+<div class="page-title">
+    <h1><?php echo $this->__('Request for a new quotation') ?></h1>
+</div>
+
+<h2><?php echo $this->__('1. Select products from your cart') ?></h2>
+<table cellspacing="0" class="data-table" id="quotation-request-products">
+<thead>
+        <tr>
+            <th><?php echo $this->__('Product') ?></th>
+            <th width="100"><?php echo $this->__('Qty') ?></th>
+        </tr>
+</thead>
+<tbody>
+	<?php foreach($this->getCartProducts() as $item): ?>
+		<?php if (($item->getProduct()->gettype_id() == 'simple') || ($item->getProduct()->gettype_id() == 'virtual') || ($item->getProduct()->gettype_id() == 'downloadable')): ?>
+            <tr>
+                <td>
+                	<a href="<?php echo $item->getProduct()->getProductUrl(); ?>"><?php echo $item->getName(); ?></a>
+                	<?php echo $this->getProductOptions($item); ?>
+                </td>
+                <td width="100"><input class='qty input-text' size="5" type="text" name="qty_<?php echo $item->getProduct()->getId(); ?>" id="qty_<?php echo $item->getProduct()->getId(); ?>" value="<?php echo $this->getItemQty($item); ?>"></td>
+            </tr>
+        <?php endif; ?>
+	<?php endforeach; ?>
+</tbody>
+</table>
+
+<h2><?php echo $this->__('2. Type your message') ?></h2>
+
+<div class="quote-textarea">
+<textarea cols="110" rows="5" id="description" name="description"></textarea>
+</div>
+
+<h2><?php echo $this->__('3. Send us your inquiry') ?></h2>
+
+<div class="buttons-set">
+<button type="button" onclick="SubmitCreateForm();" title="Save" class="button"><span><span><?php echo $this->__('Send Inquiry') ?></span></span></button>
+</div>
+</div>
+</div>
+</form>

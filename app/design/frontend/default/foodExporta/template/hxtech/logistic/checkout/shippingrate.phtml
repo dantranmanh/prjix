@@ -1,0 +1,79 @@
+<?php
+$_collection = $this->getCollection();
+$_count = 0;
+$shippingrateId = $this->getShippingrateId();
+?>
+<div class="box-provider" id="freight-rate-table">
+  <div class="box-title">
+    <h3><?php echo $this->__('FREIGHT ') ?><span class="count"><?php echo $_collection->getSize() + 1;?></span></h3>
+    <label>
+      <span><?php echo $this->getOriginPort(); ?></span>
+      <span><?php echo $this->getClosestPort(); ?></span>
+    </label>
+    <span id="price-update-shipping-rate" class="price-update"></span>
+  </div>
+  <ul class="list-methods lis-freight">
+    <li class="method-item">
+      <input type="radio" class="radio" name="shipping_method" value="freeshipping_freeshipping" checked="checked" onclick="shippingMethod.selectShippingRate('0', '<?php echo Mage::getUrl('logistic/shippingrate/setShippingrate') ?>', '')">
+      <div class="item-content">
+        <div class="top-title">
+          <label><?php echo $this->__('Self Sourced'); ?></label>
+        </div>
+        <span class="select"><?php echo $this->__('select'); ?></span>
+      </div>
+    </li>
+    <?php $count = 0; $size = $_collection->getSize(); ?>
+    <?php foreach($_collection as $_item): ?>
+      <?php $logistic = Mage::helper('logistic/logistic')->getLogisticOfShippingrate($_item); ?>
+      <?php $img = Mage::getBaseUrl('media').'logistic/logo/'.$logistic->getData('logistic_logo'); ?>
+      <?php $selected = ($shippingrateId == $_item->getId()) ? 'checked = "checked"' : ''; ?>
+      <?php $numberStar = Mage::helper('logistic')->getLogisticAverageStars($logistic->getId()); ?>
+      <?php $count++; ?>
+      <?php if($count == $size): ?>
+        <?php $validate = 'validate-one-required-by-name'; ?>
+      <?php else: ?>
+        <?php $validate = ''; ?>
+      <?php endif; ?>
+      <li class="method-item">
+        <input type="radio" class="radio <?php echo $validate; ?>" <?php echo $selected; ?> name="shipping_method" value="freeshipping_freeshipping" onclick="shippingMethod.selectShippingRate('<?php echo $_item->getId(); ?>', '<?php echo Mage::getUrl('logistic/shippingrate/setShippingrate') ?>', '<?php echo Mage::helper('core')->currency($_item->getPriceCbm(), true, false); ?>')">
+        <div class="item-content">
+          <div class="top-title">
+            <div><?php echo $_item->getTransitTime().'days'; ?><span><?php echo $this->__('Transit Time'); ?></span></div>
+            <div class="box-price"><?php echo Mage::helper('core')->currency($_item->getPriceCbm(), true, false); ?><span><?php echo $this->__('Price'); ?></span></div>
+          </div>
+          <div class="box-content">
+            <ul>
+              <li><?php echo $_item->getContainerSize(); ?><span><?php echo $this->__('Container'); ?></span></li>
+              <li><?php echo $_item->getShippingTerms(); ?><span><?php echo $this->__('Terms'); ?></li>
+              <li><?php echo $_item->getTransportMethod(); ?><span><?php echo $this->__('Method'); ?></li>
+            </ul>
+            <div class="image-method">
+              <?php if($logistic->getData('logistic_logo')):?>
+                <img alt="logo" src="<?php echo $img ?>"/>
+              <?php else: ?>
+                <?php echo Mage::helper('logistic/logistic')->getLogisticNameOfShippingrate($_item); ?>
+              <?php endif; ?>
+            </div>
+            <div id="summary_rating">
+              <div class="rating-box">
+                <div class="rating" style="width:<?php echo $numberStar * 20; ?>%;"></div>
+              </div>
+              <span><?php echo $this->__('COMPANY INFO'); ?></span>
+            </div>
+          </div>
+          <span class="select"><?php echo $this->__('select'); ?></span>
+        </div>
+        <?php if($shippingrateId == $_item->getId()): ?>
+          <script type="text/javascript">
+            $('price-update-shipping-rate').innerHTML = '<?php echo Mage::helper('core')->currency($_item->getPriceCbm(), true, false); ?>';
+          </script>
+        <?php endif;?>
+      </li>
+    <?php endforeach; ?>
+  </ul>
+  <script type="text/javascript">
+    jQuery(function () {
+      jQuery('#freight-rate-table').customRadioCheckbox();
+    })
+  </script>
+</div>

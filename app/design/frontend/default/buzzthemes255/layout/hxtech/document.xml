@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout>
+    <sales_email_order_items>
+        <reference name="order_totals">
+            <block type="document/sales_totals_order_documentation" name="documentation"/>
+        </reference>
+    </sales_email_order_items>
+</layout>

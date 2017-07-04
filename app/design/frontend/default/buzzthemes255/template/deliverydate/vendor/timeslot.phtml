@@ -1,0 +1,148 @@
+<?php
+$page = $this->getPage();
+$isMandatory = Mage::getStoreConfig('deliverydate/deliverydate_general/is_mandatory');
+$deliverydateCommentsLabel = Mage::getStoreConfig('deliverydate/deliverydate_general/deliverydate_comments_label');
+$deliverydateCommentsLabel = $deliverydateCommentsLabel ? $deliverydateCommentsLabel . ':' : 'Delivery Comments:';
+
+$timeslot = $this->getTimeSlots();
+$day_diff = ceil(Mage::getStoreConfig('deliverydate/deliverydate_general/deliverytime_day_diff'));
+
+
+$nonworking_days = $this->getFormattedNonWorkingDays();
+$nonworking_period = $this->getFormattedNonWorkingPeriod();
+
+$nonworking_dates = array_merge((array)$nonworking_days, (array)$nonworking_period);
+$day_off = $this->getDeliverydateDayoff();
+
+if(isset($day_off[0]) && $day_off[0] == '')
+{
+    unset($day_off[0]);
+    $day_off = array_values($day_off);
+}
+$delivery_days = ceil($this->getNoOfDeliverydays());
+
+$deliverydate_format = Mage::getStoreConfig('deliverydate/deliverydate_general/deliverydate_format');
+$deliverytime_format = Mage::getStoreConfig('deliverydate/deliverydate_general/deliverytime_format');
+
+$disable_slot = $this->getFormattedDisableSlots();
+$disable_slot_date = $this->getFormattedDisableSlotsDate();
+if ($day_diff != NULL) {
+    $startdate = date('Y-m-d', strtotime(Mage::getModel('core/date')->date('Y-m-d') . '+' . $day_diff . 'days'));
+} else {
+    $startdate = Mage::getModel('core/date')->date('Y-m-d');
+}
+
+$enddate = date('Y-m-d', strtotime($startdate . '+' . ($delivery_days - 1) . 'days'));
+$date_from = strtotime(date('Y-m-d', strtotime($startdate)));
+$date_to = strtotime(date('Y-m-d', strtotime($enddate)));
+
+$currentTime = date("h:i A", Mage::getModel('core/date')->timestamp(time()));
+$time_diff = ceil($this->getDeliverytimeDiff());
+
+$delivery_start_time = date("h:i A", strtotime($currentTime) + 60 * 60 * $time_diff);
+?>
+
+<dd>
+
+    <?php if(count($timeslot) > 0): ?>
+        <div class="h-scroll">
+            <table class="data-table slots_table" cellspacing="0" cellpadding="0">
+                <?php for ($col = 0; $col < count($timeslot)+1; $col++) { ?>
+                    <col width="1" />
+                <?php } ?>
+                <thead>
+                <tr>
+                    <th class="a-center"><?php echo $this->__('Delivery Date');?></th>
+                    <th colspan="<?php echo count($timeslot); ?>" class="a-center"><?php echo $this->__('Available Time Slots');?></th>
+                </tr>
+                </thead>
+                <tbody>
+
+
+                <?php
+                for ($i = $date_from; $i <= $date_to; $i+=86400) {
+                    $deliveryDateDisplay = date($deliverydate_format, $i);
+                    $deliveryDate = date('d-m-Y', $i);
+                    $day = date('l', $i);
+                    if ($day == 'Sunday') {
+                        $day_no = 0;
+                    } else {
+                        $day_no = date('N', $i);
+                    }
+                    ?>
+                    <tr>
+                        <td style="vertical-align: middle;"><?php echo $deliveryDateDisplay ; ?></td>
+
+                        <?php
+                        $_choose_one_slot = false;
+                        for ($j = 0; $j < count($timeslot); $j++) {
+
+                            $cond1 = false;
+                            $cond2 = false;
+                            $cond3 = false;
+
+                            $timeslotPrice = $timeslot['timeslot_'.$j]['price'];
+                            $timeslotValueHtml = '<span class="am">' . date($deliverytime_format , strtotime($timeslot['timeslot_' . $j]['start_time'])) . '</span> <span class="seperator">-</span><span class="pm">' . date($deliverytime_format , strtotime($timeslot['timeslot_' . $j]['end_time'])) . '</span> <span class="seperator"></span> <span class="pm">' . '</span>';
+                            $timeslotValue = $timeslot['timeslot_' . $j]['start_time'] . ' - ' . $timeslot['timeslot_' . $j]['end_time'];
+
+                            $timeslotId = $deliveryDate . '_' . $timeslot['timeslot_' . $j]['start_time'].'_'.$timeslotPrice;
+                            ?>
+
+                            <?php
+                            foreach ($disable_slot as $dslot) {
+                                if (($dslot['day'] == $day_no) && in_array($timeslotValue, $dslot['time_slot'])) {
+                                    $cond1 = true;
+                                }
+                            }
+
+                            foreach ($disable_slot_date as $dslot_date) {
+                                if ((date('d-m-Y',strtotime($dslot_date['date'])) == date('d-m-Y',strtotime($deliveryDate))) && in_array($timeslotValue, $dslot_date['time_slot'])) {
+                                    $cond3 = true;
+                                }
+                            }
+
+
+                            if ((in_array($day_no, $day_off)) ||
+                                (strtotime($timeslot['timeslot_' . $j]['start_time']) < strtotime($delivery_start_time) && $deliveryDate == Mage::getModel('core/date')->date('d-m-Y')) || (in_array($deliveryDate, $nonworking_dates))) {
+                                $cond2 = true;
+                            }
+                            ?>
+
+                            <td <?php if ($cond1 == true || $cond2 == true || $cond3 == true) {
+                                echo "class='disabled'";
+                            } ?>>
+                                <label class="label">
+                                    <input id="<?php echo $timeslotId; ?>" type="radio" name="shipping_arrival_slot[]"
+                                        <?php if ($cond1 == true || $cond2 == true || $cond3 == true) {
+                                            echo "disabled='disabled'";
+                                        } else {
+                                            echo 'class="validate-one-required-by-name"';
+                                        }
+                                        ?>
+                                           onclick="setDeliveryDate('','<?php echo '<strong>'.$deliveryDateDisplay . ' ' . $timeslotValue.'</strong>' ?>')"
+                                        value="<?php echo $deliveryDateDisplay . ' ' . $timeslotValue; ?>">
+                                    <?php echo $timeslotValueHtml; ?>
+                                </label>
+                            </td>
+
+                        <?php } ?>
+
+                    </tr>
+                <?php } ?>
+                </tbody>
+            </table>
+            <?php if($page == 'review'){ ?>
+                <span class="please-wait" id="delivery_loading" style="display: none;">
+                    <img src="<?php echo $this->getSkinUrl('deliverydate/images/opc-ajax-loader.gif'); ?>" class="v-middle" alt="" /> &nbsp; <?php echo $this->__('Please wait...'); ?> &nbsp;
+                </span>
+            <?php }?>
+        </div>
+    <?php endif; ?>
+
+    <div class="form-list date-selection">
+        <label for="shipping_arrival_comments[]"><?php echo $deliverydateCommentsLabel; ?></label>
+        <div class="input-box">
+            <textarea name="shipping_arrival_comments[]" id="shipping_arrival_comments[]"></textarea>
+        </div>
+    </div>
+</dd>

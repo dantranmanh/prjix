@@ -1,0 +1,53 @@
+Delivery Date,Delivery Date
+Deliverydate Activation,Deliverydate Activation
+Activation Key,Activation Key
+Select Websites,Select Websites
+General,General
+Enabled,Enabled
+Display At,Display At
+Design HTML,Design HTML
+Time Format,Time Format
+Date Format,Date Format
+Enable Time In Calender,Enable Time In Calender
+Minimam interval of days between the order and delivery date,Minimam interval of days between the order and delivery date
+Day off settings,Off day settings
+Day Off,Day Off
+Single Day Off,Single Day Off
+"Period,From-To","Period,From-To"
+Select Yes to enable this feature.,Select Yes to enable this feature.
+Choose at which step delivery date should be captured.,Choose at which step delivery date should be captured.
+Choose time format in which time will be displayed in frontend and admin panel.,Choose time format in which time will be displayed in frontend and admin panel.
+Choose date format in which date will be displayed in frontend and admin panel.,Choose date format in which date will be displayed in frontend and admin panel.
+Show time in calender,Show time in calender
+Choose days on which shipping will not be available.,Choose days on which shipping will not be available.
+Yes,Yes
+No,No
+No Day,No Delivery
+Sunday,Sunday
+Monday,Monday
+Tuesday,Tuesday
+Wedenesday,Wedenesday
+Thursday,Thursday
+Friday,Friday
+Saturday,Saturday
+Show Delivery Schedule in,Show Delivery Schedule in
+Make Delivery Date Mandatory,Make Delivery Date Mandatory
+Label for Delivery Date Comments,Label for Delivery Date Comments
+Label for Delivery Date,Label for Delivery Date
+Show Additional Info,Show Additional Info
+Additional Info For Customers,Additional Info For Customers
+Timeslot settings,Timeslot settings
+Add Number Of Delivery Days,Add Number Of Delivery Days
+Minimum interval of hours between the order placing time and delivery time,Minimum interval of hours between the order placing time and delivery time
+add time interval in hour.,add time interval in hour.
+Add Time Slot,Add Time Slot
+Disable Time Slot of Day,Disable Time Slot of Day
+Day,Day
+Time Slot,Time Slot
+Add Label for Delivery Date Comments,Add Label for Delivery Date Comments
+Add Label for Delivery Date,Add Label for Delivery Date
+Select Yes to make Delivery date mandatory for customers.,Select Yes to make Delivery date mandatory for customers.
+Choose at which step delivery date should be captured. This option is for onepage checkout only.,Choose at which step delivery date should be captured. This option is for onepage checkout only.
+Choose method for delivery schedule to be displayed.,Choose method for delivery schedule to be displayed.
+Date-Day,Date-Day
+Time Slots,Time Slots

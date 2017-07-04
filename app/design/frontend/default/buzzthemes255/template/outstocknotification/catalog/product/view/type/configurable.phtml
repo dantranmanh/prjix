@@ -1,0 +1,74 @@
+<?php 
+  /*
+  * @copyright   Copyright (c) 2014 www.magebuzz.com
+  */
+?>
+<?php
+  $outstockenable = Mage::getStoreConfig('outstocknotification/general/module_enable');   
+  $_product = $this->getProduct();               
+  $block = Mage::getBlockSingleton('outstocknotification/product_view_configurable');
+  $childProducts = $block->getItemOutStock($_product);  
+  $helper = Mage::helper('outstocknotification');  
+  $productId = $_product->getId(); 
+  $productName = $_product->getName();                                               
+
+  if ($_product->isAvailable()){
+  ?>
+  <p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('In stock') ?></span></p>
+  <?php }else{
+
+  ?><p class="availability out-of-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('Out of stock') ?></span></p>
+
+  <?php
+  }
+  if (($outstockenable) && !empty($childProducts)){
+  ?>       
+
+  <input type="hidden" value="<?php echo $productId; ?>" id='productId' name ='productId' />
+
+  <div id='form-notifi-product'>
+    <span>
+      <div id="padding_div" style="margin-top: 4px;" >  
+        <?php if(!empty($childProducts)){ ?>
+          <span style="display:block; padding: 2px 0;"> <b><?php echo $this->__('Out of stock item') ?>:</b> <select name="productIdName" id="select-child-product">
+              <option value="0"><?php echo $this->__('select') ?></option>
+              <?php if (!empty($childProducts)) :?>
+                <?php foreach($childProducts as $child):
+                ?>                
+                  <option value="<?php echo $child->getId();?>"><?php echo $helper->getProductOptionsHtml($_product,$child->getId());?></option>
+                  <?php endforeach;?>
+                <?php endif;?>                
+            </select>
+          </span>
+          <?php } ?>
+        <div style="margin-top: 5px;">        
+          <a onclick="sendNotification();" class="notify-outstock">
+            <button type="button" title="<?php echo $this->__(Mage::getStoreConfig('outstocknotification/general/labelbutton')); ?>" class="button"><span><span><?php echo $this->__(Mage::getStoreConfig('outstocknotification/general/labelbutton')) ?></span></span></button>
+          </a> 
+        </div>
+      </div>
+    </span>
+  </div>
+  <?php  //if out of stock endable
+  }
+?>    
+<?php echo $this->getChildHtml('product_type_data_extra') ?>
+<?php echo $this->getPriceHtml($_product) ?>
+<script type="text/javascript">    
+  var jQ = jQuery.noConflict();
+  function sendNotification() {
+    var select = $('select-child-product').value;
+    var urlRefer = '<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB) . 'outstocknotification/index/popupnotify';?>';
+    if(select ==0){
+      alert('<?php echo $this->__('Please select out of stock product')?>');
+    }else{
+      jQ(document).ready(function() {        
+        jQ(".notify-outstock").colorbox({
+          href:urlRefer+'?productid='+select,
+        });
+      });   
+    }     
+  }
+
+
+</script>    

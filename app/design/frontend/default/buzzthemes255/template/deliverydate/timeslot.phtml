@@ -1,0 +1,157 @@
+<?php
+    $page = $this->getPage();
+    $isMandatory = Mage::getStoreConfig('deliverydate/deliverydate_general/is_mandatory');
+    $deliverydateCommentsLabel = Mage::getStoreConfig('deliverydate/deliverydate_general/deliverydate_comments_label');
+    $deliverydateCommentsLabel = $deliverydateCommentsLabel ? $deliverydateCommentsLabel . ':' : 'Delivery Comments:';
+
+    $timeslot = Mage::helper('deliverydate')->getTimeSlots();
+    $day_diff = ceil(Mage::getStoreConfig('deliverydate/deliverydate_general/deliverytime_day_diff'));
+
+
+    $nonworking_days = Mage::helper('deliverydate')->getFormattedNonWorkingDays();
+    $nonworking_period = Mage::helper('deliverydate')->getFormattedNonWorkingPeriod();
+
+    $nonworking_dates = array_merge((array)$nonworking_days, (array)$nonworking_period);
+    $deliverydate_dayoff = Mage::getStoreConfig('deliverydate/deliverydate_dayoff/deliverydate_dayoff');
+    $day_off = explode(',', $deliverydate_dayoff);
+
+    if(isset($day_off[0]) && $day_off[0] == '')
+    {
+        unset($day_off[0]);
+        $day_off = array_values($day_off);
+    } 
+    $delivery_days = ceil(Mage::getStoreConfig('deliverydate/deliverydate_timeslots/no_of_deliverydays'));
+
+    $deliverydate_format = Mage::getStoreConfig('deliverydate/deliverydate_general/deliverydate_format');
+    $deliverytime_format = Mage::getStoreConfig('deliverydate/deliverydate_general/deliverytime_format');
+
+    $disable_slot = Mage::helper('deliverydate')->getFormattedDisableSlots();
+
+    $disable_slot_date = Mage::helper('deliverydate')->getFormattedDisableSlotsDate();
+    if ($day_diff != NULL) {
+        $startdate = date('Y-m-d', strtotime(Mage::getModel('core/date')->date('Y-m-d') . '+' . $day_diff . 'days'));
+    } else {
+        $startdate = Mage::getModel('core/date')->date('Y-m-d');
+    }
+
+    $enddate = date('Y-m-d', strtotime($startdate . '+' . ($delivery_days - 1) . 'days'));
+    $date_from = strtotime(date('Y-m-d', strtotime($startdate)));
+    $date_to = strtotime(date('Y-m-d', strtotime($enddate)));
+
+    $currentTime = date("h:i A", Mage::getModel('core/date')->timestamp(time()));
+    $time_diff = ceil(Mage::getStoreConfig('deliverydate/deliverydate_timeslots/deliverytime_diff'));
+
+    $delivery_start_time = date("h:i A", strtotime($currentTime) + 60 * 60 * $time_diff);
+?>
+
+<dd>
+
+    <?php if(count($timeslot) > 0): ?>
+        <div class="h-scroll">
+            <table class="data-table slots_table" cellspacing="0" cellpadding="0">
+                <?php for ($col = 0; $col < count($timeslot)+1; $col++) { ?>
+                    <col width="1" />
+                    <?php } ?>
+                <thead>
+                    <tr>
+                        <th><?php echo $this->__('Date-Day');?></th>
+                        <th colspan="<?php echo count($timeslot); ?>" class="a-center"><?php echo $this->__('Time Slots');?></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+
+                    <?php 
+                        for ($i = $date_from; $i <= $date_to; $i+=86400) {
+                            $deliveryDateDisplay = date($deliverydate_format, $i);
+                            $deliveryDate = date('d-m-Y', $i);
+                            $day = date('l', $i);
+                            if ($day == 'Sunday') {
+                                $day_no = 0;
+                            } else {
+                                $day_no = date('N', $i);
+                            }
+                        ?>
+                        <tr>
+                            <td><?php echo $deliveryDateDisplay . ' ' . $day; ?></td>
+
+                            <?php 
+                                for ($j = 0; $j < count($timeslot); $j++) {
+
+                                    $cond1 = false;
+                                    $cond2 = false;
+                                    $cond3 = false;
+
+                                    $timeslotPrice = $timeslot['timeslot_'.$j]['price'];
+                                    $timeslotValueHtml = '<span class="am">' . date($deliverytime_format , strtotime($timeslot['timeslot_' . $j]['start_time'])) . '</span> <span class="seperator">-</span><span class="pm">' . date($deliverytime_format , strtotime($timeslot['timeslot_' . $j]['end_time'])) . '</span> <span class="seperator"></span> <span class="pm">' . Mage::helper('core')->currency($timeslotPrice, true, false) . '</span>';
+                                    $timeslotValue = $timeslot['timeslot_' . $j]['start_time'] . ' - ' . $timeslot['timeslot_' . $j]['end_time'];
+
+                                    $timeslotId = $deliveryDate . '_' . $timeslot['timeslot_' . $j]['start_time'].'_'.$timeslotPrice;
+                                ?>
+
+                                <?php
+                                    foreach ($disable_slot as $dslot) {
+                                        if (($dslot['day'] == $day_no) && in_array($timeslotValue, $dslot['time_slot'])) {
+                                            $cond1 = true;
+                                        }
+                                    }
+
+                                    foreach ($disable_slot_date as $dslot_date) {
+                                        if ((date('d-m-Y',strtotime($dslot_date['date'])) == date('d-m-Y',strtotime($deliveryDate))) && in_array($timeslotValue, $dslot_date['time_slot'])) {
+                                            $cond3 = true;
+                                        }
+                                    }
+
+
+                                    if ((in_array($day_no, $day_off)) ||
+                                        (strtotime($timeslot['timeslot_' . $j]['start_time']) < strtotime($delivery_start_time) && $deliveryDate == Mage::getModel('core/date')->date('d-m-Y')) || (in_array($deliveryDate, $nonworking_dates))) {
+                                        $cond2 = true;
+                                    }
+                                ?>
+
+                                <td <?php if ($cond1 == true || $cond2 == true || $cond3 == true) {
+                                            echo "class='disabled'";
+                                    } ?>>
+                                    <label class="label"><input id="<?php echo $timeslotId; ?>" type="radio" name="radio" 
+                                            class="<?php if($isMandatory == 1 && $j == 0 && $i == $date_from) { echo 'validate-one-required-by-name';}?>"
+                                            <?php if ($cond1 == true || $cond2 == true || $cond3 == true) {
+                                                    echo "disabled='disabled'";
+                                            } ?> 
+                                            onclick="getSlot('<?php echo $timeslotId; ?>','<?php echo $page; ?>','<?php echo $this->getUrl('deliverydate/index/updateGrandTotal');?>')" 
+                                            value="<?php echo $timeslotValue; ?>">
+                                        <?php echo $timeslotValueHtml; ?>
+                                    </label>
+                                </td>
+
+                                <?php } ?>  
+
+                        </tr>
+                        <?php } ?>
+                    <input type="hidden" name="shipping_arrival_date" id="shipping_arrival_date" value=""/>
+                    <input type="hidden" name="shipping_arrival_slot" id="shipping_arrival_slot" value=""/>
+                    <input type="hidden" name="delivery_charges" id="delivery_charges" value=""/>
+
+                </tbody>
+            </table>
+            <?php if($page == 'review'){ ?>
+                <span class="please-wait" id="delivery_loading" style="display: none;">
+                    <img src="<?php echo $this->getSkinUrl('deliverydate/images/opc-ajax-loader.gif'); ?>" class="v-middle" alt="" /> &nbsp; <?php echo $this->__('Please wait...'); ?> &nbsp;
+                </span>
+                <?php }?>
+        </div>
+        <?php endif; ?>
+
+    <div class="form-list date-selection">
+        <label for="shipping_arrival_comments"><?php echo $deliverydateCommentsLabel; ?></label>
+        <div class="input-box">
+            <textarea name="shipping_arrival_comments" id="shipping_arrival_comments"></textarea>
+        </div>
+    </div>
+    <?php if (Mage::getStoreConfig('deliverydate/deliverydate_general/show_html')) { ?>
+        <ul class="date-selection">
+            <li class="notice-msg">
+                <ul><li><span><?php echo nl2br(Mage::getStoreConfig('deliverydate/deliverydate_general/deliverydate_html')); ?></span></li></ul>
+            </li>
+        </ul>
+        <?php } ?>
+</dd>

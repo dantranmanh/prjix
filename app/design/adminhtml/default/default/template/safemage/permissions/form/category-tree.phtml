@@ -1,0 +1,198 @@
+<?php
+/*
+NOTICE OF LICENSE
+
+This source file is subject to the SafeMageEULA that is bundled with this package in the file LICENSE.txt.
+
+It is also available at this URL: https://www.safemage.com/LICENSE_EULA.txt
+
+Copyright (c)  SafeMage (https://www.safemage.com/)
+*/
+?>
+<?php
+$treeVarName = 'tree' . $this->getVarNamePostfix();
+$categoryLoaderVarName = 'categoryLoader' . $this->getVarNamePostfix();
+$treeDivId = 'tree-div-' . $this->getHtmlId();
+$hiddenInputId = 'hidden-' . $this->getHtmlId();
+$hiddenInputName = $this->getName();
+
+?>
+<div class="categories-side-col" id="<?php echo $this->getHtmlId(); ?>" >
+    <div class="tree-actions" style="text-align: left; margin: 0px 20px 10px 0;">
+        <?php if($this->getRoot()): ?>
+            <?php //echo $this->getCollapseButtonHtml() ?>
+            <?php //echo $this->getExpandButtonHtml() ?>
+            <a href="#" onclick="<?php echo $treeVarName; ?>.collapseAll(); return false;"><?php echo Mage::helper('catalog')->__('Collapse All'); ?></a> <span class="separator">|</span> <a href="#" onclick="<?php echo $treeVarName ?>.expandAll(); return false;"><?php echo Mage::helper('catalog')->__('Expand All'); ?></a>
+        <?php endif; ?>
+    </div>
+    <div class="tree-holder">
+        <input type="hidden" name="<?php echo $hiddenInputName; ?>" id="<?php echo $hiddenInputId; ?>" value="<?php echo $this->getIdsString() ?>">
+        <div id="<?php echo $treeDivId; ?>" class="tree"></div>
+    </div>
+</div>
+
+<?php if($this->getRootNode() && $this->getRootNode()->hasChildren()): ?>
+<script type="text/javascript">
+Ext.EventManager.onDocumentReady(function() {
+    //var
+    <?php echo $categoryLoaderVarName; ?> = new Ext.tree.TreeLoader({
+       dataUrl: '<?php echo $this->getLoadTreeUrl()?>'
+    });
+
+    // called for each category added through AJAX
+    <?php echo $categoryLoaderVarName; ?>.createNode = function(config) {
+        config.uiProvider = Ext.tree.CheckboxNodeUI;
+        var node;
+        if (config.children && !config.children.length) {
+            delete(config.children);
+            node = new Ext.tree.AsyncTreeNode(config);
+
+        } else {
+            node = new Ext.tree.TreeNode(config);
+        }
+        return node;
+    };
+
+    // called before each AJAX
+    <?php echo $categoryLoaderVarName; ?>.on("beforeload", function(treeLoader, node) {
+        treeLoader.baseParams.category = node.attributes.id;
+    });
+
+    // called after each AJAX
+    <?php echo $categoryLoaderVarName; ?>.on("load", function(treeLoader, node, config) {
+        varienWindowOnload();
+    });
+
+    <?php echo $categoryLoaderVarName; ?>._copyCbToChildren = function(node) {
+        var parentChecked = $(node.ui.checkbox.id).checked;
+        if (node.childNodes.length > 0) {
+            for (var i = 0; i < node.childNodes.length; i++) {
+                var child = node.childNodes[i];
+                $(child.ui.checkbox.id).checked = parentChecked;
+                if (parentChecked) {
+                    categoryAdd(child)
+                } else {
+                    categoryRemove(child);
+                }
+
+                this._copyCbToChildren(child);
+            }
+        }
+    };
+
+    <?php echo $categoryLoaderVarName; ?>._copyCbToParents = function(node) {
+        for(;node && (typeof(node.parentNode) != 'undefined');) {
+            if (node.parentNode != null) {
+                if (typeof(node.parentNode.ui.checkbox) != 'undefined') {
+                    $(node.parentNode.ui.checkbox.id).checked = true;
+                    categoryAdd(node.parentNode);
+                }
+                node = node.parentNode;
+            } else {
+                break;
+            }
+        }
+    };
+
+    <?php echo $treeVarName ?> = new Ext.tree.TreePanel('<?php echo $treeDivId; ?>', {
+        animate:true,
+        loader: <?php echo $categoryLoaderVarName; ?>,
+        enableDD:false,
+        containerScroll: true,
+        rootUIProvider: Ext.tree.CheckboxNodeUI,
+        selModel: new Ext.tree.CheckNodeMultiSelectionModel(),
+        rootVisible: '<?php echo $this->getRootNode()->getIsVisible() ?>'
+    });
+
+    <?php echo $treeVarName; ?>.on('check', function(node) {
+        if(node.attributes.checked) {
+            categoryAdd(node);
+        } else {
+            categoryRemove(node);
+        }
+
+        <?php if ($this->getCopyCbToParents()): ?>
+        this.loader._copyCbToParents(node);
+        <?php endif; ?>
+        this.loader._copyCbToChildren(node);
+
+        varienElementMethods.setHasChanges(node.getUI().checkbox);
+    }, <?php echo $treeVarName; ?>);
+
+    // set the root node
+    root = new Ext.tree.TreeNode({
+        text: '<?php echo $this->jsQuoteEscape($this->getRootNode()->getName()) ?>',
+        draggable:false,
+        checked:'<?php echo $this->getRootNode()->getChecked() ?>',
+        id:'<?php echo $this->getRootNode()->getId() ?>',
+        disabled: <?php echo ($this->getRootNode()->getDisabled() ? 'true' : 'false') ?>,
+        uiProvider: Ext.tree.CheckboxNodeUI
+    });
+
+    <?php echo $treeVarName; ?>.setRootNode(root);
+    bildCategoryTree(root, <?php echo $this->getTreeJson() ?>);
+    <?php echo $treeVarName; ?>.addListener('click', categoryClick.createDelegate(this));
+
+    // render the tree
+    <?php echo $treeVarName; ?>.render();
+});
+
+// called only once at start
+function bildCategoryTree(parent, config){
+    if (!config) return null;
+
+    if (parent && config && config.length){
+        for (var i = 0; i < config.length; i++){
+            config[i].uiProvider = Ext.tree.CheckboxNodeUI;
+            var node;
+            var _node = Object.clone(config[i]);
+            if (_node.children && !_node.children.length) {
+                delete(_node.children);
+                node = new Ext.tree.AsyncTreeNode(_node);
+
+            } else {
+                node = new Ext.tree.TreeNode(config[i]);
+            }
+            parent.appendChild(node);
+            node.loader = node.getOwnerTree().loader;
+            if(config[i].children){
+                bildCategoryTree(node, config[i].children);
+            }
+        }
+    }
+}
+
+function categoryClick(node, e){
+    if (node.disabled) {
+        return;
+    }
+    node.getUI().check(!node.getUI().checked());
+    varienElementMethods.setHasChanges(Event.element(e), e);
+};
+function smArrayUnique(values) {
+    var mySet = new Set(values);
+    var uniqValues = [];
+    mySet.forEach(function(item){
+        uniqValues.push(item);
+    });
+    return uniqValues;
+}
+function categoryAdd(node) {
+    var id = node.id;
+    var ids = $('<?php echo $hiddenInputId; ?>').value.split(',');
+    ids.push(id);
+    ids = smArrayUnique(ids);
+    $('<?php echo $hiddenInputId; ?>').value = ids.join(',');
+}
+function categoryRemove(node) {
+    var id = node.id;
+    var ids = $('<?php echo $hiddenInputId; ?>').value.split(',');
+    // bug #7654 fixed
+    while (-1 != ids.indexOf(id)) {
+        ids.splice(ids.indexOf(id), 1);
+    }
+    $('<?php echo $hiddenInputId; ?>').value = ids.join(',');
+}
+</script>
+
+<?php endif; ?>

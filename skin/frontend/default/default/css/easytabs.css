@@ -1,0 +1,16 @@
+/********************** Tabs */
+.product-view .tabs { margin: 15px 0px 0px; overflow:hidden; border-bottom:1px solid #496778;  zoom: 1;}
+.product-view .tabs li                { float:left;font-size:0.9em; line-height:1em;margin-right: 1px;}
+.product-view .tabs li.first          { border-left:0; }
+.product-view .tabs li.last           { border-right:0; }
+.product-view .tabs a                 { display:block; padding:10px 20px; color:#444; text-decoration: none;border-radius: 5px 5px 0 0;border-right:1px solid #dbdbdb;border-left:1px solid #dbdbdb; border-top:1px solid #dbdbdb;font-size: 16px;}
+.product-view .tabs a:hover           { background-color:#ddd; text-decoration:none; color:#444; ; text-decoration: none;}
+.product-view .tabs li.active a,
+.product-view .tabs li.active a:hover { background:#fff;  font-weight:bold; color:#fb4903; }
+
+#product_tabs_tags_tabbed_contents.input-box input	{ width: 300px; }
+#product_tabs_tags_tabbed_contents .input-box	{ width: 300px; float:left; margin-right: 10px;}
+#product_tabs_related_tabbed_contents li	{ float:left; margin-right: 10px;}
+#product_tabs_related_tabbed_contents ol	{ clear: both;}
+.product-collateral:after { content:"."; display:block; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; zoom: 1}
+.product-collateral .padder{border: 1px solid #dbdbdb;border-top: 0 none;}

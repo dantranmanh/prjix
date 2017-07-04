@@ -1,0 +1,99 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2006-2014 X.commerce, Inc. (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+$_product = $this->getProduct();
+$_wishlistSubmitUrl = $this->helper('wishlist')->getAddUrl($_product);
+$buttonTitle = $this->__('ADD TO ORDER');
+?>
+<?php if($_product->isSaleable()): ?>
+    <div class="add-to-cart">
+        <!-- Add to Cart button -->
+        <button type="button" title="<?php echo $buttonTitle ?>" id="product-addtocart-button" class="button btn-cart" onclick="productAddToCartForm.submit(this)">
+            <span class="text"><?php echo $buttonTitle ?></span>
+        </button>
+        <!-- Add to shopping list button -->
+        <?php /* $_shoppingListUrl = $this->getUrl('shoppinglist/index/additem'); ?>
+        <?php if (!Mage::getSingleton('customer/session')->isLoggedIn()): ?>
+            <a href="<?php echo $this->getUrl('shoppinglist/item/login', array('product' => $_product->getId(), 'type' => $_product->getTypeId())); ?>" class="link-shoppinglist">
+                <button type="button" class="button btn-mylist btn-add-shoppinglist" title="<?php echo $this->__('Add to list');?>">
+                    <span>
+                        <span><?php echo $this->__('Add to list');?></span>
+                    </span>
+                </button>
+            </a>
+        <?php else: ?>
+            <button type="button" class="button btn-mylist btn-add-shoppinglist" onclick="addToShoppingList('<?php echo $_shoppingListUrl; ?>'); return false;" title="<?php echo $this->__('Add to list');?>">
+                <span>
+                    <span><?php echo $this->__('Add to list');?></span>
+                </span>
+            </button>
+        <?php endif; */ ?>
+    </div>
+<?php else: ?>
+    <p class="sold-title"><?php echo $this->__('SOLD OUT');?></p>
+    <div class="sold-content">
+        <!-- Out stock notification button -->
+        <button type="button" class="button btn-big-soldout" product_id="<?php echo $_product->getId() ?>" title="<?php echo $this->__('Notify me');?>" ><span><?php echo $this->__('Notify me');?></span></button>
+       <!--  <input type="text" class="input-text input-cart" value="" /> -->
+        <!-- Add to shopping list button -->
+        <?php /* $_shoppingListUrl = $this->getUrl('shoppinglist/index/additem'); ?>
+        <?php if (!Mage::getSingleton('customer/session')->isLoggedIn()): ?>
+            <a href="<?php echo $this->getUrl('shoppinglist/item/login', array('product' => $_product->getId(), 'type' => $_product->getTypeId())); ?>" class="link-shoppinglist">
+                <button type="button" class="button btn-mylist btn-add-shoppinglist" title="<?php echo $this->__('Add to list');?>">
+                    <span>
+                        <span><?php echo $this->__('Add to list');?></span>
+                    </span>
+                </button>
+            </a>
+        <?php else: ?>
+            <button type="button" class="button btn-mylist btn-add-shoppinglist" onclick="addToShoppingList('<?php echo $_shoppingListUrl; ?>'); return false;" title="<?php echo $this->__('Add to list');?>">
+                <span>
+                    <span><?php echo $this->__('Add to list');?></span>
+                </span>
+            </button>
+        <?php endif; */ ?>
+    </div>
+<?php endif; ?>
+<script type="text/javascript">
+    function addToShoppingList(url) {
+        var form = $('product_addtocart_form');
+        if (form) {
+            var validator = new Validation(form);
+            if (validator.validate()) {
+                var data = form.serialize();
+                jQ.colorbox({
+                    href: "<?php echo Mage::getUrl('shoppinglist/index/detailform/'); ?>" + "?" + data,
+                    scrolling: false
+                });
+            }
+            //
+        }
+        else
+            document.location.href = url;
+        return false;
+    }
+</script>

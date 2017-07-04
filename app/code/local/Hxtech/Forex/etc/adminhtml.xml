@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<config>
+<menu>
+	<forex module="forex">
+		<title>Forex</title>
+		<sort_order>71</sort_order>
+		<children>
+			<financier translate="title" module="forex">
+				<title>Financier</title>
+				<sort_order>900</sort_order>
+				<action>forex/adminhtml_financier</action>
+			</financier>
+		</children>
+	</forex>
+</menu>
+<acl>
+	<resources>
+		<all>
+			<title>Allow Everything</title>
+		</all>
+		<admin>
+			<children>
+				<system>
+					<children>
+						<config>
+							<children>
+								<forex>
+									<title>Forex Settings Permission</title>
+								</forex>
+							</children>
+						</config>
+					</children>
+				</system>
+				<forex>
+					<title>Financier</title>
+					<sort_order>71</sort_order>
+					<children>
+						<financier module="forex">
+							<title>Financier</title>
+						</financier>
+					</children>
+				</forex>
+			</children>
+		</admin>
+	</resources>
+</acl>
+</config>

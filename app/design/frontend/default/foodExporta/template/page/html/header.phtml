@@ -1,0 +1,142 @@
+<?php
+$currentCategory = Mage::registry('current_category');
+$currentProduct = Mage::registry('current_product');
+?>
+<div class="header-container">
+  <div class="header-top">
+    <div class="nav-bottom-header">
+      <div class="container">
+        <div class="row">
+			<span class="mobile-menu-button" style="display: none"><span class="fa  fa-bars"></span></span>
+          <div class="col-md-2 col-logo">
+            <?php if ($this->getIsHomePage()): ?>
+              <h1 class="logo">
+                <a href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_DIRECT_LINK); ?>"
+                   title="<?php echo $this->getLogoAlt(); ?>"
+                   class="logo">
+                  <img class="logo-desk"
+                       src="<?php echo $this->getLogoSrc(); ?>"
+                       alt="<?php echo $this->getLogoAlt(); ?>"/>
+                  <img class="logo-mobile"
+                       src="<?php echo $this->getLogoSrcSmall(); ?>"
+                       alt="<?php echo $this->getLogoAlt(); ?>"/>
+                </a>
+              </h1>
+            <?php else: ?>
+              <a href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_DIRECT_LINK); ?>"
+                 title="<?php echo $this->getLogoAlt(); ?>"
+                 class="logo">
+                <img class="logo-desk"
+                     src="<?php echo $this->getLogoSrc(); ?>"
+                     alt="<?php echo $this->getLogoAlt(); ?>"/>
+                <img class="logo-mobile"
+                     src="<?php echo $this->getLogoSrcSmall(); ?>"
+                     alt="<?php echo $this->getLogoAlt(); ?>"/>
+              </a>
+            <?php endif ?>
+          </div>
+          <div class="col-md-10 col-links">
+            <div class="search-in-top">
+              <div class="search-top-forms">
+                <?php echo $this->getChildHtml('topSearch'); ?>
+              </div>
+            </div>
+            <div id="header-nav" class="skip-content">
+              <a href="#header-nav" class="skip-link"><i class="fa fa-times" aria-hidden="true"></i></a>
+              <?php echo $this->getChildHtml('topMenu'); ?>
+            </div>
+			
+            <div class="mobile-menu">
+              <a href="#header-nav" class="button-menu skip-link">
+                <span class="line-1"></span>
+                <span class="line-2"></span>
+                <span class="line-3"></span>
+              </a>
+              <a href="#skip-account" class="button-account skip-link">
+                <i class="fa fa-user" aria-hidden="true"></i>
+              </a>			  
+            </div>
+            <div class="header-right">
+              <a href="#" title="<?php echo $this->__('Need Help? '); ?>">
+                <?php echo $this->__('Need Help? '); ?>
+              </a>
+              <?php //if (Mage::getSingleton('customer/session')->isLoggedIn()): ?>
+              <div class="mini-cart">
+                <?php echo $this->getChildHtml('topCart'); ?>
+              </div>
+              <?php //endif; ?>
+
+              <?php if (Mage::getSingleton('customer/session')->isLoggedIn()): ?>
+                <div class="login">
+                  <p class="welcome-msg">
+                    <a title="<?php echo $this->__('Go To My Account'); ?>"
+                       href="<?php echo $this->getUrl('customer/account'); ?>">
+                      <?php echo $this->getChildHtml('welcome') ?>
+                      <?php echo $this->getAdditionalHtml() ?>
+                    </a>
+                    <a title="<?php echo $this->__('Logout'); ?>"
+                       href="<?php echo $this->getUrl('customer/account/logout'); ?>">
+                      <?php echo $this->__('[ Logout ]'); ?>
+                    </a>
+                  </p>
+                </div>
+              <?php else: ?>
+                <div class="sing-up">
+                  <a href="<?php echo $this->getUrl('customer/account/create'); ?>"
+                     title="<?php echo $this->__('Sign Up'); ?>">
+                    <?php echo $this->__('Sign Up'); ?>
+                  </a>
+                </div>
+                <div class="login">
+                  <a href="<?php echo $this->getUrl('customer/account/login'); ?>"
+                     title="<?php echo $this->__('login'); ?>">
+                    <?php echo $this->__('Login'); ?>
+                  </a>
+                </div>
+              <?php endif; ?>
+            </div>
+            <div id="skip-account" class="skip-content">
+              <ul>
+                <?php if (!Mage::getSingleton('customer/session')->isLoggedIn()): ?>
+                  <li class="link-signup">
+                    <a href="<?php echo $this->getUrl('customer/account/create'); ?>"
+                       title="<?php echo $this->__('Sign Up'); ?>">
+                      <?php echo $this->__('<i class="fa fa-user-plus" aria-hidden="true"></i> Sign Up'); ?>
+                    </a>
+                  </li>
+                  <li class="link-login">
+                    <a href="<?php echo $this->getUrl('customer/account/login'); ?>"
+                       title="<?php echo $this->__('login'); ?>">
+                      <?php echo $this->__('<i class="fa fa-sign-in" aria-hidden="true"></i> Login'); ?>
+                    </a>
+                  </li>
+                <?php else: ?>
+                  <li>
+                    <p class="welcome-msg">
+                      <a title="<?php echo $this->__('Go To My Account'); ?>"
+                         href="<?php echo $this->getUrl('customer/account'); ?>">
+                        <?php echo $this->getChildHtml('welcome'); ?>
+                        <?php echo $this->getAdditionalHtml(); ?>
+                      </a>
+                    </p>
+                  </li>
+                  <li>
+                    <a title="<?php echo $this->__('Logout'); ?>"
+                       href="<?php echo $this->getUrl('customer/account/logout'); ?>">
+                      <?php echo $this->__('Logout'); ?>
+                    </a>
+                  </li>
+                <?php endif; ?>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  var withHeaderRight = jQuery(".header-right").width() + 5;
+  jQuery(".search-in-top").css("width","calc(100% - "+withHeaderRight+"px)");
+</script>

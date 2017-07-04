@@ -1,0 +1,84 @@
+<?php
+$email = Mage::getSingleton('customer/session')->getCustomer()->getEmail();
+?>
+
+<script type="text/javascript">
+    var out_stock_customer_logged_in = <?php echo Mage::getSingleton('customer/session')->isLoggedIn() ? 'true' : 'false' ?>;
+    var out_stock_customer_email = "<?php echo Mage::getSingleton('customer/session')->isLoggedIn() ? $email : '' ?>";
+    var out_stock_customer_login_url = "<?php echo Mage::getUrl('customer/account/') ?>";
+    var out_stock_message;
+
+    /* init out stock notification observers */
+    document.observe('dom:loaded', function() {
+        $$('.btn-big-soldout, .btn-outstock').each(function(button) {
+            button.observe('click', function() {
+                if (out_stock_customer_logged_in) {
+                    sendNotifyStock(button);
+                } else {
+                    setLocation(out_stock_customer_login_url);
+                }
+            });
+        });
+
+        out_stock_message = $("stock-message");
+    });
+
+    function sendNotifyStock(button){
+        var product_id = button.readAttribute('product_id');
+        var ajaxurl = "<?php echo Mage::getUrl('outstocknotification/index/send_notify_stock'); ?>";
+        new Ajax.Request(ajaxurl, {
+            method: 'post',
+            parameters: {
+                product_id: product_id
+            },
+            onSuccess: function(response) {
+
+                /* update content of message */
+                if(response.responseJSON.success == true) {
+                    if (response.responseJSON.message) {
+                        $('message-title').update('Oops, no can do!');
+                        $('message-desc').update("<?php echo Mage::getStoreConfig('outstocknotification/general/error_message') ?>");
+                        $('message-bg').addClassName('error');
+                    } else {
+                        $('message-title').update("We'll send you an email!");
+                        $('message-desc').update("<?php echo Mage::getStoreConfig('outstocknotification/general/success_message');?>" + "<span>" + out_stock_customer_email + "</span>");
+                        $('message-bg').removeClassName('error');
+                    }
+                } else {
+                    $('message-title').update('Error');
+                    $('message-desc').update("Some thing wrong. Can not subscribe.");
+                    $('message-bg').addClassName('error');
+                }
+
+                /* update position */
+                var current_offset = button.cumulativeOffset();
+                var top_value = current_offset.top + button.getHeight() + 15;
+                var left_value = current_offset.left - out_stock_message.getWidth() / 2;
+                out_stock_message.setStyle({
+                    top: top_value + 'px',
+                    left: left_value + 'px'
+                });
+
+                /* hide message after a while */
+                if(out_stock_message.visible()) {
+                    out_stock_message.hide();
+                } else {
+                    out_stock_message.show();
+                    setTimeout(function() {out_stock_message.hide();}, 5000);
+                }
+            }
+        });
+    }
+
+</script>
+
+<div class="stock-message" id="stock-message" style="display:none;">
+    <div class="message-bg" id="message-bg">
+        <img src="<?php echo $this->getSkinUrl('images/stock-message-arrows.png'); ?>" alt="out-stock-img"/>
+        <p class="message-title"
+           id="message-title"><?php echo $this->__(""); ?></p>
+
+        <p class="message-desc"
+           id="message-desc"><?php echo $this->__(""); ?></p>
+    </div>
+</div>

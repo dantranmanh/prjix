@@ -1,0 +1,15 @@
+<?php
+$totalRowValues = Mage::helper('logistic/logistic')->getTotalRowValues();
+?>
+<td colspan="3"><?php echo $this->__('Totals:') ?></td>
+<td><?php echo $this->helper('checkout/cart')->getSummaryCount(); ?></td>
+<td><?php echo Mage::helper('core')->currency($totalRowValues['total_outer_price'], true, false); ?></td>
+<td><?php echo $totalRowValues['total_outer_volume'];?></td>
+<!-- <td><?php echo number_format($totalRowValues['total_pallet_volume'], 3, '.', '');?></td> -->
+<td><?php echo number_format($totalRowValues['total_line_volume'], 3, '.', '');?></td>
+<!-- <td><?php echo $totalRowValues['total_net_outer_weight']; ?></td> -->
+<td><?php echo number_format($totalRowValues['total_net_weight'], 2, '.', ''); ?></td>
+<!-- <td><?php echo $totalRowValues['total_gross_outer_weight']; ?></td> -->
+<td><?php echo number_format($totalRowValues['total_gross_weight'], 2, '.', ''); ?></td>
+<td><?php echo $totalRowValues['total_units']; ?></td>
+<td><?php echo Mage::helper('core')->currency($totalRowValues['total_line_value'], true, false); ?></td>

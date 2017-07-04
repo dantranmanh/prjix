@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <tabs>
+        <hxtech translate="label" module="logistic">
+            <label>Hxtech extension</label>
+            <sort_order>400</sort_order>
+        </hxtech>
+    </tabs>
+    <sections>
+        <logistic translate="label" module="logistic">
+            <label>Logistic</label>
+            <tab>hxtech</tab>
+            <sort_order>400</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <shippingrate translate="label" module="logistic">
+                    <label>Shipping Rate</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <container_size translate="label">
+                            <label>Container Size</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Separated by comma.]]></comment>
+                        </container_size>
+                        <shipping_terms translate="label">
+                            <label>Shipping Term</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Separated by comma.]]></comment>
+                        </shipping_terms>
+                        <transport_method translate="label">
+                            <label>Transport Method</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Separated by comma.]]></comment>
+                        </transport_method>
+                        <origin_port translate="label">
+                            <label>Origin Port</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Separated by comma.]]></comment>
+                        </origin_port>
+                        <!-- <destination_port translate="label">
+                            <label>Destination Port</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Separated by comma.]]></comment>
+                        </destination_port> -->
+                        <container_specifications translate="label">
+                            <label>Container Specifications</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Separated by comma.]]></comment>
+                        </container_specifications>
+                    </fields>
+                </shippingrate>
+                <supplier translate="label" module="logistic">
+                    <label>Freight Forwarder</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <order_history_template translate="label">
+                            <label>Export History Email Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </order_history_template>
+                    </fields>
+                </supplier>
+            </groups>
+        </logistic>
+    </sections>
+</config>

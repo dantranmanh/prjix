@@ -1,0 +1,36 @@
+<?php
+/**
+ * Magebuzz 2015
+ */
+?>
+<?php
+$_quote = $this->getQuote();
+$subTotal_value = $_quote->getSubtotal();
+$subTotal = Mage::helper('core')->currency($subTotal_value, true, false);
+$_items = $this->getItems();
+$_cartQty = (int) $_quote->getItemsQty();
+$currentUrl = Mage::helper('core/url')->getCurrentUrl();
+?>
+<?php if ($_cartQty>0): ?>
+<a href="<?php echo $this->getUrl('checkout/cart');?>" class="skip-link-mobile"><i class="fa fa-shopping-bag" aria-hidden="true"></i><span class="number-cart"><?php echo $_cartQty; ?></span></a>
+<div id="box-minicart" class="box-minicart">
+  <div class="box-minicart-content">
+    <ol id="cart-sidebar" class="mini-products-list">
+      <?php foreach($_items as $_item): ?>
+        <?php echo $this->getItemHtml($_item) ?>
+      <?php endforeach; ?>
+    </ol>
+    <script type="text/javascript">decorateList('cart-sidebar', 'none-recursive')</script>
+  </div>
+  <div class="box-minicart-bot">
+    <div class="box-total"><?php echo $this->__('Subtotal:');?><span class="price"><?php echo $subTotal; ?></span></div>
+    <div class="box-button">
+      <?php echo $this->getLayout()->createBlock('Quotation/Frontend_Cart')->setTemplate('Quotation/Cart.phtml')->toHtml();?>
+      <a class="is-items link-checkout" title="<?php echo $this->__('Checkout Now');?>" href="<?php echo $this->getCheckoutUrl();?>"><?php echo $this->__('Checkout Now');?></a>
+      <a class="is-items link-update-qty" title="<?php echo $this->__('Update Quantities');?>" onclick="" href="javascript:void(0);"><?php echo $this->__('Update Quantities');?></a>
+    </div>
+  </div>
+</div>
+<?php else:?>
+<a href="javascript:void(0);" title="<?php echo $this->__('You have 0 item in your cart');?>"><i class="fa fa-shopping-bag" aria-hidden="true"></i><span class="number-cart">0</span></a>
+<?php endif;?>

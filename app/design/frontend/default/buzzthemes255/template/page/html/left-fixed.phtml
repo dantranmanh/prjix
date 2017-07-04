@@ -1,0 +1,10 @@
+<?php
+$currentCategory = Mage::registry('current_category');
+$currentProduct = Mage::registry('current_product');
+?>
+<div class="left-fixed">
+	<?php if($currentCategory && !$currentProduct):?>
+		<?php echo $this->getLayout()->createBlock('catalog/category_view')->setTemplate('catalog/category/subcategories-header.phtml')->toHtml();?>
+	<?php endif;?>
+  	<?php echo $this->getLayout()->createBlock('core/template')->setTemplate('page/html/back-top.phtml')->toHtml();?>
+</div>

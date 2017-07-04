@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+	<catalog_product_view>
+		<!-- <reference name="head">
+		            <action method="addJs"><script>magebuzz/packageprice/package.js</script></action>
+		        </reference>
+		        <reference name="product.info.extrahint">
+		        	<block type="packageprice/product_view_package" as="packageprice" template="packageprice/product/view/package.phtml" />
+		        </reference> -->
+    </catalog_product_view>
+</layout>

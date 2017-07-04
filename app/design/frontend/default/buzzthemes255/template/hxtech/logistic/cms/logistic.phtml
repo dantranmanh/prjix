@@ -1,0 +1,25 @@
+<?php
+$_collection = $this->getLogisticCollection();
+?>
+<?php if($_collection->getSize() > 0): ?>
+    <?php foreach($_collection as $_logistic): ?>
+        <div class="logistic-vendor">
+            <div class="logistic-logo">
+                <div class="logistic-thumb">
+                    <img class="vendor-landing-logo" src="<?php echo Mage::helper('logistic/logistic')->getLogisticLogoSrc($_logistic); ?>" alt="vendor-logo" />
+                </div>
+                <h1 class="logistic-name"><?php echo $_logistic->getUsername(); ?></h1>
+            </div>
+            <div class="logistic-info">
+                <div class="logistic-desc">
+                    <?php echo $_logistic->getDescription(); ?>
+                </div>
+                <p class="logistic-contact">
+                    <a class="btn-link" href="#">
+                        <span><?php echo $this->__('Contact Logistics Supplier'); ?></span>
+                    </a>
+                </p>
+            </div>
+        </div>
+    <?php endforeach; ?>
+<?php endif; ?>

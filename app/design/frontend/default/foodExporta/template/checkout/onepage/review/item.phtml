@@ -1,0 +1,78 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2006-2014 X.commerce, Inc. (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+$_item = $this->getItem();
+$_product = $_item->getProduct();
+$productItem = Mage::getModel('catalog/product')->load($_product->getId());
+$attr = $productItem->getResource()->getAttribute('product_type');
+$_id = $_product->getId();
+$_qty = $_item->getQty();
+?>
+<tr class="tr-item">
+
+  <td>
+    <?php echo $_product->getName().' '.Mage::helper('logistic/logistic')->getProductUnitWeightHtml($_product); ?>
+  </td>
+  <td>
+    <?php echo Mage::helper('logistic/logistic')->getProductType($_product); ?>
+  </td>
+  <td>
+    <?php echo Mage::helper('logistic')->getProductAttribute($_id, 'product_units_per_case'); ?>
+  </td>
+  <td>
+    <label class="label-status"><?php echo $this->__('Qty');?></label>
+    <?php echo $_qty ?>
+  </td>
+  <td>
+    <span class="cart-price">
+        <span class="price"><?php echo Mage::helper('core')->currency($_product->getFinalPrice(), true, false); ?></span>
+    </span>
+  </td>
+  <td>
+    <?php echo Mage::helper('logistic')->getProductAttribute($_id, 'product_case_volume');?>
+  </td>
+  <td>
+    <?php echo number_format(Mage::helper('logistic/logistic')->getTotalLineVolumeOfProduct($_product, $_qty), 4, '.', ''); ?>
+  </td>
+  <!-- <td>
+    <?php echo $_product->getProductNetWeight(); ?>
+</td> -->
+  <td>
+    <?php echo number_format($_qty * Mage::helper('logistic')->getProductAttribute($_id, 'product_net_weight'), 2, '.', ''); ?>
+  </td>
+  <td>
+    <?php echo number_format($_qty * $_product->getWeight(), 2, '.', '');?>
+  </td>
+  <td>
+    <?php echo Mage::helper('logistic/logistic')->getTotalUnits($_product, $_qty); ?>
+  </td>
+  <td>
+    <span class="cart-price">
+        <span class="price"><?php echo Mage::helper('core')->currency($_item->getRowTotalInclTax(), true, false); ?></span>
+    </span>
+  </td>
+</tr>

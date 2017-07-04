@@ -1,0 +1,98 @@
+<div class="page-title">
+	<h1><?php echo $this->__('Frequently Asked Question')?></h1>
+</div>
+<div class="faq-content">
+	<div class="box-head">
+		<div class="search-title">
+			<h2><?php echo $this->__('Search FAQ');?></h2>
+		</div>
+		<div class="faq-search">
+			<form name="faqsearch" action="<?php echo $this->getUrl('*/*/search') ?>" method="post" id="faq-search-form">
+				<ul>
+					<li>
+						<input name="keyword" id="keyword" class="input-text required-entry" type="text" maxlength="100" size="80" />
+						<button type="submit" title="<?php echo $this->__('SEARCH') ?>" class="button"><span><span><?php echo $this->__('SEARCH') ?></span></span></button>
+					</li>
+				</ul>
+			</form>
+		</div>
+	</div>
+	<div class="description">
+	<?php $isUseJavascript 	= Mage::helper('faq')->getUseJavascript();?>
+	<?php $allQuestion=$this->getAllQuestion()?>
+	<?php if(!empty($allQuestion)):?>
+		<?php $category = $this->getCategories()->getData(); ?>
+		<?php if(count($category) > 0): ?>
+			<ul>
+			<?php $i=0;foreach ($category as $obj): ?>
+				<?php $questions=$this->getFaqsData($obj['category_id']) ?>
+				<?php $questions = $questions->getData();?>
+				<?php if(count($questions)): ?>
+				<?php $i=$i+1?>
+				<li class="category_<?php echo $i;?>">
+					<h3><?php echo $obj['category_name']?></h3>
+					<div class="panel-group" id="accordion-<?php echo $i;?>" role="tablist" aria-multiselectable="true">
+						<?php $j=0; foreach ($questions as $question): ?>
+							<?php $j=$j+1?>
+						<div class="panel panel-default">
+							<?php if ($isUseJavascript): ?>
+								<div class="panel-heading" role="tab" id="heading-<?php echo $i;?>-<?php echo $j;?>">
+						      <h5 class="panel-title">
+										<a data-toggle="collapse" data-parent="#accordion-<?php echo $i;?>" href="#collapse-<?php echo $i;?>-<?php echo $j;?>" aria-expanded="fase" aria-controls="collapse-<?php echo $i;?>-<?php echo $j;?>">
+											<i class="more-less glyphicon glyphicon-plus"></i>
+											<span><?php echo $question['question'] ?></span>
+										</a>
+									</h5>
+								</div>
+								<div id="collapse-<?php echo $i;?>-<?php echo $j;?>"  class="panel-collapse collapse" role="tabpane<?php echo $i;?>-<?php echo $j;?>"  aria-expanded="false" aria-labelledby="heading-<?php echo $i;?>-<?php echo $j;?>">
+						      <div  class="panel-body">
+				                <?php
+												 $helperCMS = Mage::helper('cms');
+												 $processor = $helperCMS->getPageTemplateProcessor();
+												 $htmlDes = $processor->filter($question['answer']);
+												?>
+												<?php echo $htmlDes;?>
+									</div>
+								</div>
+							<?php else : ?>
+								<a href="<?php echo $this->getQuestionUrl(array('id' => $question['faq_id']))?>"><?php echo $question['question']; ?></a>
+								<div class="answer">
+								</div>
+							<?php endif ?>
+						</div>
+						<?php endforeach ?>
+					</div>
+					<?php $_categroyId = $obj['category_id'];?>
+					<?php if (!$isUseJavascript): ?>
+						<div class="faq-view-more">
+							<a href="<?php echo $this->getCategoryUrl(array('cid' => $_categroyId))?>"><?php echo $this->__('View more...')?></a>
+						</div>
+					<?php endif ?>
+				<?php endif ?>
+				</li>
+			<?php endforeach ?>
+			</ul>
+		<?php else: ?>
+			<?php echo $this->__('There are no FAQs matching the selection.') ?>
+		<?php endif?>
+	<?php else: ?>
+		<p class="note-msg"><?php echo $this->__('There are no FAQs matching the selection.') ?></p>
+	<?php endif ?>
+	</div>
+</div>
+<?php if ($isUseJavascript): ?>
+<script type="text/javascript">
+function toggleIcon(e) {
+        jQuery(e.target)
+            .prev('.panel-heading')
+            .find(".more-less")
+            .toggleClass('glyphicon-plus glyphicon-minus');
+    }
+    jQuery('.panel-group').on('hidden.bs.collapse', toggleIcon);
+    jQuery('.panel-group').on('shown.bs.collapse', toggleIcon);
+
+	//<![CDATA[
+		var dataForm = new VarienForm('faq-search-form', true);
+	//]]>
+</script>
+<?php endif;?>

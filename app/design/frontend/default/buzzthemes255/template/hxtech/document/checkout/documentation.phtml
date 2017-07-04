@@ -1,0 +1,42 @@
+<?php
+$_collection = $this->getCollection();
+$documentation = Mage::getSingleton('checkout/session')->getDocumentation();
+$documentationId = $documentation ? $documentation->getId() : 0;
+?>
+<table class="data-table shipping-rate-table" id="shipping-rate-table">
+    <thead>
+        <tr>
+            <th colspan="30"><h3><?php echo $this->__('Export Documentation'); ?></h3></th>
+        </tr>
+    </thead>
+    <thead>
+        <tr>
+            <th><?php echo $this->__('Document Supplier'); ?></th>
+            <th><?php echo $this->__('Document Type(s)'); ?></th>
+            <th><?php echo $this->__('Price'); ?></th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <tr>
+                <td><?php echo $this->__('Self Sourced'); ?></td>
+                <td><?php echo $this->__('Self Sourced'); ?></td>
+                <td><?php echo Mage::helper('core')->currency(0, true, false); ?></td>
+                <td><input type="radio" name="documentation_requirement" onclick="shippingMethod.selectDocumentation('0', '<?php echo Mage::getUrl('document/documentation/setDocumentation') ?>')" <?php if(!$documentation): ?> checked="checked" <?php endif; ?>/></td>
+            </tr>
+        </tr>
+        <?php $size = $_collection->getSize(); ?>
+        <?php if($size > 0): ?>
+            <?php foreach($_collection->getData() as $_item): ?>
+                <?php $checked = ($documentationId == $_item['id']) ? 'checked = "checked"' : ''; ?>
+                <tr>
+                    <td><?php echo Mage::helper('document/documentation')->getSupplierLogoOfDocumentation($_item['id']); ?></td>
+                    <td><?php echo Mage::helper('document/documentation')->getDocumentTypeHtml($_item['id']); ?></td>
+                    <td><?php echo Mage::helper('core')->currency($_item['price'], true, false); ?></td>
+                    <td><input type="radio" name="documentation_requirement" onclick="shippingMethod.selectDocumentation('<?php echo $_item["id"]; ?>', '<?php echo Mage::getUrl('document/documentation/setDocumentation') ?>')" <?php echo $checked; ?> ></td>
+                </tr>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </tbody>
+</table>

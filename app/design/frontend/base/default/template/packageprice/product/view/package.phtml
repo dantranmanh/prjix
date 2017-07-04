@@ -1,0 +1,5 @@
+<!-- Change price package -->
+<script type="text/javascript">
+    var config = <?php echo $this->getPackageJsonConfig() ?>;
+    Product.PackagePrice.spConfig = new Product.PackagePrice(config);
+</script>

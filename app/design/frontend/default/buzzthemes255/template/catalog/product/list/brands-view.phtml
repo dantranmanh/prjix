@@ -1,0 +1,73 @@
+<?php
+/**
+ * Magebuzz 2015
+ */
+?>
+<?php
+$_helper = $this->helper('catalog/output');
+$_product = $this->getProduct();
+$productId = $_product->getId();
+$storeId =  Mage::app()->getStore()->getStoreId();
+$attribute_option_id = Mage::getResourceModel('catalog/product')->getAttributeRawValue($productId, 'brands', $storeId);
+$brandCollection = Mage::getResourceModel('catalog/product_collection')->addAttributeToSelect('*')->addAttributeToFilter('brands',$attribute_option_id)->addFieldToFilter('status', array('neq' => Mage_Catalog_Model_Product_Status::STATUS_DISABLED));
+
+$brandCollection->addFieldToFilter('entity_id',array('nin'=>$productId));
+$quote = Mage::getSingleton('checkout/session')->getQuote();
+$baseUrl = Mage::getBaseUrl();
+?>
+<?php if($brandCollection->count()): ?>
+    <div class="block block-brands">
+        <h2><?php echo $this->__("Same Brand") ?></h2>
+        <div class="block-content">
+            <script type="text/javascript">
+                jQuery(document).ready(function(){
+                    jQuery('#same-brands').bxSlider({
+                      minSlides: 1,
+                      maxSlides: 4,
+                      slideWidth: 260,
+                      slideMargin: 30,
+                      pager: false,
+                      nextText:'<i class="fa fa-chevron-right" aria-hidden="true"></i>',
+                      prevText:'<i class="fa fa-chevron-left" aria-hidden="true"></i>'
+                    });
+                });
+            </script>
+            <ul class="products-grid" id="same-brands">
+                <?php $_columnCount = 10;?>
+                <?php $i=0; foreach($brandCollection as $brand): ?>
+                    <?php $i++; if($i > 10) break;?>
+                    <li class="item <?php if(($i-1)==0): ?>first<?php elseif($i==$brandCollection->count()): ?> last<?php endif; ?>">
+                        <div class="item-content">
+                            <a href="<?php echo $brand->getProductUrl() ?>" title="<?php echo $this->escapeHtml($brand->getName()) ?>" class="product-image">
+                                <img src="<?php echo $this->helper('catalog/image')->init($brand, 'thumbnail')->resize(135) ?>" width="135" height="135" alt="<?php echo $this->escapeHtml($brand->getName()) ?>" />
+                            </a>
+                            <div class="product-details">
+                                <h2 class="product-name"><a href="<?php echo $brand->getProductUrl() ?>"><?php echo $this->escapeHtml($brand->getName())." ".Mage::helper('logistic/logistic')->getProductUnitWeightHtml($_product); ?></a></h2>
+                                
+                                <!-- Show Product_Type case or pallet -->
+                                <div class="product-type">
+                                    <?php echo Mage::helper('logistic/logistic')->getProductUnitLabel($brand); ?>
+                                    <!-- <?php echo Mage::helper('logistic/logistic')->getProductTypeLabel($brand); ?> -->
+                                </div>
+
+                                <?php echo $this->getPriceHtml($brand, true) ?>
+                                <div class="actions">
+                                    <?php if($brand->isSaleable()): ?>
+                                        <?php $stocklevel = (int)Mage::getModel('cataloginventory/stock_item')->loadByProduct($brand)->getQty();?>
+                                        <?php $manageStock = Mage::getModel('cataloginventory/stock_item')->loadByProduct($brand)->getManageStock();?>
+                                        <input  oninput="maxLengthCheck(this)" type="number" min="0" max="9999" class="input-text input-cart product-qty-<?php echo $brand->getId(); ?>" value="1" />
+                                        <button data-product-id="<?php echo $brand->getId(); ?>" class="button btn-cart add-cart-button" type="button" onclick="setLocation('<?php echo $this->getAddToCartUrl($brand) ?>')">
+                                            <span class="text"><?php echo $this->__('Add to Cart') ?></span>
+                                        </button>
+                                    <?php else: ?>
+                                        <p class="availability out-of-stock"><button title="<?php echo $this->__('Notify me');?>" product_id="<?php echo $brand->getId() ?>" class="button btn-outstock"><span><span><?php echo $this->__('Notify me');?></span></span></button></p>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                <?php endforeach ?>
+            </ul>
+        </div>
+    </div>
+<?php endif; ?>

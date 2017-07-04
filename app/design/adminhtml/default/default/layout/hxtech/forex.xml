@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <forex_adminhtml_financier_index>
+        <reference name="content">
+            <block type="forex/adminhtml_financier" name="financier"/>
+        </reference>
+    </forex_adminhtml_financier_index>
+</layout>

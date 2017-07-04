@@ -1,0 +1,80 @@
+<?php
+/**
+ * Magebuzz 2015
+ */
+?>
+<?php
+$_item = $this->getItem();
+$_product = $_item->getProduct();
+$_productId = $_product->getId();
+$isVisibleProduct = $_item->getProduct()->isVisibleInSiteVisibility();
+$canApplyMsrp = Mage::helper('catalog')->canApplyMsrp($_item->getProduct(), Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_BEFORE_ORDER_CONFIRM);
+$qty = $this->getQty();
+$price = $_product->getPrice();
+$specialPrice = $_product->getSpecialPrice();
+$totalPrice = $qty * $price;
+if($specialPrice){
+  $totalPrice = $qty * $specialPrice;
+}
+?>
+<li class="item" data-product-id="<?php echo $_productId;?>">
+  <div class="item-left">
+    <div class="item-image">
+      <?php if ($this->hasProductUrl()): ?>
+        <a href="<?php echo $this->getProductUrl()?>" title="<?php echo $this->escapeHtml($this->getProductName()) ?>" class="product-image"><img src="<?php echo $this->getProductThumbnail()->resize(75, 75); ?>" alt="<?php echo $this->escapeHtml($this->getProductName()) ?>" /></a>
+      <?php else: ?>
+        <span class="product-image"><img src="<?php echo $this->getProductThumbnail()->resize(75, 75); ?>" alt="<?php echo $this->escapeHtml($this->getProductName()) ?>" /></span>
+      <?php endif; ?>
+    </div>
+    <div class="product-details">
+      <div class="product-info">
+        <p class="product-name">
+          <a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->escapeHtml($this->getProductName()) ?>&nbsp;<span><?php echo Mage::helper('logistic/logistic')->getProductUnitWeightHtml($_product); ?></span></a>
+        </p>
+      </div>
+      <?php if ($_options = $this->getOptionList()):?>
+      <div class="truncated">
+        <div class="truncated_full_value">
+          <dl class="item-options">
+            <?php foreach ($_options as $_option) : ?>
+            <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
+            <dd>
+              <?php if (is_array($_option['value'])): ?>
+                <?php echo nl2br(implode("\n", $_option['value'])) ?>
+              <?php else: ?>
+                <?php echo $_option['value'] ?>
+              <?php endif; ?>
+            </dd>
+            <?php endforeach; ?>
+          </dl>
+        </div>
+        <a href="#" onclick="return false;" class="details"><?php echo $this->__('Details') ?></a>
+      </div>
+      <?php endif; ?>
+    </div>
+  </div>
+  <div class="item-right">
+    <div class="item-qty">
+      <!-- <a class="qty-inc" item_id="<?php echo $_item->getId() ?>" title="<?php echo $this->__('Increased product');?>" href="javascript:void(0);" data-product-id="<?php echo $_productId;?>"></a>
+      <input disabled="disabled" item_id="<?php echo $_item->getId() ?>" class="qty cart-qty" name="" value="<?php echo $this->getQty()?>"/>
+      <a class="qty-des" item_id="<?php echo $_item->getId() ?>" title="<?php echo $this->__('Reduced product');?>" href="javascript:void(0);" data-product-id="<?php echo $_productId;?>"></a> -->
+      <input
+      id="qinput-<?php echo $_item->getId(); ?>"
+      data-link="<?php echo $this->getAjaxUpdateUrl() ?>"
+      data-item-id="<?php echo $_item->getId(); ?>"
+      data-cart-item-id="<?php echo $_item->getSku(); ?>"
+      class="qty cart-item-quantity input-text" name=""
+      value="<?php echo $this->getQty()?>"
+      <?php if ($this->isOnCheckoutPage()) echo 'disabled'; ?>
+      />
+    </div>
+    <div class="total-price">
+       <div class="item-subtotal-<?php echo $_item->getId() ?>">
+        <span class="price"><?php echo Mage::helper('core')->currency($_item->getRowTotalInclTax(),true,false); ?></span>
+      </div>
+    </div>
+    <div class="actions">
+      <div onclick="deleteItemAction(this)" class="btn-remove-minicart-item" item_id="<?php echo $_item->getId() ?>" title="<?php echo $this->__('Remove This Item') ?>" data-product-id="<?php echo $_productId;?>"><span><?php echo $this->__('Remove This Item') ?></span></div>
+    </div>
+  </div>
+</li>

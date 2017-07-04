@@ -1,0 +1,62 @@
+<?php
+/**
+ * Magebuzz 2015
+ */
+?>
+<?php
+$_quote = $this->getQuote();
+$subTotal_value = $_quote->getSubtotal();
+$subTotal = Mage::helper('core')->currency($subTotal_value, true, false);
+$_items = $this->getItems();
+$_cartQty = (int) $_quote->getItemsQty();
+?>
+<?php if ($_cartQty>0): ?>
+<a title="<?php echo $subTotal;?>" href="<?php echo $this->getUrl('checkout/cart');?>">
+  <div id="top-cart-subtotal">
+    <?php echo $subTotal; ?>
+  </div>
+</a>
+<div class="box-none">
+  <div class="box-none-content box-cart">
+    <div class="cart-top">
+      <div class="cart-qty-top"><?php echo $this->__('You have %s item(s) in your cart',$_cartQty);?></div>
+      <a class="is-items" title="<?php echo $this->__('CHECKOUT NOW');?>" href="<?php echo $this->getCheckoutUrl();?>"><?php echo $this->__('CHECKOUT NOW');?></a>
+    </div>
+    <div class="cart-items">
+      <ol id="cart-sidebar" class="mini-products-list">
+      <?php foreach($_items as $_item): ?>
+          <?php echo $this->getItemHtml($_item) ?>
+      <?php endforeach; ?>
+      </ol>
+      <script type="text/javascript">decorateList('cart-sidebar', 'none-recursive')</script>
+    </div>
+    <div class="cart-total">
+      <span class="text"><?php echo $this->__('Subtotal:');?></span>
+      <span class="price"><?php echo $subTotal; ?></span>
+    </div>
+    <div class="cart-footer">
+      <a class="is-items" title="<?php echo $this->__('CHECKOUT NOW');?>" href="<?php echo $this->getCheckoutUrl();?>"><?php echo $this->__('CHECKOUT NOW');?></a>
+      <!-- <a href="#" title="<?php echo $this->__('Reserve a delivery slot >');?>"><?php echo $this->__('Reserve a delivery slot >');?></a> -->
+    </div>
+  </div>
+</div>
+<?php else:?>
+<a title="<?php echo $this->__('Your Cart');?>" href="javascript:void(0);"><?php echo $this->__('Your Cart');?></a>
+<div class="box-none">
+  <div class="box-none-content box-cart">
+    <div class="cart-top">
+      <?php echo $this->__('You have 0 item(s) in your cart');?>
+      <a class="no-items" title="<?php echo $this->__('CHECKOUT NOW');?>" href="javascript:void(0);"><?php echo $this->__('CHECKOUT NOW');?></a>
+    </div>
+    <div class="cart-total">
+      <span class="text"><?php echo $this->__('Subtotal:');?></span>
+      <span class="price"><?php echo $this->__('0'); ?></span>
+    </div>
+    <div class="cart-footer">
+      <a class="is-items" title="<?php echo $this->__('CHECKOUT NOW');?>" href="<?php echo $this->getCheckoutUrl();?>"><?php echo $this->__('CHECKOUT NOW');?></a>
+      <!-- <a href="#" title="<?php echo $this->__('Reserve a delivery slot >');?>"><?php echo $this->__('Reserve a delivery slot >');?></a> -->
+    </div>
+  </div>
+</div>
+<?php endif;?>
+

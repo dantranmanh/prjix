@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <document_adminhtml_supplier_index>
+        <reference name="content">
+            <block type="document/adminhtml_supplier" name="supplier"/>
+        </reference>
+    </document_adminhtml_supplier_index>
+
+    <document_adminhtml_documentation_index>
+        <reference name="content">
+            <block type="document/adminhtml_documentation" name="documentation"/>
+        </reference>
+    </document_adminhtml_documentation_index>
+
+    <document_adminhtml_documentation_documenttab>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="document/adminhtml_documentation_edit_tab_document" name="documentation.edit.tab.document"/>
+            <block type="adminhtml/widget_grid_serializer" name="adocument_grid_serializer">
+                <reference name="adocument_grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>documentation.edit.tab.document</grid_block_name>
+                        <data_callback>getSelectedDocumentSupplier</data_callback>
+                        <hidden_input_name>links[document]</hidden_input_name>
+                        <reload_param_name>odocument</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>position</input_name>
+                    </action>
+                </reference>
+            </block>
+        </block>
+    </document_adminhtml_documentation_documenttab>
+
+    <document_adminhtml_supplier_ordertab>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="document/adminhtml_supplier_edit_tab_order" name="document.edit.tab.order"/>
+            <block type="adminhtml/widget_grid_serializer" name="dorder_grid_serializer">
+                <reference name="dorder_grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>document.edit.tab.order</grid_block_name>
+                        <data_callback>getSelectedOrder</data_callback>
+                        <reload_param_name>oorder</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>position</input_name>
+                    </action>
+                </reference>
+            </block>
+        </block>
+    </document_adminhtml_supplier_ordertab>
+</layout>

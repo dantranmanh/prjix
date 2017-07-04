@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<config>
+	<menu>
+		<logistic module="logistic">
+			<title>Freight Forwarder</title>
+			<sort_order>71</sort_order>
+			<children>
+				<logistic translate="title" module="logistic">
+					<title>Logistic Provider</title>
+					<sort_order>900</sort_order>
+					<action>logistic/adminhtml_logistic</action>
+				</logistic>
+				<shipping_rate translate="title" module="logistic">
+					<title>Shipping Rate</title>
+					<sort_order>900</sort_order>
+					<action>logistic/adminhtml_shippingrate</action>
+				</shipping_rate>
+				<import_shippingrate translate="title" module="logistic">
+					<title>Import Shipping Rate</title>
+					<sort_order>901</sort_order>
+					<action>logistic/adminhtml_import</action>
+				</import_shippingrate>
+				<review translate="title" module="logistic">
+					<title>Review</title>
+					<sort_order>901</sort_order>
+					<action>logistic/adminhtml_review</action>
+				</review>
+				<port translate="title" module="logistic">
+					<title>Port Management</title>
+					<sort_order>902</sort_order>
+					<action>logistic/adminhtml_port</action>
+				</port>
+				<import_port translate="title" module="logistic">
+					<title>Import Port</title>
+					<sort_order>901</sort_order>
+					<action>logistic/adminhtml_import/port</action>
+				</import_port>
+				<pallet translate="title" module="logistic">
+					<title>Pallet</title>
+					<sort_order>901</sort_order>
+					<action>logistic/adminhtml_pallet</action>
+				</pallet>
+			</children>
+		</logistic>
+	</menu>
+	<acl>
+		<resources>
+			<all>
+				<title>Allow Everything</title>
+			</all>
+			<admin>
+				<children>
+					<system>
+						<children>
+							<config>
+								<children>
+									<logistic>
+										<title>Logistic Settings Permission</title>
+									</logistic>
+								</children>
+							</config>
+						</children>
+					</system>
+					<logistic>
+						<title>Logistic</title>
+						<sort_order>71</sort_order>
+						<children>
+							<logistic module="logistic">
+								<title>Logistic Provider</title>
+							</logistic>
+							<shipping_rate module="logistic">
+								<title>Shipping Rate</title>
+							</shipping_rate>
+							<import_shippingrate module="logistic">
+								<title>Import Shipping Rate</title>
+							</import_shippingrate>
+							<review module="logistic">
+								<title>Review</title>
+							</review>
+							<port module="logistic">
+								<title>Port Management</title>
+							</port>
+							<pallet module="logistic">
+								<title>Pallet Management</title>
+							</pallet>
+						</children>
+					</logistic>
+				</children>
+			</admin>
+		</resources>
+	</acl>
+</config>

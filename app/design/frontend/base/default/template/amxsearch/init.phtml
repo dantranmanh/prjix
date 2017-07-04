@@ -1,0 +1,22 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2017 Amasty (https://www.amasty.com)
+ * @package Amasty_Xsearch
+ */
+$searchUrl = Mage::getUrl('amxsearchfront/ajax/index', array('_secure'=> Mage::app()->getStore()->isCurrentlySecure()));
+
+$delay = 500;
+if ((string)Mage::getConfig()->getNode('modules/Amasty_Fpc/active') == 'true' &&
+    Mage::app()->useCache('amfpc')) {
+}
+?>
+<script type="text/javascript">
+    $('search').stopObserving();
+
+    var xsearchObj = new Xsearch({
+        url: '<?php echo $searchUrl;?>',
+        minChars: '<?php echo Mage::getStoreConfig('amxsearch/autocomplete/min_chars');?>',
+        delay: <?php echo $delay;?>
+    });
+</script>

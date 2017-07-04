@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+        <reference name="notifications">
+            <block type="logistic/adminhtml_notification" name="notification_terms_conditions" as="notification_terms_conditions" template="logistic/termpopup.phtml" />
+        </reference>
+    </default>
+    <logistic_adminhtml_logistic_index>
+        <reference name="content">
+            <block type="logistic/adminhtml_logistic" name="logistic"/>
+        </reference>
+    </logistic_adminhtml_logistic_index>
+
+    <logistic_adminhtml_shippingrate_index>
+        <reference name="content">
+            <block type="logistic/adminhtml_shippingrate" name="shippingrate"/>
+        </reference>
+    </logistic_adminhtml_shippingrate_index>
+    
+    <logistic_adminhtml_import_index>
+        <reference name="content">
+            <block type="logistic/adminhtml_import" name="import"/>
+        </reference>
+    </logistic_adminhtml_import_index>
+
+    <logistic_adminhtml_review_index>
+        <reference name="content">
+            <block type="logistic/adminhtml_review" name="review"/>
+        </reference>
+    </logistic_adminhtml_review_index>
+
+    <logistic_adminhtml_port_index>
+        <reference name="content">
+            <block type="logistic/adminhtml_port" name="port"/>
+        </reference>
+    </logistic_adminhtml_port_index>
+
+    <logistic_adminhtml_import_port>
+        <reference name="content">
+            <block type="logistic/adminhtml_import_port" name="import_port"/>
+        </reference>
+    </logistic_adminhtml_import_port>
+
+    <logistic_adminhtml_pallet_index>
+        <reference name="content">
+            <block type="logistic/adminhtml_pallet" name="pallet"/>
+        </reference>
+    </logistic_adminhtml_pallet_index>
+
+    <logistic_adminhtml_shippingrate_logistictab>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="logistic/adminhtml_shippingrate_edit_tab_logistic" name="shippingrate.edit.tab.logistic"/>
+            <block type="adminhtml/widget_grid_serializer" name="alogistic_grid_serializer">
+                <reference name="alogistic_grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>shippingrate.edit.tab.logistic</grid_block_name>
+                        <data_callback>getSelectedLogistic</data_callback>
+                        <hidden_input_name>links[logistic]</hidden_input_name>
+                        <reload_param_name>ologistic</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>position</input_name>
+                    </action>
+                </reference>
+            </block>
+        </block>
+    </logistic_adminhtml_shippingrate_logistictab>
+
+    <logistic_adminhtml_logistic_ordertab>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="logistic/adminhtml_logistic_edit_tab_order" name="logistic.edit.tab.order"/>
+            <block type="adminhtml/widget_grid_serializer" name="aorder_grid_serializer">
+                <reference name="aorder_grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>logistic.edit.tab.order</grid_block_name>
+                        <data_callback>getSelectedOrder</data_callback>
+                        <reload_param_name>oorder</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>position</input_name>
+                    </action>
+                </reference>
+            </block>
+        </block>
+    </logistic_adminhtml_logistic_ordertab>
+
+    <logistic_adminhtml_importer_ordertab>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="logistic/adminhtml_customer_edit_tab_order" name="importer.edit.tab.order"/>
+            <block type="adminhtml/widget_grid_serializer" name="aorder_grid_serializer">
+                <reference name="aorder_grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>importer.edit.tab.order</grid_block_name>
+                        <data_callback>getSelectedOrder</data_callback>
+                        <reload_param_name>oorder</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>position</input_name>
+                    </action>
+                </reference>
+            </block>
+        </block>
+    </logistic_adminhtml_importer_ordertab>
+</layout>

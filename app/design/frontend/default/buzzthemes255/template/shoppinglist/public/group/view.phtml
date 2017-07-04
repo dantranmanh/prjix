@@ -1,0 +1,183 @@
+<?php $group_id = $this->getRequest()->getParam('id'); ?>
+<?php $group = Mage::getModel('shoppinglist/group')->load($group_id); ?>
+<?php $items = $group->getItems(); ?>
+
+<!-- facebook -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<!-- twitter -->
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+</script>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/platform.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+
+<div class="my-shoppinglist">
+  <div id="messages_shoppinglist"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+  <div class="customer-group-view">
+    <form id="shoppinglist-group-view">
+    <h2><?php echo $this->__('Group "%s"', $group->getListName()) ?></h2>
+      <?php if (count($items) > 0): ?>
+        <table class="data-table" style="border: 0px; margin: 10px">
+          <tr>
+            <th>
+              <?php echo $this->__('Sharing'); ?>
+            </th>
+            <!-- facebook -->
+            <td class="td-facebook">
+              <div class="fb-share-button" data-href="<?php echo Mage::getUrl('shoppinglist/group/publicView', array('id' => $group_id)) ?>" data-type="button_count"></div>
+            </td>
+            <!-- twitter -->
+            <td>
+              <a class="twitter-share-button" data-url="<?php echo Mage::getUrl('shoppinglist/group/publicView', array('id' => $group_id)) ?>"></a>
+            </td>
+            <!-- Google+ -->
+            <td>
+              <div class="g-plusone" data-href="<?php echo Mage::getUrl('shoppinglist/group/publicView', array('id' => $group_id)) ?>" data-size="medium"></div>
+            </td>
+            <td>
+              <button class="button btn-add" id="send-mail-to-friends" onclick="showPoppupSendmail();"
+                      style="float: left;" title="<?php echo $this->__('Send Email') ?>" type="button">
+                <span><span><?php echo $this->__('Send Email') ?></span></span></button>
+              <a id="send-mail-to-friends"
+                 href="<?php echo $this->getUrl('shoppinglist/group/sendmail', array("_secure" => TRUE, 'group_id' => $group_id)); ?>"
+                 style="float: left;" class="send-mail-to-friends"></a>
+            </td>
+          </tr>
+        </table>
+      <?php endif; ?>
+      <?php if (count($items) > 0): ?>
+        <table class="data-table" id="customer-group-table">
+          <colgroup>
+            <col width="1"/>
+            <col/>
+            <col width="1"/>
+            <col width="1"/>
+            <col width="1"/>
+            <col/>
+            <col width="1"/>
+            <col/>
+          </colgroup>
+          <thead>
+          <tr>
+            <th class="a-center"><span class="nobr"><?php echo $this->__('Product Image') ?></span></th>
+            <th class="a-left"><span class="nobr"><?php echo $this->__('Description') ?></span></th>
+            <th class="a-center"><span class="nobr"><?php echo $this->__('Qty') ?></span></th>
+            <th class="a-center"><span class="nobr"><?php echo $this->__('Price') ?></span></th>
+            <th class="a-center"><span class="nobr"><?php echo $this->__('Add to Cart') ?></span></th>
+            <th class="a-center"><span class="nobr"></span><input type="checkbox" name="selectallproduct"
+                                                                  id="selectallproduct"
+                                                                  onClick="selectAllProduct(this)"/></th>
+          </tr>
+          </thead>
+          <tbody>
+          <?php foreach ($items as $_item): ?>
+            <?php
+            $product_id = $_item->getProductId();
+            $product = Mage::getModel('catalog/product')->load($product_id);
+            $isVisibleProduct = $product->isVisibleInSiteVisibility();
+            ?>
+            <tr>
+              <td class="a-center"><span><a href="<?php echo $product->getProductUrl() ?>"
+                                            title="<?php echo $this->htmlEscape($product->getName()) ?>"
+                                            class="product-image"><img
+                      src="<?php echo Mage::helper('catalog/image')->init($product, 'small_image')->resize(75, 75); ?>"
+                      width="75" height="75" alt="<?php echo $this->escapeHtml($product->getName()) ?>"/></a></span>
+              </td>
+              <td class="a-left">
+                <h3 class="product-name"><a href="<?php echo $product->getProductUrl() ?>"
+                                            title="<?php echo $this->htmlEscape($product->getName()) ?>"><?php echo $this->htmlEscape($product->getName()) ?></a>
+                </h3>
+                <!-- PRINT OPTIONS OF PRODUCT HERE -->
+                <?php echo $_item->getOptionsHtml() ?>
+              </td>
+              <td class="a-center">
+                <?php echo $_item->getQty() * 1 ?>
+              </td>
+              <td class="a-left">
+                <?php echo Mage::helper('core')->currency($_item->getPrice()); ?>
+              </td>
+              <td class="a-center">
+                <?php if ($product->isSaleable()): ?>
+                  <?php if ($isVisibleProduct): ?>
+                    <button type="button" title="<?php echo $this->__('Add to Cart') ?>"
+                            onclick="setLocation('<?php echo $this->getUrl('*/*/cart', array('items' => $_item->getId(), 'groupId' => $group_id)) ?>')"
+                            class="button"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                  <?php endif; ?>
+                <?php else: ?>
+                  <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                <?php endif; ?>
+              </td>
+              <td class="a-center"><input type="checkbox" name="selectproduct" id="selectproduct"
+                                          value="<?php echo $_item->getItemId(); ?>"/></td>
+            </tr>
+          <?php endforeach; ?>
+          </tbody>
+        </table>
+        <div class="buttons-set buttons-set2">
+          <button type="button" title="<?php echo $this->__('Add Selected Product to Cart') ?>"
+                  onclick="if(getListProduct()==false){alert('Please select product want ADD TO CART')}else(setLocation('<?php echo $this->getUrl('*/*/cart'); ?>'+'?items='+getListProduct()+'&groupId='+<?php echo $group_id; ?>))"
+                  class="button btn-add" id="addselecttocart">
+            <span><span><?php echo $this->__('Add Product Select To Cart') ?></span></span>
+          </button>
+          <button type="button" title="<?php echo $this->__('Add All to Cart') ?>" style="float: left;"
+                  onclick="setLocation('<?php echo $this->getUrl('*/*/cart', array('items' => 'all', 'groupId' => $group_id)) ?>')"
+                  class="button btn-add"><span><span><?php echo $this->__('Add All to Cart') ?></span></span>
+          </button>
+        </div>
+      <?php else: ?>
+        <input name="group_id" id="group_id" type="hidden" value="<?php echo $group_id ?>">
+        <p class="note-msg"><?php echo $this->__('There are no items in this group.') ?></p>
+        <button type="submit" title="<?php echo $this->__('Update Group Title') ?>" onclick="" class="button btn-update"
+                style="float: left;"><span><span><?php echo $this->__('Update Group Title') ?></span></span></button>
+      <?php endif; ?>
+    </form>
+  </div>
+</div>
+  <script type="text/javascript">
+
+    function selectAllProduct(source) {
+      checkboxes = document.getElementsByName('selectproduct');
+      for (var i = 0, n = checkboxes.length; i < n; i++) {
+        checkboxes[i].checked = source.checked;
+      }
+    }
+
+    function getListProduct() {
+      var listitem = new Array();
+      checkboxes = document.getElementsByName('selectproduct');
+      for (var i = 0, n = checkboxes.length; i < n; i++) {
+        if (checkboxes[i].checked == true) {
+          listitem[i] = checkboxes[i].value;
+        }
+      }
+      if (listitem.length > 0) {
+        return listitem;
+      } else {
+        return false;
+      }
+    }
+
+    function showPoppupSendmail() {
+      jQ.colorbox({
+        href: "<?php echo $this->getUrl('shoppinglist/group/sendmail',array("_secure"=>TRUE,'group_id'=>$group_id));?>",
+        scrolling: false
+      });
+    }
+
+//    decorateTable('customer-group-table','non-recursive')
+
+  </script>

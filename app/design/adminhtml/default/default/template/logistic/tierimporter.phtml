@@ -1,0 +1,131 @@
+<?php $_htmlId      = $this->getElement()->getHtmlId() ?>
+<?php $_htmlClass   = $this->getElement()->getClass() ?>
+<?php $_htmlName    = $this->getElement()->getName() ?>
+<?php $_readonly    = $this->getElement()->getReadonly() ?>
+<?php $_priceValueValidation = $this->getPriceValidation('validate-greater-than-zero'); ?>
+
+<tr>
+    <td class="label"><?php echo $this->getElement()->getLabel() ?></td>
+    <td colspan="10" class="grid tier">
+    <table cellspacing="0" class="data border" id="tiers_table">
+        <col width="120" />
+        <col width="95" />
+        <col />
+        <col width="1" />
+        <thead>
+            <tr class="headings">
+                <th><?php echo Mage::helper('logistic')->__('Customer Group') ?></th>
+                <th colspan="2"><?php echo Mage::helper('logistic')->__('Total Order Value') ?></th>
+                <th><?php echo Mage::helper('logistic')->__('Fixed Fee') ?></th>
+                <th><?php echo Mage::helper('logistic')->__('%') ?></th>
+                <th class="last"><?php echo Mage::helper('catalog')->__('Action') ?></th>
+            </tr>
+        </thead>
+        <tbody id="<?php echo $_htmlId ?>_container"></tbody>
+        <tfoot>
+            <tr>
+                <td colspan="6" class="a-right"><?php echo $this->getAddButtonHtml() ?></td>
+            </tr>
+        </tfoot>
+    </table>
+
+<script type="text/javascript">
+//<![CDATA[
+var tierPriceRowTemplate = '<tr>'
+	+ '<td style="display: none;"><input type="hidden" name="<?php echo $_htmlName ?>[{{index}}][id]" value="{{id}}" id="tier_price_row_{{index}}_id" /></td>'
+    + '<td><select class="<?php echo $_htmlClass ?> custgroup required-entry" name="<?php echo $_htmlName ?>[{{index}}][cust_group]" id="tier_price_row_{{index}}_cust_group">'
+    <?php foreach ($this->getCustomerGroups() as $_groupId=>$_groupName): ?>
+    + '<option value="<?php echo $_groupId ?>"><?php echo $this->jsQuoteEscape($this->escapeHtml($_groupName)) ?></option>'
+    <?php endforeach ?>
+    + '</select></td>'
+    + '<td colspan="2" class="nobr"><input class="<?php echo $_htmlClass ?> price_min required-entry validate-greater-than-zero" type="text" name="<?php echo $_htmlName ?>[{{index}}][price_min]" value="{{price_min}}" id="tier_price_row_{{index}}_min" /><small class="nobr"><?php echo Mage::helper('core')->jsQuoteEscape(Mage::helper('catalog')->__('<>')) ?></small>'
+    + '<input class="<?php echo $_htmlClass ?> price_max required-entry validate-greater-than-zero" type="text" name="<?php echo $_htmlName ?>[{{index}}][price_max]" value="{{price_max}}" id="tier_price_row_{{index}}_max" /></td>'
+    + '<td><input style="width: 85%;" class="<?php echo $_htmlClass ?>" type="text" name="<?php echo $_htmlName ?>[{{index}}][fixed_fee]" value="{{fixed_fee}}" id="tier_price_row_{{index}}_fixed_fee" /></td>'
+    + '<td><input style="width: 85%;" class="<?php echo $_htmlClass ?>" type="text" name="<?php echo $_htmlName ?>[{{index}}][percentage]" value="{{percentage}}" id="tier_price_row_{{index}}_percentage" /></td>'
+    + '<td class="last"><input type="hidden" name="<?php echo $_htmlName ?>[{{index}}][delete]" class="delete" value="" id="tier_price_row_{{index}}_delete" />'
+    + '<button title="<?php echo Mage::helper('core')->jsQuoteEscape(Mage::helper('catalog')->__("Delete Tier")) ?>" type="button" class="scalable delete icon-btn delete-product-option" id="tier_price_row_{{index}}_delete_button" onclick="return tierPriceControl.deleteItem(event);">'
+    + '<span><span><span><?php echo Mage::helper('core')->jsQuoteEscape(Mage::helper('catalog')->__("Delete")) ?></span></span></span></button></td>'
+    + '</tr>';
+
+var tierPriceControl = {
+    template: new Template(tierPriceRowTemplate, new RegExp('(^|.|\\r|\\n)({{\\s*(\\w+)\\s*}})', "")),
+    itemsCount: 0,
+    addItem : function () {
+        <?php if ($_readonly): ?>
+        if (arguments.length < 6) {
+            return;
+        }
+        <?php endif; ?>
+        var data = {
+        	id: '',
+            group: '<?php echo $this->getDefaultCustomerGroup() ?>',
+            price_min: '',
+            price_max: '',
+            fixed_fee: '',
+            percentage: '',
+            readOnly: false,
+            index: this.itemsCount++
+        };
+
+        if(arguments.length >= 6) {
+        	data.id = arguments[0];
+            data.group = arguments[1];
+            data.price_min = arguments[2];
+            data.price_max = arguments[3];
+            data.fixed_fee = arguments[4];
+            data.percentage = arguments[5];
+        }
+        if (arguments.length == 7) {
+            data.readOnly = arguments[6];
+        }
+
+        Element.insert($('<?php echo $_htmlId ?>_container'), {
+            bottom : this.template.evaluate(data)
+        });
+
+        $('tier_price_row_' + data.index + '_cust_group').value = data.group;
+
+        if (data.readOnly == '1') {
+            ['cust_group', 'min', 'max', 'price', 'delete'].each(function(idx){
+                $('tier_price_row_'+data.index+'_'+idx).disabled = true;
+            });
+            $('tier_price_row_'+data.index+'_delete_button').hide();
+        }
+
+        <?php if ($_readonly): ?>
+        $('<?php echo $_htmlId ?>_container').select('input', 'select').each(this.disableElement);
+        $('<?php echo $_htmlId ?>_container').up('table').select('button').each(this.disableElement);
+        <?php else: ?>
+        $('<?php echo $_htmlId ?>_container').select('input', 'select').each(function(el){ Event.observe(el, 'change', el.setHasChanges.bind(el)); });
+        <?php endif; ?>
+    },
+    disableElement: function(el) {
+        el.disabled = true;
+        el.addClassName('disabled');
+    },
+    deleteItem: function(event) {
+        var tr = Event.findElement(event, 'tr');
+        if (tr) {
+            Element.select(tr, '.delete').each(function(elem){elem.value='1'});
+            Element.select(tr, ['input', 'select']).each(function(elem){elem.hide()});
+            Element.hide(tr);
+            Element.addClassName(tr, 'no-display template');
+        }
+        return false;
+    }
+};
+<?php foreach ($this->getValues() as $_item): ?>
+tierPriceControl.addItem('<?php echo $_item['id'] ?>', '<?php echo $_item['cust_group'] ?>', '<?php echo $_item['price_min'] ?>', '<?php echo $_item['price_max'] ?>', '<?php echo $_item['fixed_fee'] ?>', '<?php echo $_item['percentage'] ?>', <?php echo (int)!empty($_item['readonly'])?>);
+<?php endforeach; ?>
+<?php if ($_readonly): ?>
+$('<?php echo $_htmlId ?>_container').up('table').select('button')
+    .each(tierPriceControl.disableElement);
+<?php endif; ?>
+//]]>
+</script>
+</td></tr>
+<style type="text/css">
+	.grid td input.input-text {
+	    width: 40%;
+	}
+</style>

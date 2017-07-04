@@ -1,0 +1,14 @@
+<div class="pallet-container">
+	<div class="slect-container" style="display: none">
+        <label for="palletDdl"><?php echo $this->__('Please Select Pallet Size : ');?></label>
+        <?php echo Mage::helper('logistic/pallet')->getPalletDropdownHtml(); ?>
+    </div>
+	<div id="cbm-data">
+	<!-- CBM DATA GOES HERE -->
+	</div>
+</div>
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+		reloadCbmSection($("palletDdl"));
+	});
+</script>

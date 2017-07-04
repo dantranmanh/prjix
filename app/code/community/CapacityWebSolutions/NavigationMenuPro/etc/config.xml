@@ -1,0 +1,225 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <CapacityWebSolutions_NavigationMenuPro>
+            <version>1.5.0</version>
+        </CapacityWebSolutions_NavigationMenuPro>
+    </modules>
+    <frontend>
+        <routers>
+            <navigationmenupro>
+                <use>standard</use>
+                <args>
+                    <module>CapacityWebSolutions_NavigationMenuPro</module>
+                    <frontName>navigationmenupro</frontName>
+                </args>
+           </navigationmenupro>
+        </routers>
+		<layout>
+            <updates>
+                <navigationmenupro>
+                    <file>navigationmenupro.xml</file>
+               </navigationmenupro>
+            </updates>
+        </layout>
+    </frontend>
+	<admin>
+        <routers>
+		<adminhtml>
+				<args>
+					<modules>
+					<navigationmenupro After="Mage_Adminhtml">CapacityWebSolutions_NavigationMenuPro_Adminhtml</navigationmenupro>
+					</modules>
+				</args>
+			</adminhtml>
+        </routers>
+    </admin>
+     <adminhtml>
+		<menu>
+		<cws module="navigationmenupro">
+				<title>MageBees</title>
+				<sort_order>70</sort_order> 
+		<children>
+		<navigationmenupro module="navigationmenupro">
+				<title>Navigation Menu Pro</title>
+				<sort_order>71</sort_order> 
+				<class>navigationmenupro-main</class>			
+		<depends>
+			<config>navigationmenupro/general/module_enable_disable</config>
+		</depends>
+				<children>
+					<managegroup module="navigationmenupro">
+							<title>Manage Groups</title>
+									<sort_order>20</sort_order>
+								<children>
+								<createnewgroup module="navigationmenupro">
+								<title>Create New Menu Group</title>
+								<sort_order>10</sort_order>
+								<action>adminhtml/menucreatorgroup/new</action>
+								</createnewgroup>
+								<managemenugroup module="navigationmenupro">
+								<title>Manage Menu Groups</title>
+								<sort_order>20</sort_order>
+								<action>adminhtml/menucreatorgroup/index</action>
+								</managemenugroup>
+								</children>
+					</managegroup>
+					<menuform module="navigationmenupro">
+						<title>Manage Menu Items</title>
+						<sort_order>30</sort_order>
+					<action>adminhtml/menucreator/manageitem</action>
+					</menuform>
+					<menusetting module="navigationmenupro">
+						<title>Navigation Menu Pro Setting</title>
+						<sort_order>40</sort_order>
+					<action>adminhtml/system_config/edit/section/navigationmenupro</action>
+					</menusetting>
+				</children>
+				</navigationmenupro>
+				</children>
+			</cws>
+		</menu>
+	
+		<acl>
+			<resources>
+				<admin>
+					<children>
+					<cws module="navigationmenupro">
+					<title>MageBees</title>
+					<children>
+						<navigationmenupro module="navigationmenupro">
+						<title>Navigation Menu Pro</title>
+						<sort_order>71</sort_order>               
+							<children>
+								<managegroup module="navigationmenupro">
+							<title>Manage Groups</title>
+									<sort_order>20</sort_order>
+								<children>
+								<createnewgroup module="navigationmenupro">
+								<title>Create New Menu Group</title>
+								<sort_order>10</sort_order>
+								<action>adminhtml/menucreatorgroup/new</action>
+								</createnewgroup>
+								<managemenugroup module="navigationmenupro">
+								<title>Manage Menu Groups</title>
+								<sort_order>20</sort_order>
+								<action>adminhtml/menucreatorgroup/index</action>
+								</managemenugroup>
+								</children>
+					</managegroup>
+					<menuform module="navigationmenupro">
+						<title>Manage Menu Items</title>
+						<sort_order>30</sort_order>
+					<action>adminhtml/menucreator/manageitem</action>
+					</menuform>
+					<menusetting module="navigationmenupro">
+						<title>Navigation Menu Pro Setting</title>
+						<sort_order>40</sort_order>
+					<action>adminhtml/system_config/edit/section/navigationmenupro</action>
+					</menusetting>
+					</children>
+						</navigationmenupro>
+					</children>
+				</cws>
+						<system>
+							<children>
+								<config>
+									<children>
+										<navigationmenupro>
+											<title>NavigationMenuPro</title>
+										</navigationmenupro>
+									</children>
+								</config>
+							</children>
+						</system>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+		<layout>
+			<updates>
+				<navigationmenupro>
+					<file>navigationmenupro.xml</file>
+				</navigationmenupro>
+			</updates>
+		</layout>
+		<events>
+			<admin_system_config_changed_section_navigationmenupro>
+                <observers>
+                    <navigationmenupro>
+                        <type>singleton</type>
+                        <class>navigationmenupro/observer</class>
+                        <method>compileLess</method>
+                    </navigationmenupro>
+                </observers>
+            </admin_system_config_changed_section_navigationmenupro>
+		</events>
+		
+    </adminhtml>     
+    <global>
+	 <models>
+            <navigationmenupro>
+                <class>CapacityWebSolutions_NavigationMenuPro_Model</class>
+                <resourceModel>navigationmenupro_mysql4</resourceModel>
+           </navigationmenupro>
+            <navigationmenupro_mysql4>
+                <class>CapacityWebSolutions_NavigationMenuPro_Model_Mysql4</class>
+                <entities>
+                    <menucreator>
+                        <table>menucreator</table>
+                    </menucreator>
+                    <menucreatorgroup>
+                        <table>menucreatorgroup</table>
+                    </menucreatorgroup>
+                </entities>
+            </navigationmenupro_mysql4>
+        </models>
+		
+ 
+        <resources>
+            <navigationmenupro_setup>
+                <setup>
+                    <module>CapacityWebSolutions_NavigationMenuPro</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </navigationmenupro_setup>
+            <navigationmenupro_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </navigationmenupro_write>
+            <navigationmenupro_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </navigationmenupro_read>
+        </resources>
+	 <blocks>
+            <navigationmenupro>
+                <class>CapacityWebSolutions_NavigationMenuPro_Block</class>
+           </navigationmenupro>
+		    <page>
+				<rewrite>
+					<html_head>CapacityWebSolutions_NavigationMenuPro_Block_Page_Html_Head</html_head>
+				</rewrite>
+			</page>  
+	</blocks>
+	  <helpers>
+            <navigationmenupro>
+                <class>CapacityWebSolutions_NavigationMenuPro_Helper</class>
+           </navigationmenupro>
+        </helpers>
+	</global>
+	<default>
+    <navigationmenupro>
+        <general>                
+            <module_enable_disable>1</module_enable_disable>         
+        </general>      
+		<optimize_performance>                
+            <developer_mode_enable_disable>1</developer_mode_enable_disable>         
+        </optimize_performance>
+    </navigationmenupro>
+</default>
+</config>

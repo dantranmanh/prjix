@@ -1,0 +1,173 @@
+.progressInner {
+    padding: 0 20px 60px;
+    zoom: 1;
+}
+
+.progressInner:before, .progressInner:after {
+    content: "";
+    display: table;
+}
+
+.progressInner:after {
+    clear: both;
+}
+
+.progressInner:before, .progressInner:after {
+    content: "";
+    display: table;
+}
+
+.progressInner .step {
+    float: left;
+    width: 277px;
+}
+
+.progressInner .step .icon {
+    float: left;
+    text-align: center;
+}
+
+.icon:before {
+    content: '';
+    background: url(../images/websiteIconSprites.png) no-repeat;
+    width: 30px;
+    height: 30px;
+}
+
+.progressInner .step .icon h4 {
+   margin: 0;
+   font-size: 16px;
+   font-family: 'PoppinsRegular',sans-serif;
+   font-weight: 400;
+   color: #1c1c1c;
+   display: block;
+   text-align: center;
+}
+
+.progressInner .step.active h4 {
+    -webkit-animation: fromUp 1s ease;
+    -moz-animation: fromUp 1s ease;
+    -o-animation: fromUp 1s ease;
+    -ms-animation: fromUp 1s ease;
+    animation: fromUp 1s ease;
+    color: #1c1c1c;
+}
+.progressInner .step label{
+    display: block;
+    width: 42px;
+    height: 42px;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border: 1px solid #e6e6e6;
+    padding: 4px;
+    background: #fff;
+    margin: 0 auto 15px;
+    overflow: hidden;
+    cursor: pointer;
+}
+.progressInner .step label span{
+    display: block;
+    background: #fff;
+    color: #1c1c1c;
+    text-align: center;
+    line-height: 32px;
+    overflow: hidden;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+}
+
+.progressInner .step.active label{
+    border-color: #2ad84d;
+}
+
+.progressInner .step.active label span{
+    background: #2ad84d;
+    color: #fff;
+}
+
+
+.checkout h4, .wizard h4 {
+    font-weight: 200;
+    margin: 0;
+    display: block;
+}
+
+.progressInner .step .bar {
+    position: relative;
+    display: block;
+    margin: 108px 0 0 80px;
+    width: 220px;
+    height: 1px;
+    border-bottom: 1px dashed #e6e6e6;
+}
+
+#addressStep .img {
+    background: url(../images/checkout-step1.png) no-repeat center center;
+}
+
+#addressStep .bar{
+
+}
+
+#deliveryStep .img {
+    background: url(../images/checkout-step2.png) no-repeat center center;
+}
+
+#deliveryStep .bar{
+    margin-left: 75px;
+    width: 246px!important;
+}
+
+#paymentStep .img {
+    background: url(../images/checkout-step3.png) no-repeat center center;
+}
+
+#paymentStep .bar{
+    margin-left: 83px;
+    width: 246px!important;
+}
+
+#reviewStep .img {
+    background: url(../images/checkout-step4.png) no-repeat center center;
+}
+
+#reviewStep .bar{
+    
+}
+
+.progressInner .step .icon i.img {
+    width: 62px;
+    height: 62px;
+    display: block;
+    left: 12px;
+    bottom: 14px;
+    margin: 0 auto 25px;
+}
+.progressInner .step:last-child{
+    width: 140px;
+}
+.progressInner .step:last-child .bar {
+    display: none;
+}
+
+@media (max-width: 1199px){
+  .progressInner {text-align:center;}
+  .progressInner .step {width:25%; float:none; display:inline-block;}
+  .progressInner .step .bar {width:100%;}
+}
+@media (max-width: 440px){
+  .progressInner .step {width:24%;}
+  .progressInner .step .icon {width:30px; height:30px;}
+  .progressInner .step .icon h4 {font-size:.5em; padding:4px;}
+  .progressInner {padding: 40px 5px 20px;}
+  .progressInner .step .icon i.img {width:100%; height:100%; top:0; left:0;}
+  .progressInner .step .bar { margin: 15px -2px 15px 29px; height: 4px; padding: 2px 2px 2px 4px;}
+  #addressStep .img { background-size: 500px auto; background-position:-327px -20px;}
+  #deliveryStep .img {background-size: 500px auto; background-position:-355px -20px;}
+  #paymentStep .img {background-size: 500px auto;  background-position: -382px -20px;}
+  #reviewStep .img { background-size: 500px auto; background-position: -412px -20px;}
+  .progressInner .step:last-child {width:30px; height:34px;}
+  
+}

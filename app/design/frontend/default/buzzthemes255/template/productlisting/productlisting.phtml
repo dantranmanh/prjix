@@ -1,0 +1,79 @@
+<?php
+$isShowDescription = $this->showDescription();
+$productType = $this->getProductsType();
+$productCollection = $this->getProductCollection();
+$collectionSize = count($productCollection);
+$quote = Mage::getSingleton('checkout/session')->getQuote();
+// $link is url to view all product page
+$link = $this->getBaseUrl();
+$link .= 'productlisting/';
+$link .= $productType;
+?>
+
+<?php if($collectionSize > 0):?>
+	<div id="product-listing">
+		<div class="head">
+			<h1><?php echo $this->getPageTitle()?></h1>
+		</div>
+
+		<div class="link-to-category-page">
+			<h1><a href="<?php echo $link ?>">View Product List</a></h1>
+		</div>
+
+		<div class="list-products">
+			<ul id="list-items">
+				<?php
+				foreach ($productCollection->getItems() as $_product):
+					?>
+					<li>
+						<div class="product-image">
+							<a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(161,123); ?>" width="161" height="123" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" /></a>
+						</div>
+						<div class="product-info">
+							<h3 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>"><?php echo $this->htmlEscape($_product->getName()) ?></a></h3>
+							<?php if($isShowDescription == 1):?>
+								<div class="desc std">
+									<?php $_description = nl2br($_product->getShortDescription())?>
+									<?php $short_desc = substr($_description, 0, 200);  ?>
+									<?php if(substr($short_desc, 0, strrpos($short_desc, ' '))!='')
+										$short_desc = substr($short_desc, 0, strrpos($short_desc, ' '));
+									$short_desc = $short_desc.'...';
+									?>
+									<?php echo $short_desc;?>
+								</div>
+							<?php endif; ?>
+							<?php echo $this->getPriceHtml($_product, true) ?>
+							<div class="actions">
+								<?php if($_product->isSaleable()): ?>
+									<?php $stocklevel = (int)Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty();?>
+									<?php $manageStock = Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getManageStock();?>
+									<button class="button btn-cart add-cart-button" type="button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')">
+										<?php if(!isset($showDefault) || $showDefault !== 'show'.$_product->getId()): ?>
+											<span data-id="<?php echo $_product->getId(); ?>"  class="counter counter-<?php echo $_product->getId() ?>" style="display: none">
+                                        <span class="quantity-in-cart 1-item quantity-in-cart-<?php echo $_product->getId() ?>" data-margintop="null" style="margin-top: 0px">1</span>
+                                        </span>
+											<?php if($manageStock == '1'): ?>
+												<span class="number-product-available-<?php echo $_product->getId() ?>" style="display: none;"><?php echo $stocklevel ?></span>
+											<?php endif; ?>
+										<?php endif; ?>
+										<span class="img"></span>
+										<span class="text"><?php echo $this->__('Add to Cart') ?></span>
+									</button>
+								<?php else: ?>
+									<p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+								<?php endif; ?>
+							</div>
+						</div>
+					</li>
+				<?php endforeach?>
+			</ul>
+		</div>
+	</div>
+
+
+<?php else: ?>
+	<div class="note-msg">
+		<?php echo $this->__('There are no products matching the selection.') ?>
+	</div>
+<?php endif; ?>
+

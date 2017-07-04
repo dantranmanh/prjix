@@ -1,0 +1,68 @@
+<?php
+/**
+ * Magebuzz 2015
+ */
+?>
+<?php
+$quote = Mage::getSingleton('checkout/session')->getQuote();
+$baseUrl = Mage::getBaseUrl();
+?>
+<?php if (($_products = $this->getProductCollection()) && $_products->getSize()): ?>
+    <div class="new-product">
+        <div class="category-title">
+            <h2><?php echo $this->__('Just Arrived');?></h2>
+            <a href="<?php echo $this->getUrl('new.html');?>" class="see-all" title="<?php echo $this->__('See All')?>"><?php echo $this->__('See All')?></a>
+        </div>
+        <?php $_columnCount = $this->getColumnCount(); ?>
+        <ul class="products-list">
+            <?php $i=0; foreach ($_products->getItems() as $_product): ?>
+                <?php $i++;?>
+                <?php if($i > 4):?>
+                    <?php break;?>
+                <?php endif;?>
+                <li class="item<?php if($i==1):?> first<?php endif;?><?php if($i==5):?> last<?php endif?>">
+                    <a style="position: relative;" href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->escapeHtml($_product->getName()) ?>" class="product-image">
+                        <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(80) ?>" width="80" height="80" alt="<?php echo $this->escapeHtml($_product->getName()) ?>" />
+                        <?php if(!isset($showDefault) || $showDefault !== 'show'.$_product->getId()): ?>
+                            <div class="item-in-cart counter-top-<?php echo $_product->getId() ?>" style="display: none" >
+                                    <span class="counter-top counter-<?php echo $_product->getId() ?>" >
+                                      <span class="quantity-in-cart 1-item quantity-in-cart-top-<?php echo $_product->getId() ?>" data-margintop="null" style="margin-top: 0px">1</span>
+                                    </span>
+                                <span class="text text-counter-top-<?php echo $_product->getId() ?>"><?php echo $this->__('in your cart') ?></span>
+                            </div>
+                        <?php endif; ?>
+
+                    </a>
+                    <div class="product-details">
+
+                        <h3 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->escapeHtml($_product->getName()) ?>"><?php echo $this->escapeHtml($_product->getName()) ?> <?php echo Mage::helper('logistic/logistic')->getProductUnitWeightHtml($_product); ?></a></a></h3>
+
+                        <?php echo $this->getPriceHtml($_product, true, '-new') ?>
+                    </div>
+                    <div class="actions">
+                        <?php if($_product->isSaleable()): ?>
+                                <?php $stocklevel = (int)Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty();?>
+                                <?php $manageStock = Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getManageStock();?>
+                                <!-- <input type="text" class="input-text input-cart" value="" /> -->
+                                <input oninput="maxLengthCheck(this)" type="number" min="0" max="9999" name="qty" id="qty" value="1" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Qty')) ?>" class="input-text qty input-cart" />
+                                <button data-product-id="<?php echo $_product->getId(); ?>" class="button btn-cart add-cart-button" type="button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')">
+                                    <span class="text"><?php echo $this->__('Add to Cart') ?></span>
+                                </button>
+                            <?php else: ?>
+                                <p class="availability out-of-stock"><button title="<?php echo $this->__('Notify me');?>" product_id="<?php echo $_product->getId() ?>" class="button btn-outstock"><span><span><?php echo $this->__('Notify me');?></span></span></button></p>
+                            <?php endif; ?>
+                    </div>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+
+    </div>
+<?php else:?>
+    <div class="new-product">
+        <div class="category-title">
+            <h2><?php echo $this->__('Just Arrived');?></h2>
+            <a href="<?php echo $this->getUrl('new.html');?>" class="see-all" title="<?php echo $this->__('See All')?>"><?php echo $this->__('See All')?></a>
+        </div>
+        <p class="note-msg"><?php echo $this->__('There are no products matching the selection.') ?></p>
+    </div>
+<?php endif; ?>

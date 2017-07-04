@@ -1,0 +1,111 @@
+<?php
+/**
+ * Magebuzz 2015
+ */
+?>
+<?php
+$_quote = $this->getQuote();
+$subTotal_value = $_quote->getSubtotal();
+$subTotal = Mage::helper('core')->currency($subTotal_value, true, false);
+$_items = $this->getItems();
+$_cartQty = (int) $_quote->getItemsQty();
+$currentUrl = Mage::helper('core/url')->getCurrentUrl();
+?>
+<?php if ($_cartQty>0): ?>
+
+<a href="<?php echo $this->getUrl('checkout/cart');?>" class="has-item skip-link-mobile">
+  <span class="icon"><?php echo $subTotal; ?></span>
+</a>
+<div id="box-minicart" class="box-minicart">
+  <div class="box-minicart-content">
+    <div class="box-title">
+      <div class="box-left">
+        <h3><?php echo $this->__('My Order') ?></h3>
+        <a href="<?php echo $this->getUrl('checkout/cart')?>" title="<?php echo $this->__('View Cart') ?>"><label style="cursor: pointer"><?php echo $this->__('View Cart') ?></label></a>
+      </div>
+      <div class="box-right">
+        <?php echo Mage::app()->getLayout()->createBlock('logistic/cbm_data')->setPalletId(Mage::getModel('logistic/pallet')->getCollection()->getFirstItem()->getId())->setTemplate('hxtech/logistic/cbm/data.phtml')->toHtml() ?>
+      </div>
+    </div>
+    <ol id="cart-sidebar" class="mini-products-list">
+      <?php foreach($_items as $_item): ?>
+        <?php echo $this->getItemHtml($_item) ?>
+      <?php endforeach; ?>
+    </ol>
+    <script type="text/javascript">decorateList('cart-sidebar', 'none-recursive')</script>
+  </div>
+  <div class="box-minicart-bot">
+    <div class="box-update-total">
+      <a class="is-items link-update-qty" title="<?php echo $this->__('Update Quantities');?>" onclick="updateItemAction(this)" href="javascript:void(0);"><?php echo $this->__('Update');?></a>
+      <div class="box-total">
+        <?php echo $this->__('Subtotal');?><span class="price"><?php echo $subTotal; ?></span>
+      </div>
+    </div>
+    <div class="box-button">
+      <a disabled="disabled" class="is-items link-checkout" title="<?php echo $this->__('Checkout');?>" href="<?php echo $this->getCheckoutUrl();?>"><?php echo $this->__('Checkout');?></a>
+      <div class="loading" id="minicart-loading" style="display: none" >
+        <span><?php echo $this->__('Loading');?></span>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  function deleteItemAction(element){
+    element.stopObserving('click');
+    var item_id = element.readAttribute('item_id');
+    var product_id = element.readAttribute('data-product-id');
+    if (confirm('Are you sure you would like to remove this item from the shopping cart?')) {
+      var url = "<?php echo $this->getUrl('outstocknotification/index/deleteItemCart')?>";
+      new Ajax.Request(url, {
+        method: 'post',
+        parameters: {
+          id: item_id,
+          qty: '0',
+          productid : product_id
+        },
+        onCreate: function() {
+          $('minicart-loading').show();
+        }.bind(this),
+        onSuccess: function (transport) {
+          window.location.reload();
+        }.bind(this)
+      });
+    }
+  }
+  function updateItemAction(element){
+    element.stopObserving('click');
+    var cartElement = findAncestor(element, 'mini-cart');
+    var inputs = cartElement.getElementsByTagName('input');
+    var itemIds = "";
+    var values = "";
+
+    jQuery.each(inputs, function(key, value){
+      element = jQuery(this);
+      itemIds += element[0].getAttribute('data-item-id') + "-";
+      values += element.val() + "-"
+    });
+
+    itemIds = removeLastCharacter(itemIds, "-");
+    values = removeLastCharacter(values, "-");
+    var url = "<?php echo $this->getUrl('outstocknotification/index/updateCart')?>";
+    new Ajax.Request(url, {
+      method: 'post',
+      parameters: {
+        itemIds: itemIds,
+        values: values
+      },
+      onCreate: function () {
+        $('minicart-loading').show();
+      }.bind(this),
+      onSuccess: function (transport) {
+        window.location.reload();
+      }.bind(this)
+
+    });
+  }
+</script>
+<?php else:?>
+<a href="javascript:void(0);" title="<?php echo $this->__('You have 0 item in your cart');?>">
+  <span class="icon"></span>
+</a>
+<?php endif;?>

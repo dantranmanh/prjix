@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<!--
+NOTICE OF LICENSE
+
+This source file is subject to the SafeMageEULA that is bundled with this package in the file LICENSE.txt.
+
+It is also available at this URL: https://www.safemage.com/LICENSE_EULA.txt
+
+Copyright (c)  SafeMage (https://www.safemage.com/)
+-->
+<layout>
+    <default>
+        <reference name="head">
+            <action method="addCss">
+                <name>safemage/permissions/css/style.css</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>safemage/permissions/js/script.js</name>
+            </action>
+        </reference>
+    </default>
+
+    <!-- User -->
+	<adminhtml_safemage_permissions_ajax_getuserownproducts>    
+	    <block type="safemage_permissions/adminhtml_permissions_user_tab_ownproducts" name="ownproducts">
+            <block type="safemage_permissions/adminhtml_permissions_user_tab_ownproducts_js" name="ownproducts.js" />
+        </block>
+	</adminhtml_safemage_permissions_ajax_getuserownproducts>
+    <!-- User End -->
+
+    <!-- Role -->
+
+    <!-- Categories -->
+    <safemage_permissions_categories_attr_permissions_grid>
+        <block type="safemage_permissions/Adminhtml_Permissions_Tab_Categories_AttributePermissionsGrid" name="categories.attrpermissions" />
+    </safemage_permissions_categories_attr_permissions_grid>
+
+    <adminhtml_safemage_permissions_ajax_getrolecategories>
+        <update handle="safemage_permissions_categories_attr_permissions_grid" />
+    </adminhtml_safemage_permissions_ajax_getrolecategories>
+    <adminhtml_safemage_permissions_ajax_getcategoryattributepermissions>
+        <update handle="safemage_permissions_categories_attr_permissions_grid" />
+    </adminhtml_safemage_permissions_ajax_getcategoryattributepermissions>
+
+
+    <!-- Products -->
+    <safemage_permissions_products_selected_grid>
+        <block type="safemage_permissions/adminhtml_permissions_tab_products_selected" name="selectedproducts">
+            <block type="safemage_permissions/adminhtml_permissions_user_tab_ownproducts_js" name="ownproducts.js" />
+        </block>
+    </safemage_permissions_products_selected_grid>
+
+    <adminhtml_safemage_permissions_ajax_getroleproducts>
+        <update handle="safemage_permissions_products_selected_grid" />
+    </adminhtml_safemage_permissions_ajax_getroleproducts>
+    <adminhtml_safemage_permissions_ajax_getroleproductsselected>
+        <update handle="safemage_permissions_products_selected_grid" />
+    </adminhtml_safemage_permissions_ajax_getroleproductsselected>
+
+    <safemage_permissions_products_attr_permissions_grid>
+        <block type="safemage_permissions/Adminhtml_Permissions_Tab_Products_AttributePermissionsGrid" name="products.attrpermissions" />
+    </safemage_permissions_products_attr_permissions_grid>
+
+    <adminhtml_safemage_permissions_ajax_getroleproducts>
+        <update handle="safemage_permissions_products_attr_permissions_grid" />
+    </adminhtml_safemage_permissions_ajax_getroleproducts>
+    <adminhtml_safemage_permissions_ajax_getproductattributepermissions>
+        <update handle="safemage_permissions_products_attr_permissions_grid" />
+    </adminhtml_safemage_permissions_ajax_getproductattributepermissions>
+
+    <!-- Customers -->
+    <safemage_permissions_customers_attr_permissions_grid>
+        <block type="safemage_permissions/Adminhtml_Permissions_Tab_Customers_AttributePermissionsGrid" name="customers.attrpermissions" />
+    </safemage_permissions_customers_attr_permissions_grid>
+
+    <adminhtml_safemage_permissions_ajax_getrolecustomers>
+        <update handle="safemage_permissions_customers_attr_permissions_grid" />
+    </adminhtml_safemage_permissions_ajax_getrolecustomers>
+    <adminhtml_safemage_permissions_ajax_getcustomerattributepermissions>
+        <update handle="safemage_permissions_customers_attr_permissions_grid" />
+    </adminhtml_safemage_permissions_ajax_getcustomerattributepermissions>
+
+    <!-- Config -->
+    <safemage_permissions_config_section_permissions_grid>
+        <block type="safemage_permissions/Adminhtml_Permissions_Tab_Config_SectionPermissionsGrid" name="config.sectionpermissions" />
+    </safemage_permissions_config_section_permissions_grid>
+
+    <adminhtml_safemage_permissions_ajax_getroleconfig>
+        <update handle="safemage_permissions_config_section_permissions_grid" />
+    </adminhtml_safemage_permissions_ajax_getroleconfig>
+    <adminhtml_safemage_permissions_ajax_getconfigsectionpermissions>
+        <update handle="safemage_permissions_config_section_permissions_grid" />
+    </adminhtml_safemage_permissions_ajax_getconfigsectionpermissions>
+
+    <!-- Role End -->
+</layout>

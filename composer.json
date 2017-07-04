@@ -1,0 +1,33 @@
+{
+    "name": "ixport/m1",
+    "description": "M1 website for Ixport",
+    "type": "project",
+    "license": "proprietary",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "authors": [
+        {
+            "name": "Shaughn Le Grange - Hatlen",
+            "email": "me@shaughn.pro",
+            "role": "Lead Developer"
+        }
+    ],
+    "repositories": {
+        "firegento": {
+            "type": "composer",
+            "url": "https://packages.firegento.com"
+        }
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "1.5.3"
+    },
+    "extra": {
+        "magento-root-dir": "./"
+    },
+    "config": {
+        "use-include-path": true
+    },
+    "require": {
+        "aoepeople/aoe_scheduler": "^1.5"
+    }
+}

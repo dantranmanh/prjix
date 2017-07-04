@@ -1,0 +1,44 @@
+<?php
+/**
+ * Hxtech 2016
+ */
+
+?>
+<?php if($this->getCategoryIds()):?>
+<?php
+
+$strCategoryIds = $this->getCategoryIds();
+$categoryIds = explode(",",$strCategoryIds);
+?>
+<?php echo $this->getLayout()->createBlock('core/template')->setTemplate('catalogsearch/form.mini.phtml')->toHtml(); ?>
+<ul class="row">
+    <?php foreach($categoryIds as $categoryId):?>
+        <?php
+            $category = Mage::getModel('catalog/category')->load($categoryId);
+            // $categoryPageTitle = $category->getMetaTitle();
+            $imgUrl = $category->getImageUrl();
+            $imgThumbnail = $category->getThumbnail();
+            $urlThumbnail = '';
+            if($imgThumbnail){
+                $urlThumbnail = Mage::getBaseUrl('media').'catalog/category/'.$imgThumbnail;
+            }
+            // $collection = Mage::getModel('catalog/layer')->setCurrentCategory($category)->getProductCollection();
+
+            // $count = $collection->getSize();
+        ?>
+        <?php if($imgThumbnail):?>
+        <li class="col-md-4">
+
+                <div><a class="name-category-home" href="<?php echo $category->getUrl();?>" title="<?php echo $category->getMetaTitle();?>"><img alt="<?php echo $category->getMetaTitle();?>" src="<?php echo $urlThumbnail;?>" /></a>
+                    <div class="category-info">
+                        <a class="name-category-home" href="<?php echo $category->getUrl();?>" title="<?php echo $category->getMetaTitle();?>"><?php echo $category->getMetaTitle();?></a>
+                        <div class="category-home-dest">We Make Food Exporting Easy</div>
+                        <a class="link-to-cate" href="<?php echo $category->getUrl();?>" title="<?php echo $category->getMetaTitle();?>">SHOP NOW</a>
+                    </div>
+                </div>
+
+        </li>
+        <?php endif;?>
+    <?php endforeach;?>
+</ul>
+<?php endif;?>

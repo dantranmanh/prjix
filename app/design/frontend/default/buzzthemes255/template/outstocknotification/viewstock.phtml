@@ -1,0 +1,50 @@
+<?php 
+/*
+ * @copyright   Copyright (c) 2014 www.magebuzz.com
+ */
+?>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<?php $_notifi = $this->getNotification(); ?>
+
+<div class="page-title">
+  <h1><?php echo $this->__('Your Out of Stock Subscriptions') ?></h1>
+</div>
+<?php echo $this->getPagerHtml(); ?>
+<?php if($_notifi):?>
+<table class="data-table" id="my-oos-table">
+    <colgroup>
+      <col width="1" />
+      <col width="1" />
+      <col width="1" />
+      <col width="1" />
+    </colgroup>
+    <thead>
+        <tr>
+            <th><?php echo $this->__('Image') ?></th>
+            <th><?php echo $this->__('Product') ?></th>
+            <th><?php echo $this->__('Subscribtion date') ?></th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php $_odd = ''; ?>
+        <?php $i=0; foreach ($_notifi as $_not):?>
+        <?php $product = Mage::getModel('catalog/product')->load($_not['product_id']);?>
+        <tr>
+            <td><img src="<?php echo $this->helper('catalog/image')->init($product, 'small_image')->resize(80); ?>" width="80" height="80" alt="<?php echo $this->stripTags($this->getImageLabel($product, 'small_image'), null, true) ?>" /></td>
+            <td><label><span class="nobr"><a href="<?php echo $product->getProductUrl() ?>" title="<?php echo $this->stripTags($product['name'], null, true) ?>"><?php echo $product['name']?></a></span></td>
+            <td><label><?php echo $this->__('Subscribed on') ?></label> <?php echo $_not['add_date'];?></td>      
+            <td>
+<a class="btn-remove btn-remove2" title="Remove item" href="<?php echo Mage::getUrl('outstocknotification/index/deletenotifi',array('notifi_id'=>$_not['alert_stock_id']))?>"></a>
+</td>          
+        </tr>
+        <?php $i++;?>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+<?php else :?>
+ <p class="note-msg"><?php echo $this->__('There is no subscription for this product.');?></p>
+<?php endif?>
+
+<script type="text/javascript">decorateTable('my-oos-table');</script>
+<?php echo $this->getPagerHtml(); ?>

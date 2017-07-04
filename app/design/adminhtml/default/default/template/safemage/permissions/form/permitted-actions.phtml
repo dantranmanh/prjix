@@ -1,0 +1,40 @@
+<?php
+/*
+NOTICE OF LICENSE
+
+This source file is subject to the SafeMageEULA that is bundled with this package in the file LICENSE.txt.
+
+It is also available at this URL: https://www.safemage.com/LICENSE_EULA.txt
+
+Copyright (c)  SafeMage (https://www.safemage.com/)
+*/
+?>
+<div class="grid" style="width: 190px;">
+	<table cellspacing="0" class="data">
+	<colgroup>
+		<?php foreach($this->_actions as $action): ?>
+		<col width="60">
+		<?php endforeach; ?>
+	</colgroup>
+	<thead>
+		<tr class="headings">
+            <?php foreach($this->_actions as $action): ?>
+			<?php
+                $parts = explode('_', $action);
+                $title = end($parts);
+            ?>
+			<th class="a-center "><?php echo ucfirst($title); ?></th>
+            <?php endforeach; ?>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+            <?php foreach($this->_actions as $action): ?>
+			<td class="a-center ">
+                <input type="checkbox" name="<?php echo $this->getName(); ?>[<?php echo $action; ?>]" class="checkbox" <?php if ($this->getData($action)): ?> checked="checked" <?php endif; ?> />
+            </td>
+            <?php endforeach; ?>
+		</tr>
+	</tbody>	
+	</table>
+</div>

@@ -1,0 +1,98 @@
+<?php 
+$_helper = $this->helper('catalog/output');
+$_product = $this->getProduct();
+?>
+<div class="box-col2">
+  <div class="col-item">
+    <table class="data-table data-products">
+      <tr>
+        <td><?php echo $_product->getResource()->getAttribute('brands')->getFrontend()->getLabel($_product); ?></td>
+        <td><?php echo nl2br($this->htmlEscape($_product->getResource()->getAttribute('brands')->getFrontend()->getValue($_product))); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $_product->getResource()->getAttribute('manufacturer')->getFrontend()->getLabel($_product); ?></td>
+        <td><?php echo nl2br($this->htmlEscape($_product->getResource()->getAttribute('manufacturer')->getFrontend()->getValue($_product))); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $_product->getResource()->getAttribute('product_food_category')->getFrontend()->getLabel($_product); ?></td>
+        <td><?php echo nl2br($this->htmlEscape($_product->getResource()->getAttribute('product_food_category')->getFrontend()->getValue($_product))); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $_product->getResource()->getAttribute('product_net_weight')->getFrontend()->getLabel($_product); ?></td>
+        <td><?php echo nl2br($this->htmlEscape($_product->getResource()->getAttribute('product_net_weight')->getFrontend()->getValue($_product))); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $_product->getResource()->getAttribute('weight')->getFrontend()->getLabel($_product); ?></td>
+        <td><?php echo nl2br($this->htmlEscape($_product->getResource()->getAttribute('weight')->getFrontend()->getValue($_product))); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $_product->getResource()->getAttribute('packaging_type')->getFrontend()->getLabel($_product); ?></td>
+        <td><?php echo nl2br($this->htmlEscape($_product->getResource()->getAttribute('packaging_type')->getFrontend()->getValue($_product))); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $_product->getResource()->getAttribute('packaging_material_description')->getFrontend()->getLabel($_product); ?></td>
+        <td><?php echo nl2br($this->htmlEscape($_product->getResource()->getAttribute('packaging_material_description')->getFrontend()->getValue($_product))); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $_product->getResource()->getAttribute('product_packaging_format')->getFrontend()->getLabel($_product); ?></td>
+        <td><?php echo nl2br($this->htmlEscape($_product->getResource()->getAttribute('product_packaging_format')->getFrontend()->getValue($_product))); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $_product->getResource()->getAttribute('product_shelf_life')->getFrontend()->getLabel($_product); ?></td>
+        <td><?php echo nl2br($this->htmlEscape($_product->getResource()->getAttribute('product_shelf_life')->getFrontend()->getValue($_product))); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $_product->getResource()->getAttribute('product_storage_type')->getFrontend()->getLabel($_product); ?></td>
+        <td><?php echo nl2br($this->htmlEscape($_product->getResource()->getAttribute('product_storage_type')->getFrontend()->getValue($_product))); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $_product->getResource()->getAttribute('product_storage_conditions')->getFrontend()->getLabel($_product); ?></td>
+        <td><?php echo nl2br($this->htmlEscape($_product->getResource()->getAttribute('product_storage_conditions')->getFrontend()->getValue($_product))); ?></td>
+      </tr>
+    </table>
+  </div>
+  <div class="col-item">
+    <table class="data-table data-products">
+      <tr>
+        <td><?php echo $_product->getResource()->getAttribute('product_unit_weight')->getFrontend()->getLabel($_product); ?></td>
+        <td><?php echo nl2br($this->htmlEscape($_product->getResource()->getAttribute('product_unit_weight')->getFrontend()->getValue($_product))); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $_product->getResource()->getAttribute('product_weight_measurement')->getFrontend()->getLabel($_product); ?></td>
+        <td><?php echo nl2br($this->htmlEscape($_product->getResource()->getAttribute('product_weight_measurement')->getFrontend()->getValue($_product))); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $_product->getResource()->getAttribute('product_width_case')->getFrontend()->getLabel($_product); ?></td>
+        <td><?php echo nl2br($this->htmlEscape($_product->getResource()->getAttribute('product_width_case')->getFrontend()->getValue($_product))); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $_product->getResource()->getAttribute('product_depth_case')->getFrontend()->getLabel($_product); ?></td>
+        <td><?php echo nl2br($this->htmlEscape($_product->getResource()->getAttribute('product_depth_case')->getFrontend()->getValue($_product))); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $_product->getResource()->getAttribute('product_height_case')->getFrontend()->getLabel($_product); ?></td>
+        <td><?php echo nl2br($this->htmlEscape($_product->getResource()->getAttribute('product_height_case')->getFrontend()->getValue($_product))); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $_product->getResource()->getAttribute('product_gtin')->getFrontend()->getLabel($_product); ?></td>
+        <td><?php echo nl2br($this->htmlEscape($_product->getResource()->getAttribute('product_gtin')->getFrontend()->getValue($_product))); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $_product->getResource()->getAttribute('product_child_gtin')->getFrontend()->getLabel($_product); ?></td>
+        <td><?php echo nl2br($this->htmlEscape($_product->getResource()->getAttribute('product_child_gtin')->getFrontend()->getValue($_product))); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $_product->getResource()->getAttribute('consumer_unit_indicator')->getFrontend()->getLabel($_product); ?></td>
+        <td><?php echo nl2br($this->htmlEscape($_product->getResource()->getAttribute('consumer_unit_indicator')->getFrontend()->getValue($_product))); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $_product->getResource()->getAttribute('product_export_countries')->getFrontend()->getLabel($_product); ?></td>
+        <td><?php echo nl2br($this->htmlEscape($_product->getResource()->getAttribute('product_export_countries')->getFrontend()->getValue($_product))); ?></td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+
+
+

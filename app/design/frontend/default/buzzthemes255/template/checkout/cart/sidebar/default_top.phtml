@@ -1,0 +1,75 @@
+<?php
+/**
+ * Magebuzz 2015
+ */
+?>
+<?php
+$_item = $this->getItem();
+$_product = $_item->getProduct();
+$isVisibleProduct = $_item->getProduct()->isVisibleInSiteVisibility();
+$canApplyMsrp = Mage::helper('catalog')->canApplyMsrp($_item->getProduct(), Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_BEFORE_ORDER_CONFIRM);
+$qty = $this->getQty();
+$price = $_product->getPrice();
+$specialPrice = $_product->getSpecialPrice();
+$totalPrice = $qty * $price;
+if($specialPrice){
+    $totalPrice = $qty * $specialPrice;
+}
+?>
+<li class="item">
+    <div class="item-image">
+        <?php if ($this->hasProductUrl()): ?>
+            <a href="<?php echo $this->getProductUrl()?>" title="<?php echo $this->escapeHtml($this->getProductName()) ?>" class="product-image"><img src="<?php echo $this->getProductThumbnail()->resize(50, 50)->setWatermarkSize('30x10'); ?>" width="50" height="50" alt="<?php echo $this->escapeHtml($this->getProductName()) ?>" /></a>
+        <?php else: ?>
+            <span class="product-image"><img src="<?php echo $this->getProductThumbnail()->resize(50, 50)->setWatermarkSize('30x10'); ?>" width="50" height="50" alt="<?php echo $this->escapeHtml($this->getProductName()) ?>" /></span>
+        <?php endif; ?>
+    </div>
+    <div class="product-details">
+        <p class="product-name"><?php if ($this->hasProductUrl()): ?><a href="<?php echo $this->getProductUrl() ?>"><?php endif; ?><?php echo $this->escapeHtml($this->getProductName()) ?><?php if ($this->hasProductUrl()): ?></a><?php endif; ?></p>
+        <p class="product-weight"><span><?php echo $this->__('500g');?></span></p>
+        <?php if ($_options = $this->getOptionList()):?>
+            <div class="truncated">
+                <div class="truncated_full_value">
+                    <dl class="item-options">
+                        <?php foreach ($_options as $_option) : ?>
+                            <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
+                            <dd>
+                                <?php if (is_array($_option['value'])): ?>
+                                    <?php echo nl2br(implode("\n", $_option['value'])) ?>
+                                <?php else: ?>
+                                    <?php echo $_option['value'] ?>
+                                <?php endif; ?>
+                            </dd>
+                        <?php endforeach; ?>
+                    </dl>
+                </div>
+                <a href="#" onclick="return false;" class="details"><?php echo $this->__('Details') ?></a>
+            </div>
+        <?php endif; ?>
+        <?php if($specialPrice):?>
+            <div class="price-box">
+                <p class="special-price">
+                    <span class="price"><?php echo Mage::helper('core')->currency($specialPrice,true,false); ?></span>
+                </p>
+                <p class="old-price">
+                    <span class="price"><?php echo Mage::helper('core')->currency($price,true,false); ?></span>
+                </p>
+            </div>
+        <?php else:?>
+            <div class="price-box">
+                <span class="price"><?php echo Mage::helper('core')->currency($price,true,false); ?></span>
+            </div>
+        <?php endif;?>
+    </div>
+    <div class="item-qty">
+        <a class="qty-inc" item_id="<?php echo $_item->getId() ?>" title="<?php echo $this->__('Increased product');?>" href="javascript:void(0);"></a>
+        <input disabled="disabled" item_id="<?php echo $_item->getId() ?>" class="qty cart-qty" name="" value="<?php echo $this->getQty()?>"/>
+        <a class="qty-des" item_id="<?php echo $_item->getId() ?>" title="<?php echo $this->__('Reduced product');?>" href="javascript:void(0);"></a>
+    </div>
+    <div class="actions">
+        <div class="total-price item-subtotal-<?php echo $_item->getId() ?>">
+            <span class="price"><?php echo Mage::helper('core')->currency($totalPrice,true,false); ?></span>
+        </div>
+        <a href="<?php echo $this->getDeleteUrl() ?>" title="<?php echo $this->__('Remove This Item') ?>" onclick="return confirm('<?php echo $this->__('Are you sure you would like to remove this item from the shopping cart?') ?>');" class="btn-remove"><?php echo $this->__('Remove This Item') ?></a>
+    </div>
+</li>

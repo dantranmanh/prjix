@@ -1,0 +1,225 @@
+<div class="account-create">
+	<div class="page-title test">
+        <h1><?php echo $this->__('Service Provider Registration'); ?></h1>
+    </div>
+    <div class="list_icon ">
+        <div class="border_icon"></div>
+        <div class="col-md-4 icon_customer active">
+            <p><?php echo $this->__('General Information');?></p>
+        </div>
+        <div class="col-md-4 icon_business">
+            <p><?php echo $this->__('Login Information');?></p>
+        </div>
+        <div class="col-md-4 icon_login">
+            <p><?php echo $this->__('Business Information');?></p>
+        </div>
+    </div>
+    <form action="<?php echo Mage::getUrl('logistic/supplier/registerPost'); ?>" method="post" id="logistic-supplier-register" enctype="multipart/form-data">
+    	<div class="fieldset register-step general-information">
+    		<h2 class="legend"><?php echo $this->__('General Information'); ?></h2>
+    		<ul class="form-list">
+                <li class="fields">
+                    <div class="field">
+                        <label for="account_type" class="required"><em>*</em><?php echo $this->__('Type of Service Provider'); ?></label>
+                        <div class="input-box">
+                            <select name="account_type" id="account_type" class="validate-select">
+                                <option value="1"><?php echo $this->__('Freight Forwarder'); ?></option>
+                                <option value="2"><?php echo $this->__('Export Documentation'); ?></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="username" class="required"><em>*</em><?php echo $this->__('Username'); ?></label>
+                        <div class="input-box">
+                            <input type="text" id="username" name="username" value="" title="Username" maxlength="255" class="input-text required-entry validate-alphanum">
+                        </div>
+                    </div>
+                </li>
+                <li class="fields">
+                    <div class="field">
+                        <label for="firstname" class="required"><em>*</em><?php echo $this->__('First name'); ?></label>
+                        <div class="input-box">
+                            <input type="text" id="firstname" name="firstname" value="" title="First Name" maxlength="255" class="input-text required-entry">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="lastname" class="required"><em>*</em><?php echo $this->__('Last name'); ?></label>
+                        <div class="input-box">
+                            <input type="text" id="lastname" name="lastname" value="" title="Last nam" maxlength="255" class="input-text required-entry">
+                        </div>
+                    </div>
+                </li>
+    			<li class="fields">
+    				<div class="field">
+    					<label for="email" class="required"><em>*</em><?php echo $this->__('Email address'); ?></label>
+    					<div class="input-box">
+				            <input type="text" id="email" name="email" value="" title="Email address" maxlength="255" class="input-text required-entry">
+				        </div>
+    				</div>
+                    <div class="field">
+                        <label for="company_position" class="required"><em>*</em><?php echo $this->__('Position in the company'); ?></label>
+                        <div class="input-box">
+                            <input type="text" id="company_position" name="company_position" value="" title="Position in the company" maxlength="255" class="input-text required-entry">
+                        </div>
+                    </div>
+    			</li>
+    		</ul>
+            <div class="button_form">
+                <div class="button_text">
+                    <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+                    <a href="#">Clear all</a>
+                </div>
+                <div class="button_check">
+                    <button type="button" title="<?php echo $this->__('Next') ?>" class="button"><span><span><?php echo $this->__('Next') ?></span></span></button>
+                </div>
+            </div>
+    	</div>
+    	<div class="fieldset register-step login-information">
+    		<h2 class="legend"><?php echo $this->__('Login Information'); ?></h2>
+    		<ul class="form-list">
+    			<li class="fields">
+    				<div class="field">
+    					<label for="username" class="required"><em>*</em><?php echo $this->__('Password'); ?></label>
+    					<div class="input-box">
+				            <input type="password" name="password" id="password" title="Password" class="input-text required-entry validate-password">
+				        </div>
+    				</div>
+    				<div class="field">
+    					<label for="email" class="required"><em>*</em><?php echo $this->__('Confirm Password'); ?></label>
+    					<div class="input-box">
+				            <input type="password" name="password_confirmation" title="Confirm Password" id="password_confirmation" class="input-text required-entry validate-cpassword">
+				        </div>
+    				</div>
+    			</li>
+    		</ul>
+            <div class="button_form">
+                <div class="button_text">
+                    <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+                    <a href="#">Clear all</a>
+                </div>
+                <div class="button_check">
+                    <button type="button" title="<?php echo $this->__('Next') ?>" class="button"><span><span><?php echo $this->__('Next') ?></span></span></button>
+                </div>
+            </div>
+    	</div>
+    	<div class="fieldset register-step business-information">
+    		<h2 class="legend"><?php echo $this->__('Business Information'); ?></h2>
+    		<ul class="form-list">
+    			<li class="fields">
+                    <div class="field">
+                        <label for="company" class="required"><em>*</em><?php echo $this->__('Company'); ?></label>
+                        <div class="input-box">
+                            <input type="text" id="company" name="company" value="" title="Company" maxlength="255" class="input-text required-entry">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="telephone" class="required"><em>*</em><?php echo $this->__('Telephone Number'); ?></label>
+                        <div class="input-box">
+                            <input type="text" id="telephone" name="telephone" value="" title="Telephone number" maxlength="255" class="input-text required-entry">
+                        </div>
+                    </div>
+    			</li>
+                <li class="fields">
+                    <div class="field">
+                        <label for="country" class="required"><em>*</em><?php echo $this->__('Country') ?></label>
+                        <div class="input-box">
+                            <?php echo $this->getCountryHtmlSelect() ?>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="region_id" class="required"><em>*</em><?php echo $this->__('State/Province') ?></label>
+                        <div class="input-box">
+                            <input type="text" id="region" name="region" value="" title="<?php echo $this->__('State/Province') ?>" class="input-text required-entry"/>
+                        </div>
+                    </div>
+                </li>
+                <li class="fields">
+                    <div class="field">
+                        <label for="street" class="required"><em>*</em><?php echo $this->__('Street Address'); ?></label>
+                        <div class="input-box">
+                            <input type="text" id="street" name="street" value="" title="Street Address" maxlength="255" class="input-text required-entry">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="city" class="required"><em>*</em><?php echo $this->__('City') ?></label>
+                        <div class="input-box">
+                            <input type="text" name="city" value="<?php echo $this->escapeHtml($this->getFormData()->getCity()) ?>" title="<?php echo $this->__('City') ?>" class="input-text <?php echo $this->helper('customer/address')->getAttributeValidationClass('city') ?>" id="city" />
+                        </div>
+                    </div>
+                </li>
+                <li class="fields">
+                    <div class="field">
+                        <label for="zip" class="required"><em>*</em><?php echo $this->__('Zip/Postal Code') ?></label>
+                        <div class="input-box">
+                            <input type="text" name="postcode" value="<?php echo $this->escapeHtml($this->getFormData()->getPostcode()) ?>" title="<?php echo $this->__('Zip/Postal Code') ?>" id="zip" class="input-text validate-zip-international <?php echo $this->helper('customer/address')->getAttributeValidationClass('postcode') ?>" />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="website"><?php echo $this->__('Website'); ?></label>
+                        <div class="input-box">
+                            <input type="text" id="website" name="website" value="" title="Website" maxlength="255" class="input-text">
+                        </div>
+                    </div>
+                </li>
+                <li class="fields">
+                    <div class="field">
+                        <label for="vat_id" class="required"><em>*</em><?php echo $this->__('Company Registration Number'); ?></label>
+                        <div class="input-box">
+                            <input type="text" id="vat_id" name="vat_id" value="" title="VAT number" maxlength="255" class="input-text required-entry">
+                        </div>
+                        <label for="logistic_logo" style="margin-top: 5%;" class="required"><em>*</em><?php echo $this->__('Logo'); ?></label>
+                        <div class="input-box file-box">
+                            <input name="logistic_logo" value="logistic_logo" title="Logo" type="file" class="input-file required-entry">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="description" class="required"><em>*</em><?php echo $this->__('Company Description'); ?></label>
+                        <textarea rows="4" cols="50" id="description" name="description" value="" title="Company Description" class="required-entry"></textarea>
+                    </div>
+                </li>
+    		</ul>
+            <div class="button_form">
+                <div class="button_text">
+                    <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+                    <a href="#">Clear all</a>
+                </div>
+                <div class="button_check">
+                    <button type="submit" title="<?php echo $this->__('Submit') ?>" class="button"><span><span><?php echo $this->__('Submit') ?></span></span></button>
+                </div>
+            </div>
+    	</div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    //< ![CDATA[
+        var logisticSupplierRegister = new VarienForm('logistic-supplier-register');
+    //]]>
+    jQuery(document).ready(function(){
+        var element = jQuery('#logistic-supplier-register > div');
+        var listAction = jQuery('.list_icon > div');
+        element.hide();
+        element.first().show();
+        jQuery('button.button').on('click',function(e){
+            var currentBlock = jQuery(this).parents('.register-step');
+            if(validateRegisterBlock(currentBlock) == false){
+                return false;
+            };  
+            if(currentBlock.hasClass('business-information')){
+            }else{
+                if(currentBlock.is(':visible')){
+                    currentBlock.hide();
+                    currentBlock.next().show();
+                    var index = currentBlock.index();
+                    jQuery('.list_icon > div').eq(index+1).addClass('completed');
+                    jQuery('.list_icon > div').eq(index+2).addClass('active');
+                }
+            }
+        });
+
+        jQuery('.button_form .button_text a').click(function(e){
+            e.preventDefault();
+            jQuery('#logistic-supplier-register')[0].reset();
+        });
+    });
+</script>

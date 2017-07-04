@@ -1,0 +1,523 @@
+.progressInner {
+    padding: 20px 0;
+    zoom: 1;
+}
+
+.progressInner:before, .progressInner:after {
+    content: "";
+    display: table;
+}
+
+.progressInner:after {
+    clear: both;
+}
+
+.progressInner:before, .progressInner:after {
+    content: "";
+    display: table;
+}
+
+.progressInner .step {
+  float: left;
+  width: 25%;
+  text-align: center;
+  border-bottom:solid 2px #D1D3D2;
+  padding:10px 0;
+}
+.progressInner .step.active {
+  border-bottom-color:#4DB963;
+}
+
+.progressInner .step .icon {
+  display: inline-block;
+}
+
+.icon:before {
+    content: '';
+    background: url(../images/websiteIconSprites.png) no-repeat;
+    width: 30px;
+    height: 30px;
+}
+
+.progressInner .step .icon h4 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 400;
+  color: #D3D5D4;
+  text-align: center;
+  display: inline-block;
+  font-family: 'flamabook';
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+.progressInner .step.active h4 {
+    -webkit-animation: fromUp 1s ease;
+    -moz-animation: fromUp 1s ease;
+    -o-animation: fromUp 1s ease;
+    -ms-animation: fromUp 1s ease;
+    animation: fromUp 1s ease;
+    color: #4DB963;
+}
+.progressInner .step label{
+    display: block;
+    width: 42px;
+    height: 42px;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border: 1px solid #e6e6e6;
+    padding: 4px;
+    background: #fff;
+    margin: 0 auto 15px;
+    overflow: hidden;
+    cursor: pointer;
+  display:none;
+}
+.progressInner .step label span{
+    display: block;
+    background: #fff;
+    color: #1c1c1c;
+    text-align: center;
+    line-height: 32px;
+    overflow: hidden;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+}
+
+.progressInner .step.active label{
+    border-color: #2ad84d;
+}
+
+.progressInner .step.active label span{
+    background: #2ad84d;
+    color: #fff;
+}
+
+
+.checkout h4, .wizard h4 {
+    font-weight: 200;
+    margin: 0;
+    display: block;
+}
+
+.progressInner .step .bar {
+  display:none;
+}
+
+#addressStep .img {
+    background: url(../images/checkout-step1.png) no-repeat center center;
+  background-size: 100% auto;
+}
+#addressStep.active .img{
+  background-image: url(../images/checkout-step1-active.png);
+}
+#deliveryStep .img {
+    background: url(../images/checkout-step2.png) no-repeat center center;
+  background-size: 100% auto;
+}
+#deliveryStep.active .img{
+  background-image: url(../images/checkout-step2-active.png);
+}
+#paymentStep .img {
+    background: url(../images/checkout-step3.png) no-repeat center center;
+  background-size: 100% auto;
+}
+#paymentStep.active .img{
+  background-image: url(../images/checkout-step3-active.png);
+}
+#reviewStep .img {
+    background: url(../images/checkout-step4.png) no-repeat center center;
+  background-size: 100% auto;
+}
+#reviewStep.active .img{
+  background-image: url(../images/checkout-step4-active.png);
+}
+
+.progressInner .step .icon i.img {
+    width: 40px;
+    height: 43px;
+    display: inline-block;
+    left: 12px;
+    bottom: 14px;
+  vertical-align: middle;
+  margin: 0px 5px 0 0;
+}
+
+.progressInner .step:last-child .bar {
+    display: none;
+}
+.checkout-progress-bar,
+#checkoutSteps {
+  width: 85%;
+  margin: auto;
+  max-width: 100%;
+  float: right;
+  font-family: 'flamabook';
+  font-size: 16px;
+  color: #58595B;
+}
+#checkoutSteps .form-list label,
+#checkoutSteps .form-list .control label{
+  /*float: left;*/
+  position: relative;
+  z-index: 0;
+  font-weight: 400;
+  font-family: 'flamabook';
+  font-size: 16px;
+  color: #58595B;
+  text-transform: none;
+}
+#checkoutSteps .field-list label {
+  font-size: 15px;
+  color: #898B8A;
+  text-transform: uppercase;
+}
+.form-list select,
+.form-list input.input-text{
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+}
+.box-provider {
+  float:left;
+  width:100%;
+  border-bottom:solid 2px #E1E8E2;
+  padding-bottom:15px;
+  margin-bottom:15px;
+}
+.box-provider .box-title {
+  float:left;
+  width:100%;
+  margin-bottom:10px;
+  text-align: center;
+}
+.box-provider .box-title h3{
+  color:#898B8A;
+  font-size:22px;
+  text-transform: uppercase;
+  float:left;
+  margin:0px;
+  line-height: 26px;
+}
+.box-provider .box-title h3 .count {
+  font-size:20px;
+  color:#BDBEBE;
+  margin-left:5px;
+}
+.box-provider .box-title >label{
+  display: inline-block;
+  font-size: 22px;
+  text-transform: uppercase;
+  line-height: 26px;
+}
+.box-provider .box-title >label span:nth-child(1){
+  padding-right:25px;
+  position: relative;
+}
+.box-provider .box-title >label span:nth-child(1):before {
+  content: "";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  border-right: solid 1px #898B8A;
+  border-bottom: solid 1px #898B8A;
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  margin-top: -5px;
+}
+.box-provider .box-title .price-update {
+  float:right;
+  font-size:22px;
+  color:#58595B;
+  line-height: 26px;
+}
+.box-provider .list-methods {
+  float:left;
+  width:100%;
+}
+.box-provider .list-methods .method-item {
+  float:left;
+  width:32%;
+  margin-right:2%;
+  margin-bottom:2px;
+
+  position: relative;
+}
+.box-provider .list-methods .method-item .item-content,
+.sp-methods dt .dt-content{
+  min-height:200px;
+  padding:12px;
+  background: #fff;
+  position: relative;
+  border:solid 1px #DCDEDD;
+}
+.box-provider .list-methods .method-item:nth-child(3n){
+  margin-right:0px;
+}
+.list-methods .method-item .item-content .top-title{
+  float:left;
+  width:100%;
+  font-size:18px;
+  line-height: 24px;
+  color:#58595B;
+}
+.list-methods .method-item .item-content .top-title label{
+  float:left;
+  max-width:60%;
+  font-weight: normal;
+}
+.list-methods .method-item .item-content .top-title .box-price {
+  float:right;
+}
+.list-methods .method-item .item-content .select,
+.sp-methods dt .dt-content .select{
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  text-transform: uppercase;
+  background: #D1D3D2;
+  color: #fff;
+  line-height: 20px;
+  font-weight: 600;
+  font-size: 18px;
+}
+.list-methods .method-item .item-content .box-content {
+  float:left;
+  width:100%;
+}
+.list-methods .method-item .item-content .box-content .image-method {
+  float:left;
+  max-width:50%;
+}
+.box-provider .list-methods .method-item input.radio,
+.sp-methods dt input.radio{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  margin:0px;
+  cursor: pointer;
+}
+.box-provider .list-methods .method-item i.radio,
+.sp-methods dt i.radio {
+  display: none;
+}
+.box-provider .list-methods .method-item i.radio.radio-checked + .item-content,
+.sp-methods dt i.radio.radio-checked + .dt-content{
+  border:solid 2px #4DB963;
+  padding:11px;
+}
+.box-provider .list-methods .method-item i.radio.radio-checked + .item-content .select,
+.sp-methods dt i.radio.radio-checked + .dt-content .select{
+  background-color:#4DB963;
+}
+
+.list-methods.lis-freight .method-item .item-content .top-title >div,
+.list-methods .method-item.freight-item .item-content .top-title >div {
+  float:left;
+  width:33.4%;
+  text-align: center;
+  font-size: 20px;
+}
+.list-methods.lis-freight .method-item .item-content .top-title >div + div ,
+.list-methods .method-item.freight-item .item-content .top-title >div + div{
+  float:right;
+}
+.list-methods.lis-freight .method-item .item-content .top-title >div >span:nth-last-child(1),
+.list-methods .method-item .item-content .box-content li >span,
+.list-methods .method-item .item-content .box-content #summary_rating >span,
+.list-methods .method-item.freight-item .item-content .top-title >div >span:nth-last-child(1)
+{
+  display: block;
+  font-size:10px;
+  line-height: 10px;
+  text-transform: uppercase;
+  text-align: center;
+}
+.list-methods .method-item .item-content .box-content ul{
+  float:left;
+  width:100%;
+  margin:12px 0;
+}
+.list-methods .method-item .item-content .box-content li {
+  float:left;
+  width:33.3%;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 16px;
+  color:#8B8D8C;
+}
+.list-methods .method-item .item-content .box-content #summary_rating {
+  float:right;
+  height: auto;
+  margin-top: 5px;
+  line-height: normal;
+}
+.list-methods .method-item .item-content .box-content #summary_rating .rating-box {
+  margin:0 0 5px;
+}
+.list-methods.lis-documentation .method-item .item-content .top-title label {
+   min-height:48px;
+   margin-bottom: 10px;
+}
+.list-methods.lis-freight.list-forex .method-item .item-content .top-title >div,
+.list-methods .method-item.freight-item.forex-item .item-content .top-title >div{
+  width:50%;
+}
+.list-methods .method-item .item-content .top-title >div .small {
+  font-size:75%;
+}
+.list-methods.list-forex .method-item .item-content .box-content .image-method img,
+.list-methods .method-item.forex-item .item-content .box-content .image-method img {
+  width:auto;
+  max-height:60px;
+}
+.list-methods.list-forex .method-item .item-content .box-content ul,
+.list-methods .method-item.forex-item .item-content .box-content ul{
+  margin:8px 0;
+}
+.sp-methods dt {
+  float:left;
+  width:48.5%;
+  margin-right:3%;
+  padding:0px;
+  margin-bottom:10px;
+  position: relative;
+}
+.sp-methods dt:nth-child(2n){
+  margin-right:0px;
+}
+.sp-methods dt label {
+  font-weight: normal;
+  font-size:20px;
+}
+.sp-methods .dt-content img{
+  display: block;
+  margin: 10px auto;
+  height: 70px;
+}
+.sp-methods dd {
+  float: left;
+  width: 100%;
+  margin-top: 0px;
+}
+.sp-methods dd > ul.form-list {
+  padding: 20px!important;
+  float: left;
+  border: solid 2px #4DB963;
+  width: 100%;
+}
+.sp-methods dt i.radio.radio-checked + .dt-content:before {
+  content: "";
+  width: calc(100% + 4px);
+  height: 10px;
+  position: absolute;
+  left: -2px;
+  bottom: -12px;
+  background: #4db963;
+}
+.opc .sp-methods .checkout-agreements .agreement-content {
+   padding: 5px;
+   border: none;
+   background: none;
+ }
+.sp-methods .form-list li {
+  width:500px;
+  max-width:100%;
+  margin-left:auto;
+  margin-right:auto;
+}
+#checkoutSteps .sp-methods .form-list li label{
+  text-transform: uppercase;
+  color: #898B8A;
+  font-size: 14px;
+}
+.order-review .title-box {
+  color: #898B8A;
+  text-transform: uppercase;
+  font-size: 22px;
+}
+.order-review  .box-provider {
+  border-bottom:none;
+}
+.order-review .box-provider .box-title h3 {
+  float:left;
+  width:100%;
+  text-align: left;
+  margin-bottom:10px;
+}
+.order-review  .box-provider .list-methods .method-item .item-content {
+  float:left;
+  width:100%;
+  min-height: 170px;
+}
+.opc .section #review-buttons-container {
+  margin-top:20px;
+}
+.opc .section #review-buttons-container button.button{
+  float:left;
+}
+.opc .section #review-buttons-container button.button.btn-checkout {
+  float:right;
+}
+
+@media (max-width: 1199px){
+  /*.progressInner {text-align:center;}*/
+  /*.progressInner .step {width:25%; float:none; display:inline-block;}
+  .progressInner .step .bar {width:100%;}*/
+}
+@media (max-width: 900px){
+  /*.box-provider .list-methods .method-item {
+    width:100%;
+    margin:0px 0px 10px;
+  }*/
+  .checkout-progress-bar,
+  #checkoutSteps {
+    width:100%;
+  }
+  .box-provider .list-methods .method-item .item-content,
+  .sp-methods dt .dt-content {
+    padding:5px;
+  }
+  .box-provider .list-methods .method-item {
+    width:33%;
+    margin-right:0.5%;
+  }
+  .list-methods.lis-freight .method-item .item-content .top-title >div,
+  .list-methods .method-item.freight-item .item-content .top-title >div ,
+  .list-methods .method-item .item-content .top-title{
+    font-size:16px;
+  }
+}
+@media (max-width: 700px){
+  .box-provider .list-methods .method-item {
+    width:100%;
+    margin:0px 0px 10px;
+  }
+}
+@media (max-width: 440px){
+  .progressInner .step {width:24%;}
+  .progressInner .step .icon {width:30px; height:30px;}
+  .progressInner .step .icon h4 {font-size:.5em; padding:4px;}
+  /*.progressInner {padding: 40px 5px 20px;}*/
+  /*.progressInner .step .icon i.img {width:100%; height:100%; top:0; left:0;}
+  .progressInner .step .bar { margin: 15px -2px 15px 29px; height: 4px; padding: 2px 2px 2px 4px;}
+  #addressStep .img { background-size: 500px auto; background-position:-327px -20px;}
+  #deliveryStep .img {background-size: 500px auto; background-position:-355px -20px;}
+  #paymentStep .img {background-size: 500px auto;  background-position: -382px -20px;}
+  #reviewStep .img { background-size: 500px auto; background-position: -412px -20px;}*/
+  /*.progressInner .step:last-child {width:30px; height:34px;}*/
+  .shipping-rate-footer .col-md-4 {
+    margin-bottom:10px;
+  }
+}

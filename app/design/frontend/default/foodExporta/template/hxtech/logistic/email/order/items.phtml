@@ -1,0 +1,36 @@
+<?php
+$_order = $this->getOrder();
+$_shippingrate = $this->getShippingrate();
+?>
+<?php if ($_order && $_shippingrate): ?>
+    <table cellspacing="0" cellpadding="0" border="0" width="650" style="border:1px solid #EAEAEA;">
+        <thead>
+        <tr>
+            <th align="center" bgcolor="#EAEAEA" style="font-size:13px; padding:3px 9px"><?php echo $this->__('Shipping Terms') ?></th>
+            <th align="center" bgcolor="#EAEAEA" style="font-size:13px; padding:3px 9px"><?php echo $this->__('Transport Method') ?></th>
+            <th align="center" bgcolor="#EAEAEA" style="font-size:13px; padding:3px 9px"><?php echo $this->__('Origin') ?></th>
+            <th align="center" bgcolor="#EAEAEA" style="font-size:13px; padding:3px 9px"><?php echo $this->__('Destination') ?></th>
+            <th align="center" bgcolor="#EAEAEA" style="font-size:13px; padding:3px 9px"><?php echo $this->__('Transit Time (days)') ?></th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td align="center" valign="top" style="font-size:11px;padding:3px 9px;border-bottom:1px dotted #cccccc">
+                    <strong style="font-size:11px"><?php echo $_shippingrate->getShippingTerms(); ?></strong>
+                </td>
+                <td align="center" valign="top" style="font-size:11px;padding:3px 9px;border-bottom:1px dotted #cccccc">
+                    <strong style="font-size:11px"><?php echo $_shippingrate->getTransportMethod(); ?></strong>
+                </td>
+                <td align="center" valign="top" style="font-size:11px;padding:3px 9px;border-bottom:1px dotted #cccccc">
+                    <strong style="font-size:11px"><?php echo $_shippingrate->getOriginPort(); ?></strong>
+                </td>
+                <td align="center" valign="top" style="font-size:11px;padding:3px 9px;border-bottom:1px dotted #cccccc">
+                    <strong style="font-size:11px"><?php echo $_shippingrate->getDestinationPort(); ?></strong>
+                </td>
+                <td align="center" valign="top" style="font-size:11px;padding:3px 9px;border-bottom:1px dotted #cccccc">
+                    <strong style="font-size:11px"><?php echo $_shippingrate->getTransitTime(); ?></strong>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+<?php endif; ?>

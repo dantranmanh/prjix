@@ -1,0 +1,28 @@
+<?php
+/*
+NOTICE OF LICENSE
+
+This source file is subject to the SafeMageEULA that is bundled with this package in the file LICENSE.txt.
+
+It is also available at this URL: https://www.safemage.com/LICENSE_EULA.txt
+
+Copyright (c)  SafeMage (https://www.safemage.com/)
+*/
+?>
+<?php
+
+?>
+
+<span class="filter">
+    <input
+        type="radio"
+        name="<?php echo $this->getRadioName(); ?>"
+        value="<?php echo $this->getRadioValue(); ?>"
+        <?php echo $this->getChecked(); ?>
+        class="radio-attr-permission-<?php echo $this->getParentBlock()->getPermissionType(); ?>"
+        onclick="safeMageAttributeRadio.checkRadio($(this), '<?php echo $this->getParentBlock()->getHiddenIdsStr(); ?>');"
+    />
+</span>
+
+
+

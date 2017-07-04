@@ -1,0 +1,147 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php /** @var $this Mage_Sales_Block_Order_Info */ ?>
+<?php $_order = $this->getOrder() ?>
+<?php echo $this->getMessagesBlock()->toHtml() ?>
+<div class="page-title title-buttons">
+    <h3 style="margin:0 0 10px;text-align:left;"><?php echo $this->__('Order #%s - %s', $_order->getRealOrderId(), $_order->getStatusLabel()) ?></h3>
+    <div class="order-buttons"><?php echo $this->getChildHtml('buttons') ?></div>
+</div>
+<?php echo $this->getStatusHistoryRssUrl($_order) ?>
+<dl class="order-info">
+    <dt><?php echo $this->__('About This Order:') ?></dt>
+    <dd>
+        <?php $_links = $this->getLinks(); ?>
+        <ul id="order-info-tabs">
+        <?php foreach ($_links as $_link): ?>
+            <?php if($_link->getUrl()): ?>
+                <li><a href="<?php echo $_link->getUrl() ?>"><?php echo $_link->getLabel() ?></a></li>
+            <?php else: ?>
+                <li class="current"><?php echo $_link->getLabel() ?></li>
+            <?php endif; ?>
+        <?php endforeach; ?>
+        </ul>
+        <script type="text/javascript">decorateGeneric($('order-info-tabs').select('LI'),['first','last']);</script>
+        <ul class="sale_custom_bt">
+            <li><a href="<?php echo $this->getPrintUrl($_order) ?>" class="link-print" onclick="this.target='_blank';"><?php echo $this->__('Print Order') ?></a></li>
+            <?php if($this->helper('rss/order')->isStatusNotificationAllow()): ?>
+            <li>
+            <span class="separator">|</span>
+            <a href="<?php echo $this->helper('rss/order')->getStatusHistoryRssUrl($_order) ?>" class="link-rss f-none"><?php echo $this->__('Subscribe to Order Status') ?></a>
+            
+            </li>
+            <?php endif; ?>
+            <?php if ($this->helper('sales/reorder')->canReorder($_order)) : ?>
+            <li>
+            <span class="separator">|</span>
+            <a href="<?php echo $this->getReorderUrl($_order) ?>" class="link-reorder"><?php echo $this->__('Reorder') ?></a>
+            
+            </li>
+            <?php endif ?>
+        </ul>
+    </dd>
+</dl>
+<table class="data-table" id="my-orders-table">
+    <col width="1" />
+    <col width="1" />
+    <col width="1" />
+    <col width="1" />
+    <col width="1" />
+    <thead>
+    <tr>
+        <th><?php echo $this->__('Order #') ?></th>
+        <th><?php echo $this->__('Created Date') ?></th>
+        <th><?php echo $this->__('Delivery Address') ?></th>
+        <th><span class="nobr"><?php echo $this->__('Total Price') ?></span></th>
+        <th><span class="nobr"><?php echo $this->__('Status') ?></span></th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="order-id">
+                <a href="<?php echo $this->getViewUrl($_order) ?>"><?php echo $_order->getRealOrderId() ?></a>
+            </td>
+            <td class="order-date">
+                <span class="nobr"><?php echo $this->__('%s', $this->formatDate($_order->getCreatedAtStoreDate())) ?></span>
+            </td>
+            <td class="order-ship">
+                <?php $_shipping_address = $_order->getShippingAddress(); ?>
+                <?php $_streets = $_shipping_address->getStreet(); ?>
+                <?php foreach ($_streets as $_street): ?>
+                    <?php echo $_street; ?> <br>
+                <?php endforeach; ?>
+                <?php echo $_shipping_address->getCity() . ' ' . $_shipping_address->getPostcode(); ?>
+            </td>
+            <td class="order-total">
+                <?php echo $_order->formatPrice($_order->getGrandTotal()) ?> <br>
+                <?php echo Mage::helper('payment')->getInfoBlock($_order->getPayment())->toHtml(); ?>
+            </td>
+            <td class="order-status">
+                <em><?php echo $_order->getStatusLabel() ?></em>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<script type="text/javascript">decorateTable('my-orders-table');</script>
+
+
+<?php if (!$_order->getIsVirtual()): ?>
+<div class="col2-set order-info-box">
+    <div class="col-1">
+        <div class="box">
+            <div class="box-title">
+                <h2><?php echo $this->__('Shipping Address') ?></h2>
+            </div>
+            <div class="box-content">
+                <address><?php echo $_order->getShippingAddress()->format('html') ?></address>
+            </div>
+        </div>
+    </div>
+    <div class="col-2">
+        <div class="box">
+            <div class="box-title">
+                <h2><?php echo $this->__('Shipping Method') ?></h2>
+            </div>
+            <div class="box-content">
+                <?php if ($_order->getShippingDescription()): ?>
+                    <?php echo $this->escapeHtml($_order->getShippingDescription()) ?>
+                <?php else: ?>
+                    <p><?php echo $this->helper('sales')->__('No shipping information available'); ?></p>
+                <?php endif; ?>
+            </div>
+        </div>
+        <div class="box box-payment">
+            <div class="box-title">
+                <h2><?php echo $this->__('Payment Method') ?></h2>
+            </div>
+            <div class="box-content">
+                <?php echo $this->getPaymentInfoHtml() ?>
+            </div>
+        </div>
+    </div>
+</div>
+<?php endif; ?>

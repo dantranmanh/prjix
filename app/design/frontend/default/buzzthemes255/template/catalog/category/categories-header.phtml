@@ -1,0 +1,68 @@
+<?php
+/**
+ * Hxtech 2016
+ */
+?>
+<?php
+$currentCategory = Mage::registry('current_category');
+
+$categories = Mage::getModel('catalog/category')->getCollection()
+->addAttributeToSelect('*')//or you can just add some attributes
+->addAttributeToSelect('name')//or you can just add some attributes
+->addAttributeToSelect('url')//or you can just add some attributes
+->addAttributeToFilter('level', 2)//2 is actually the first level
+->addAttributeToFilter('include_in_menu', 1)//if you want only active categories
+->addAttributeToFilter('is_active', 1);//if you want only active categories
+$currentUrl = Mage::helper('core/url')->getCurrentUrl();
+?>
+<div class="block block-category">
+    <div class="block-title">
+        <strong><span><?php echo $this->__('Categories');?></span></strong>
+    </div>
+    <div class="block-content">
+        <ul class="nav-list">
+        <?php foreach ($categories as $category):?>
+            <?php $childrens = $category->getChildrenCategories(); ?>
+            <li <?php if(strpos($currentUrl, $category->getUrlKey()) !== false):?> class="active"<?php endif;?>>
+                <a href="<?php echo $category->getUrl(); ?>" title="<?php echo $category->getName(); ?>"><?php echo $category->getName(); ?></a>
+                <?php $countChildrens = $childrens->count(); ?>
+                <?php if($countChildrens):?>
+                    <ul>
+                        <?php foreach ($childrens as $child): ?>
+                            <?php if(!$child->getProductCount() > 0): continue; endif; ?>
+                            <li <?php if(strpos($currentUrl, $child->getUrlKey()) !== false):?> class="active"<?php endif;?>>
+                                <a title="<?php echo $child->getName();?>" href="<?php echo $child->getUrl();?>"><?php echo $child->getName();?></a>
+                                <?php $subChildrens = $child->getChildrenCategories(); ?>
+                                <?php $countSubChildrens = $subChildrens->count(); ?>
+                                <?php if($countSubChildrens):?>
+                                    <ul>
+                                        <?php foreach ($subChildrens as $subChild): ?>
+                                            <?php if(!$subChild->getProductCount() > 0): continue; endif; ?>
+                                            <li <?php if(strpos($currentUrl, $subChild->getUrlKey()) !== false):?> class="active"<?php endif;?>>
+                                                <a title="<?php echo $subChild->getName();?>" href="<?php echo $subChild->getUrl();?>"><?php echo $subChild->getName();?></a>
+                                                <?php $sub2Childrens = $subChild->getChildrenCategories(); ?>
+                                                <?php $countSub2Childrens = $sub2Childrens->count(); ?>
+                                                <?php if($countSub2Childrens):?>
+                                                    <ul>
+                                                        <?php foreach ($sub2Childrens as $sub2Child): ?>
+                                                            <?php if(!$sub2Child->getProductCount() > 0): continue; endif; ?>
+                                                            <li <?php if(strpos($currentUrl, $sub2Child->getUrlKey()) !== false):?> class="active"<?php endif;?>>
+                                                                <a title="<?php echo $sub2Child->getName();?>" href="<?php echo $sub2Child->getUrl();?>"><?php echo $sub2Child->getName();?></a>
+                                                                
+                                                            </li>
+                                                        <?php endforeach;?> 
+                                                    </ul>
+                                                <?php endif;?>
+                                            </li>
+                                        <?php endforeach;?> 
+                                    </ul>
+                                <?php endif;?>
+                            </li>
+                        <?php endforeach;?>
+                    </ul>
+                <?php endif;?>
+            </li>
+        <?php endforeach; ?>
+        </ul>
+    </div>
+</div>

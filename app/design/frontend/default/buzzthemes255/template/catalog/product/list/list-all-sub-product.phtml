@@ -1,0 +1,68 @@
+<?php
+$category = $this->getCategory();
+$_helper = $this->helper('catalog/output');
+$_productCollection = Mage::getModel('catalog/layer')->setCurrentCategory($category)->getProductCollection();?>
+<div class="list-sub-products">
+    <?php if($_productCollection->getSize() > 0):?>
+        <ul class="products-grid">
+            <?php $i = 0; $_columnCount = 8; ?>
+            <?php foreach($_productCollection as $_product): ?>
+                <?php $i++; ?>
+                <?php if($i>8){ break; }?>
+                <li class="col-md-3 col-sm-3 item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
+                    <div class="item-content <?php if(!Mage::getSingleton('customer/session')->isLoggedIn()):?>hide-price<?php else:?>product-login<?php endif;?>">
+                        <div class="amlabel-div">
+        <?php 
+        $dateG = date("Y-m-d 00:00:00");
+        $newtodateG = $_product['news_to_date'];
+        $newfromdateG = $_product['news_from_date'];
+
+        if (isset($newfromdateG) and isset($newtodateG) and $dateG >= $newfromdateG and $dateG <= $newtodateG) 
+        {
+          echo "<span class='label_new'>New</span>";
+        }
+        ?>
+                            
+                            <?php // echo Mage::helper('amlabel')->getLabels($_product) ?>
+                            <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image">
+                                <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(160,260); ?>" width="160" height="260" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
+                            </a>
+                            <?php if(!$_product->isSaleable()): ?>
+                                <div class="product-out-stock">
+                                    <span><?php echo $this->__('Out Of Stock');?></span>
+                                </div>
+                            <?php endif;?>
+                        </div>
+
+                        <h2 class="product-name 3"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?> <?php echo '('.Mage::helper('logistic/logistic')->getProductUnitWeightHtml($_product).')'; ?></a></h2>
+
+                        <div class="product-actions">
+                            <!-- Show Product_Type case or pallet -->
+                            <div class="newstyle">
+                                <!-- Globo edit position -->
+                                <?php echo Mage::helper('logistic/logistic')->getProductUnitLabel($_product); ?>
+                                <!-- <?php echo Mage::helper('logistic/logistic')->getProductTypeLabel($_product); ?> -->
+                            </div>
+
+                            <?php echo $this->getPriceHtml($_product, true) ?>
+                            <div class="actions">
+                                <?php if($_product->isSaleable()): ?>
+                                    <?php $stocklevel = (int)Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty();?>
+                                    <?php $manageStock = Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getManageStock();?>
+                                    <input type="text" class="input-text input-cart" value="1" />
+                                    <button data-product-id="<?php echo $_product->getId(); ?>" class="button btn-cart add-cart-button" type="button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')">
+                                        <span class="text"><?php echo $this->__('Add to Cart') ?></span>
+                                    </button>
+                                <?php else: ?>
+                                    <p class="availability out-of-stock"><button title="<?php echo $this->__('Notify me');?>" product_id="<?php echo $_product->getId() ?>" class="button btn-outstock"><span><span><?php echo $this->__('Notify me');?></span></span></button></p>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php else:?>
+        <p class="note-msg"><?php echo $this->__('There are no products matching the selection.') ?></p>
+    <?php endif;?>
+</div>

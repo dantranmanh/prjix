@@ -1,0 +1,54 @@
+<?php
+/*
+* Copyright (c) 2014 www.magebuzz.com
+*/
+
+$group_id = $this->getRequest()->getParam('group_id'); ?>
+<div id="messages_shoppinglist"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+<div class="my-shoppinglist" style="width: 365px;">
+  <form id="shoppinglist-send-mail" action="<?php echo $this->getUrl('shoppinglist/group/sendmail_post',array('_secure'=>TRUE));?>" method="post">
+    <div class="edit-group fieldset">
+      <h2 class="legend"><?php echo $this->__('Send mail to friends'); ?></h2>
+      <ul class="form-list">
+        <li class="fields">
+          <div class="field">
+            <input name="group_id" id="group_id" type="hidden" value="<?php echo $group_id ?>">
+          </div>
+          <div class="field">
+            <label for="email_friends" class="required"><em>*</em><?php echo $this->__('Email') ?></label>
+
+            <div class="input-box">
+              <input name="email_friends" id="email_friends" title="<?php echo $this->__('Email') ?>" value=""
+                     class="input-text required-entry validate-email" type="text"/>
+            </div>
+          </div>
+          <div class="field">
+            <label for="name_friends" class="required"><em>*</em><?php echo $this->__('Name') ?></label>
+
+            <div class="input-box">
+              <input name="name_friends" id="name_friends" title="<?php echo $this->__('Name') ?>" value=""
+                     class="input-text required-entry" type="text"/>
+            </div>
+          </div>
+        </li>
+        <li class="fields">
+          <div class="field">
+            <label class="required"><em>*</em><?php echo $this->__('Message') ?></label>
+
+            <div class="input-box">
+              <textarea onblur="javascript:resizePopup();" onfocus="javascript:resizePopup();"
+                        class="input-text required-entry" id="email-message-textarea" cols="4" rows="3" name="text_massage"/>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="buttons-set">
+      <button onclick="javascript:resizePopup();" type="submit" title="<?php echo $this->__('Send') ?>" class="button">
+        <span><span><?php echo $this->__('Send') ?></span></span></button>
+    </div>
+  </form>
+</div>
+<script type="text/javascript">
+  var editGroupForm = new VarienForm('shoppinglist-send-mail', true);
+</script>	

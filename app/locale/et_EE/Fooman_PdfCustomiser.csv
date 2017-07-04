@@ -1,0 +1,118 @@
+Pdf Customiser by Fooman,Fooman'i Pdf faili kohandaja
+Add your custom comments here to appear at the bottom of the Invoice Pdf. You could for example include bank account number and terms of payment.,"Lisa oma kohandatud kommentaarid siia, need ilmuvad arve väljatrüki all. Näiteks te võite lisada pangakonto numbri ja maksetingimused. "
+Add your custom comments here to appear at the bottom of the Creditmemo Pdf,"Lisa oma kohandatud kommentaarid siia, need ilmuvad krediidi arve väljatrüki allosas  "
+Add your custom comments here to appear at the bottom of the Shipment Pdf,"Lisa oma kohandatud kommentaarid siia, need ilmuvad saatmist puudutava dokumendi väljatrüki allosas"
+Bottom Margin,Alumine veeris 
+"Choose Helvetica, Times or Courier for smaller filesizes. Choose the Dejavu-Variants to support more characters (UTF-8).","Vali Helvetica, Times või Courier font väiksema suurusega failidele. Vali Dejavu-faili variandid, et toetada rohkem karaktereid(tähemärke) (UTF-8). "
+Credit Memo Title,Krediidiarve pealkiri 
+Custom Text,Kohandatud tekst 
+Font,Font 
+Base Font Size,Fondi suurus
+Invoice Title,Arve pealkiri (tiitel)
+Logo for the Pdf,Logo Pdf faili väljatrükile 
+Page Size,Lehekülje suurus
+Shipment Title,Saadetise pealkiri 
+Side Margins,Külje veerised 
+Store Address,Hoidmis aadress 
+Tax Details,Maksu andmed 
+Top Margin,Ülemine veeris 
+Which addresses should appear on the Credit Memo? Please note that downloadable product orders don't have a shipping address.,"Millised aadressid peaksid ilmuma Krediidi arvel? Pange tähele, et allalaaditavate toodete tellimustel saatmis aadresse pole. "
+Which addresses should appear on the invoice? Please note that downloadable product orders don't have a shipping address.,"Millised aadressid peaksid kajastuma arvel? Pange tähele, et allalaaditavate toodete tellimustel saatmis aadresse pole. "
+Which addresses should appear on the packing slip? Please note that downloadable product orders don't have a shipping address.,"Millised aadressid peaksid ilmuma pakkesedelil? Pange tähele, et allalaaditavate toodete tellimustel saatmis aadresse pole. "
+A4,A4 
+letter,kiri 
+Billing Address only,Arvete tasuja aadress 
+Shipping Address only,Saaja aadress
+Both Addresses,Mõlemad aadressid 
+Courier,Courier
+Times New Roman,Times New Roman 
+Helvetica,Helvetica 
+DejaVuSans,DejaVuSans 
+DejaVuSansMono,DejaVuSansMono 
+DejaVuSerif,DejaVuSerif 
+Digitally Sign Pdf,Digitaalse allkirjaga Pdf 
+Signature,Allkiri 
+Copy the contents of your certificate/signature file including your private key here. Include everything from -----BEGIN RSA PRIVATE KEY----- to -----END CERTIFICATE-----,Kopeeri oma sertifikaadi sisu/allkirjaga fail (sealhulgas oma isiklik võti) siia. Hõlmab kõike alates ----- BEGIN RSA PRIVATE KEY ----- kuni ----- END CERTIFICATE ----- 
+Password of Signature,Allkirja parool 
+THSarabunPSK (Thai),THSarabunPSK (Tai) 
+Add your custom comments here to appear at the bottom of the Order Pdf.,"Lisa oma kohandatud kommentaarid siia, need ilmuvad tellimuse väljatrüki allosas. "
+Which addresses should appear on the order? Please note that downloadable product orders don't have a shipping address.,"Millised aadressid peaks olema tellimusel? Pange tähele, et allalaaditavate toodete tellimustel saatmis aadresse pole. "
+Display,Näita/kuva
+None,Mitte ükski 
+Product Image,Tootepilt 
+SKU Barcode,SKU triipkood 
+Display Quantity as full number,Näita koguseid täisühikutes
+US,USA 
+European,Euroopa 
+Customer Address Format,Kliendi aadressi formaat 
+Display Base and Order Currency,Näita põhi valuutat ja tellimuse valuutat 
+Delivery Date,Kohaletoimetamise kuupäev 
+Display Delivery Date,Näita tarnekuupäeva 
+Displays the date of the invoice again. Needed in some jurisdictions.,Näitab arve kuupäeva uuesti. Vajalik mõnedes jurisdiktsioonides. 
+Print Order History with Comments,Trüki tellimuse ajalugu kommentaaridega 
+Single - Shipping Address Label,Üks – saate aadressi silt
+Single - Billing Address Label,Üks – arvete tasuja aadressi silt
+Double - Both Addresses,Topelt - mõlemad aadressid 
+Use Integrated Labels,Kasutage integreeritud etikette
+Print Order as Packing Slip,Trükkige tellimus kui pakkimis sedel 
+Use this option if you would like to print packing slips without having to create shipments. You will however lose the ability to print the packing slips with the shipment number (the order number is used instead).,"Kasutage seda valikut, kui soovite printida pakkimis sedelit, ilma saadetise vedu loomata. Kuid samas kaotate võimaluse printida pakkimis sedelit koos saadetise numbriga (selle asemel kasutatakse tellimuse järjekorranumbrit). "
+Footer Block 1,Lehe allosa plokk 1 
+Footer Block 2,Lehe allosa plokk 2 
+Footer Block 3,Lehe allosa plokk 3 
+Footer Block 4,Lehe allosa plokk 4 
+Double - Shipping and Return Addresses,Topelt/mõlemad – saatmis- ja tagastus aadressid
+Return Address,Tagastus aadress
+Total Weight,Kogukaal
+Display Total Weight,Näita kogukaalu
+kg,kg
+Background Image for Pdf,Taustapildi pdf
+Placement of Logo,Logo paigutus
+Logo Width,Logo laius
+Logo Height,Logo kõrgus
+Logo top-left Corner from the left,Logo vasakpoolne nurk vasakult
+Logo top-left Corner from the top,Logo vasakpoolne nurk ülevalt
+automatic,automaatne
+no-scaling,skaleerimistegurita
+manual,juhend
+Display Email Address,Näita e-maili aadressi
+Displays as part of the billing address.,Näita arve aadressi osana
+in milimeters,millimeetrites
+Display Row Subtotal Including Tax,Näita rea kogusummat koos käibemaksuga
+"is only effective if Tax > Orders, Invoices, Creditmemos Display Settings > Prices is set to not display taxes","on tõhus ainult siis, kui Maks > tellimuste, arvete, krediiditeatiste näidu seaded > hind on määratud nii, et ei näitaks maksu"
+Grand Total is tax inclusive,Kogusumma sisaldab käibemaksu
+Display only one Grand Total,Näita vaid ühte kogusummat
+Display detailed Tax Summary,Näita üksikasjalikku maksude kokkuvõtet
+Columns,Veerud
+Columns Advanced,Veergude täpsemad seaded
+Display Background only on first page,Näita tausta vaid esimesel lehel
+Display Page Number,Näita lehe numbrit
+Custom Column,Kohendatud veerg
+Custom Column Attribute,Kohendatud veeru atribuut
+Base Amount,Baasväärtus
+Select up to 5 attributes.,Vali kuni 5 iseloomulikku joont/atribuuti
+Position,Positsioon
+Pos,Pos 
+right,parem
+left,vasak
+Display Pdf in New Window,Näita pdf'i uues aknas
+Weight Unit,Ühiku kaal
+Barcode Type,Triipkoodi tüüp
+Pdf Totals Sort Order,Pdf summade järjekord
+Upload Custom Font,Lae kohandatud font
+Don't Use,Ära kasuta
+Custom Label Left - Shipping Address,Vasakpoolne kohandatud silt - kohaletoimetamise aadress
+Custom Label Right - Shipping Address,Parempoolne kohandatud silt - kohaletoimetamise aadress
+Custom Label Left - Billing Address,Vasakpoolne kohandatud silt – arve aadress
+Custom Label Right - Billing Address,Parempoolne kohandatud silt – arve aadress
+Display Salesrule instead of Coupon Code,Näita kupongikoodi asemel müügitingimust
+"Combines Gift Wrapping for Orders, Items and Printed Cards","Kombineerib tellimuste, toodete ja trükitud kaartide kinkepakendi"
+Sort by Column,Sorteeri veergu
+Use Alternative Layout,Kasuta alternatiivset paigutust
+Please make sure the barcode type is appropriate for the content or the pdf generation might fail (Default: CODE 39 EXTENDED + CHECKSUM).," Palun veenduge, et triipkoodi tüüp on sisu jaoks sobiv või pdf loomine võib nurjuda (Vaikimisi/default: CODE 39 EXTENDED + CHECKSUM)"
+Double - Shipping and Store Addresses,Topelt/mõlemad – saatmis- ja kaupluse aadressid
+Double - Shipping with Store Addresses and Image,Topelt/mõlemad – saatmis- ja kaupluse aadressid ja pilt
+Page Orientation,Lehe orientatsioon
+Portrait,Portree
+Landscape,Maastik
+Display Tracking Number as Barcode,Näita jälgimise numbrit triipkoodina
+Display Document Barcode,Näita dokumendi triipkoodi

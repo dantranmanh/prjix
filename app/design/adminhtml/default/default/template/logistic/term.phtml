@@ -1,0 +1,19 @@
+<?php
+    $id_emp = (int)Mage::app()->getRequest()->getParam('id');
+    $emp = Mage::getModel('admin/user')->load($id_emp);
+    $term_time = $emp->getTermTime();
+    $currentAdminUserId = Mage::getSingleton('admin/session')->getUser()->getId();
+    if($term_time !=NUll && $term_time !=''){
+?>
+<div id="messages">
+    <div class="frm-message">
+        <ul class="messages container">
+            <li class="success-msg">
+                <ul>
+                    <li><span>Your Terms and conditions were accepted by <?php if($currentAdminUserId == $id_emp){ ?>yourself<?php }else{?> <?php echo $emp->getFirstname().' '.$emp->getLastname() ?> <?php } ?> on <?php echo $term_time;?>.</span>
+                    </li>
+                </ul>
+            </li></ul></div></div>
+<?php } ?>
+<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('terms-conditions-sellers')->toHtml(); 
+?> 

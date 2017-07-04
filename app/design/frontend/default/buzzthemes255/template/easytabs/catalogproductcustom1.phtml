@@ -1,0 +1,22 @@
+<?php 
+$_helper = $this->helper('catalog/output');
+$_product = $this->getProduct();
+?>
+
+
+	<div class="product-barcode-images">
+		<?php $_images = $_product->getMediaGalleryImages();  ?>
+		<?php if(count($_images) > 0): ?>
+			<?php foreach($_images as $_image): ?>
+				<?php if(!Mage::helper('barcode')->isBarcodeImage($_product, $_image)): continue; endif;?> <!-- Continue if image is not barcode -->
+				<ul>
+					<li><img src="<?=$this->helper('catalog/image')->init($_product, 'product_barcode_image', $_image->getFile())->resize(200, 130); ?>" width="200" height="130" alt="<?=$this->htmlEscape($_image->getLabel());?>" title="<?=$this->htmlEscape($_image->getLabel());?>" /></li>
+					<li><?php echo Mage::helper('barcode')->getBarcodeLabel($_product, $_image); ?></li>
+				</ul>
+			<?php endforeach; ?>
+		<?php endif; ?>
+	</div>
+
+
+
+

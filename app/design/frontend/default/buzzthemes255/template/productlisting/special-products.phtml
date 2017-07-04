@@ -1,0 +1,111 @@
+<?php
+$isShowDescription = $this->showDescription();
+$productType = $this->getProductsType();
+$productCollection = $this->getProductCollection();
+$collectionSize = count($productCollection);
+$quote = Mage::getSingleton('checkout/session')->getQuote();
+
+// $link is url to view all product page
+$link = $this->getBaseUrl();
+$link .= 'productlisting/';
+$link .= $productType;
+?>
+<?php if ($collectionSize > 0): ?>
+  <div class="onsale-products">
+    <div class="category-title">
+      <h2><?php echo $this->__('On Sale'); ?></h2>
+    </div>
+    <div class="fillter-products">
+      <div class="fillter-content">
+        <div class="fill-all">
+          <a class="tab-all fill-all-a" onclick="showAll()" href="javascript:void(0);"
+             title="<?php echo $this->__('All'); ?>"><?php echo $this->__('All'); ?></a>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+      jQuery(document).ready(function () {
+        var widthContent = jQuery('.onsale-products .category-title > h2').outerWidth();
+        var widthParent = jQuery('.onsale-products .category-title').outerWidth();
+        var margin = (widthParent - widthContent) / 2;
+        jQuery('.onsale-products .category-title > h2').css('margin-left', margin);
+      });
+    </script>
+    <div class="list-products">
+      <?php $_columnCount = 6; ?>
+      <?php $i = 0;
+      foreach ($productCollection->getItems() as $_product): ?>
+        <?php if ($i++ % $_columnCount == 0): ?>
+          <ul class="products-grid">
+        <?php endif ?>
+        <li
+            class="item<?php if (($i - 1) % $_columnCount == 0): ?> first<?php elseif ($i % $_columnCount == 0): ?> last<?php endif; ?>">
+          <div class="item-content">
+            <div class="amlabel-div">
+              <?php echo Mage::helper('amlabel')->getLabels($_product) ?>
+              <a href="<?php echo $_product->getProductUrl() ?>"
+                 title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>"
+                 class="product-image"><img
+                    src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(143, 143); ?>"
+                    width="143" height="143"
+                    alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>"/></a>
+            </div>
+
+
+            <h3 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>"
+                                        title="<?php echo $this->htmlEscape($_product->getName()) ?>"><?php echo $this->htmlEscape($_product->getName()) ?></a>
+            </h3>
+
+            <div class="product-weight">
+              <?php $weight = (int)$_product->getResource()->getAttribute('weight')->getFrontend()->getValue($_product); ?>
+              <span class="size"><?php echo $this->__('%sg', $weight); ?></span>
+              <?php $long_delivery = $_product->getResource()->getAttribute('delivery')->getFrontend()->getValue($_product); ?>
+              <?php $short_delivery = $_product->getResource()->getAttribute('short_delivery')->getFrontend()->getValue($_product); ?>
+              <?php if ($short_delivery): ?>
+                <?php if ($long_delivery) {
+                  $long_delivery = $long_delivery;
+                } else {
+                  $long_delivery = $short_delivery;
+                } ?>
+                <span class="product-delivery" data-toggle="tooltip" data-placement="top"
+                      data-original-title="<?php echo $long_delivery; ?>"><?php echo $short_delivery; ?></span>
+              <?php endif; ?>
+            </div>
+            <?php echo $this->getPriceHtml($_product, true) ?>
+            <div class="actions">
+              <?php if ($_product->isSaleable()): ?>
+                <?php $stocklevel = (int)Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty();?>
+                <?php $manageStock = Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getManageStock();?>
+                <button class="button btn-cart add-cart-button" type="button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')">
+                  <?php if(!isset($showDefault) || $showDefault !== 'show'.$_product->getId()): ?>
+                    <span data-id="<?php echo $_product->getId(); ?>"  class="counter counter-<?php echo $_product->getId() ?>" style="display: none">
+                                        <span class="quantity-in-cart 1-item quantity-in-cart-<?php echo $_product->getId() ?>" data-margintop="null" style="margin-top: 0px">1</span>
+                                        </span>
+                    <?php if($manageStock == '1'): ?>
+                      <span class="number-product-available-<?php echo $_product->getId() ?>" style="display: none;"><?php echo $stocklevel ?></span>
+                    <?php endif; ?>
+                  <?php endif; ?>
+                  <span class="img"></span>
+                  <span class="text"><?php echo $this->__('Add to Cart') ?></span>
+                </button>
+              <?php else: ?>
+                <p class="availability out-of-stock"><button title="<?php echo $this->__('Notify me');?>" product_id="<?php echo $_product->getId() ?>" class="button btn-outstock"><span><span><?php echo $this->__('Notify me');?></span></span></button></p>
+              <?php endif; ?>
+            </div>
+          </div>
+        </li>
+
+        <?php if ($i % $_columnCount == 0 || $i == count($_products)): ?>
+          </ul>
+        <?php endif ?>
+      <?php endforeach ?>
+    </div>
+  </div>
+<?php else: ?>
+  <div class="onsale-products">
+    <div class="category-title">
+      <h2><?php echo $this->__('On Sales'); ?></h2>
+    </div>
+    <p class="note-msg"><?php echo $this->__('There are no products matching the selection.') ?></p>
+  </div>
+<?php endif; ?>

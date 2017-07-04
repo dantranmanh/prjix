@@ -1,0 +1,32 @@
+<?php
+/**
+ * Hxtech 2016
+ */
+?>
+<?php
+$attributeModel = Mage::getModel('eav/entity_attribute');
+$brands = $attributeModel->loadByCode('catalog_product','brands');
+$allOptions = $brands->getSource()->getAllOptions(false, false);
+$_current_category = Mage::registry('current_category');
+$categoryUrl = $_current_category->getUrl();
+$currentUrl = $categoryUrl.'?brand=';
+$currentBrand = Mage::app()->getRequest()->getParam('brand');
+?>
+<div class="block block-brands">
+    <div class="block-title">
+        <strong><span><?php echo $this->__('Brand Filter');?></span></strong>
+    </div>
+    <div class="block-content">
+        <select onchange="setLocation(this.value)">
+            <option value="<?php echo $categoryUrl; ?>"><?php echo $this->__('---- Select ----');?></option>
+            <?php foreach($allOptions as $option):?>
+            <?php $href = $currentUrl.$option['value'];?>
+                <?php if($currentBrand && $currentBrand == $option['value']): ?>
+                    <option selected value="<?php echo $href;?>"><?php echo $option['label'];?></option>
+                <?php else: ?>
+                    <option value="<?php echo $href;?>"><?php echo $option['label'];?></option>
+                <?php endif; ?>
+            <?php endforeach;?>
+        </select>
+    </div>
+</div>

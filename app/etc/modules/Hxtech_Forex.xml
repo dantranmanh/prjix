@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Hxtech_Forex>
+			<active>true</active>
+			<codePool>local</codePool>
+		</Hxtech_Forex>
+	</modules>
+</config> 
