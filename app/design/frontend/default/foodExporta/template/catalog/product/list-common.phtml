@@ -18,7 +18,7 @@ $filter = Mage::app()->getRequest()->getParam('filter');
         <?php if($this->getMode()!='grid'): ?>
         <?php $_iterator = 0; ?>
         <ol class="products-list" id="products-list">
-        <?php foreach ($_productCollection as $_product): ?>
+        <?php foreach ($_productCollection as $_product):?>
             <li class="item<?php if( ++$_iterator == sizeof($_productCollection) ): ?> last<?php endif; ?>">
                 <div class="item-content">
                     <div class="amlabel-div">
@@ -70,12 +70,32 @@ $filter = Mage::app()->getRequest()->getParam('filter');
         <?php else:?>
         <?php // Grid Mode ?>
         <?php $_collectionSize = $_productCollection->count() ?>
-        <?php $_columnCount = 6; ?>
-        <?php $i=0; foreach ($_productCollection as $_product): ?>
+        <?php
+        $xday = Mage::getStoreConfig('amastycustom/general/new') ? Mage::getStoreConfig('amastycustom/general/new') : 10;
+        $newfrom = strtotime("-" . $xday . " days");
+        //debug code:
+        //echo '<p class="new-from" style="display:none;">' . date('Y-m-d H:i:s', $newfrom) . '</p>';
+            $_columnCount = 6; ?>
+        <?php $i=0; foreach ($_productCollection as $_product):?>
+            <?php
+            if (Mage::getStoreConfig('amastycustom/general/enable') == 1) {
+                $_created=0;
+                $lball = " am-all";
+                $newlb = "";
+                $onsalelb = "";
+                $instocklb = "";
+                $_created = strtotime($_product->getCreatedAt());
+                if($_created >= $newfrom) $newlb = " am-new";
+            }
+            ?>
             <?php if ($i++%$_columnCount==0): ?>
                 <ul class="products-grid col-6">
             <?php endif ?>
-            <li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?> col-md-2 col-sm-2">
+            <li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?> col-md-2 col-sm-2<?php echo $lball.$newlb.$onsalelb.$instocklb?>">
+                <?php
+                //debug code
+               // echo '<p class="created-date">' . date('Y-m-d H:i:s', $_created) . '</p>';
+                ?>
                 <div class="item-content">
                     <div class="amlabel-div">
                         <?php // echo Mage::helper('amlabel')->getLabels($_product) ?>
