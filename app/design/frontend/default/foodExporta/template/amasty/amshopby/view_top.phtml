@@ -48,55 +48,28 @@
                         <?php endif; ?>
                     <?php endforeach; ?>
                     <?php if (Mage::getStoreConfig('amastycustom/general/enable') == 1): ?>
-                        <?php $i = 0; ?>
                         <div class="tabs-title-second tabs-title-style1">
                             <div id="am_all"
-                                 onclick="showextrafiltercontent(this)"
-                                 class="tab-title-second tab-title <?php if ($i == 0): ?>active<?php endif; ?>">
+                                 onclick="showextrafiltercontent('am_all')"
+                                 class="tab-title-second tab-title">
                                 <span><?php echo $this->__('All') ?></span>
                             </div>
                             <div id="am_new"
-                                 onclick="showextrafiltercontent(this)"
-                                 class="tab-title-second tab-title <?php if (0): ?>active<?php endif; ?>">
+                                 onclick="showextrafiltercontent('am_new')"
+                                 class="tab-title-second tab-title">
                                 <span><?php echo $this->__('New') ?></span>
                             </div>
                             <div id="am_onsale"
-                                 onclick="showextrafiltercontent(this)"
-                                 class="tab-title-second tab-title <?php if (0): ?>active<?php endif; ?>">
+                                 onclick="showextrafiltercontent('am_onsale')"
+                                 class="tab-title-second tab-title">
                                 <span><?php echo $this->__('On Sale') ?></span>
                             </div>
                             <div id="am_instock"
-                                 onclick="showextrafiltercontent(this)"
-                                 class="tab-title-second tab-title <?php if (0): ?>active<?php endif; ?>">
+                                 onclick="showextrafiltercontent('am_instock')"
+                                 class="tab-title-second tab-title">
                                 <span><?php echo $this->__('In Stock') ?></span>
                             </div>
                         </div>
-                        <script type="text/javascript">
-                            function showextrafiltercontent(elm) {
-                                var id = elm.getAttribute('id');
-                                jQuery('.tab-title-second').removeClass('active');
-                                jQuery('#' + id).addClass('active');
-                                if(id == "am_all"){
-                                    jQuery('.am-all').show();
-                                    return;
-                                }
-                                if(id == "am_new"){
-                                    jQuery('.am-all').hide();
-                                    jQuery('.am-new').show();
-                                    return;
-                                }
-                                if(id == "am_onsale"){
-                                    jQuery('.am-all').hide();
-                                    //jQuery('.am-new').show();
-                                    return;
-                                }
-                                if(id == "am_instock"){
-                                    jQuery('.am-all').hide();
-                                    //jQuery('.am-new').show();
-                                    return;
-                                }
-                            }
-                        </script>
                     <?php endif; ?>
                 </div>
                 <script type="text/javascript">decorateDataList('narrow-by-list')</script>

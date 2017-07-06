@@ -78,14 +78,32 @@ $filter = Mage::app()->getRequest()->getParam('filter');
             $_columnCount = 6; ?>
         <?php $i=0; foreach ($_productCollection as $_product):?>
             <?php
+            /**
+             * This code add class all,new,instock,onsale for each products
+             */
+            $_created = 0;
+            $lball = " am-all";
+            $newlb = "";
+            $onsalelb = "";
+            $instocklb = "";
             if (Mage::getStoreConfig('amastycustom/general/enable') == 1) {
-                $_created=0;
-                $lball = " am-all";
-                $newlb = "";
-                $onsalelb = "";
-                $instocklb = "";
+                /**
+                 * marks new product
+                 */
                 $_created = strtotime($_product->getCreatedAt());
-                if($_created >= $newfrom) $newlb = " am-new";
+                if ($_created >= $newfrom) $newlb = " " . "am-new";
+                /**
+                 * Marks on sale product
+                 */
+                if ($_product->getFinalPrice() < $_product->getPrice()) {
+                    $onsalelb = " " . "am-onsale";
+                    }
+                /**
+                 * Marks in stock product
+                 */
+                if ($_product->isSaleable()) {
+                    $instocklb = " " . "am-instock";
+                }
             }
             ?>
             <?php if ($i++%$_columnCount==0): ?>

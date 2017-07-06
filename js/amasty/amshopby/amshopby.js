@@ -637,4 +637,69 @@ document.observe("dom:loaded", function() {
     amshopby_start();
     amshopby_move_top_filter();
     fix_chrome_dropdown();
+    /**
+     * active all,onsale,new,instock custom tabs
+     */
+    amshopby_active_extra_tabs();
 });
+
+/**
+ *
+ * These extra js code works for custom amasty filter tab: all,new,onsale,instock
+ *
+ */
+
+function am_setCurrentTabsCookie(value) {
+    var key = "amcetabs";
+    var expires = new Date();
+    /**
+     * fixed expired time is 1 hours
+     */
+    expires.setTime(expires.getTime() + (1 * 60 * 60 * 1000));
+    document.cookie = key + '=' + value + ';expires=' + expires.toUTCString();
+}
+
+function am_getCurrentTabsCookie() {
+    var key = "amcetabs";
+    var keyValue = document.cookie.match('(^|;) ?' + key + '=([^;]*)(;|$)');
+    return keyValue ? keyValue[2] : null;
+}
+function showextrafiltercontent(id) {
+    jQuery('.tab-title-second').removeClass('active');
+    if (id == "am_all") {
+        jQuery("#am_all").addClass('active');
+        jQuery('.am-all').show();
+        am_setCurrentTabsCookie(id);
+        return;
+    }
+    if (id == "am_new") {
+        jQuery("#am_new").addClass('active');
+        jQuery('.am-all').hide();
+        jQuery('.am-new').show();
+        am_setCurrentTabsCookie(id);
+        return;
+    }
+    if (id == "am_onsale") {
+        jQuery("#am_onsale").addClass('active');
+        jQuery('.am-all').hide();
+        jQuery('.am-onsale').show();
+        am_setCurrentTabsCookie(id);
+        return;
+    }
+    if (id == "am_instock") {
+        jQuery("#am_instock").addClass('active');
+        jQuery('.am-all').hide();
+        jQuery('.am-instock').show();
+        am_setCurrentTabsCookie(id);
+        return;
+    }
+}
+function amshopby_active_extra_tabs() {
+    var id = null;
+    id = am_getCurrentTabsCookie();
+    console.log(id);
+    if (!id)
+        showextrafiltercontent("am_all")
+    else
+        showextrafiltercontent(id);
+}
