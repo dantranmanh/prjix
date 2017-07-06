@@ -592,4 +592,4 @@ function amshopby_external_megatron() {
             jQuery(this).removeClass("animate-delay")
         })
     }
-}
+}function ajaxgetcontent(s,id){    jQuery('.tab-title-second').removeClass('active');    if (id == "am_all")        jQuery("#am_all").addClass('active');    if (id == "am_new")        jQuery("#am_new").addClass('active');    if (id == "am_onsale")        jQuery("#am_onsale").addClass('active');    if (id == "am_instock")        jQuery("#am_instock").addClass('active');    amshopby_ajax_push_state(s);    amshopby_ajax_request(s);    return;}

@@ -636,5 +636,5 @@ function fix_chrome_dropdown() {
 document.observe("dom:loaded", function() {
     amshopby_start();
     amshopby_move_top_filter();
-    fix_chrome_dropdown();
-});
+    fix_chrome_dropdown();	/**     * active all,onsale,new,instock custom tabs     */    amshopby_active_extra_tabs();
+});/** * * These extra js code works for custom amasty filter tab: all,new,onsale,instock * */ function showextrafiltercontent(id) {    jQuery('.tab-title-second').removeClass('active');    if (id == "am_all") {        jQuery("#am_all").addClass('active');        return;    }    if (id == "am_new") {        jQuery("#am_new").addClass('active');        return;    }    if (id == "am_onsale") {        jQuery("#am_onsale").addClass('active');        return;    }    if (id == "am_instock") {        jQuery("#am_instock").addClass('active');        return;    }}function amshopby_active_extra_tabs() {    return;    var id = null;    id = am_getCurrentTabsCookie();    console.log(id);    if (!id)        showextrafiltercontent("am_all")    else        showextrafiltercontent(id);}
