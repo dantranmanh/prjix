@@ -106,7 +106,12 @@ if($flag){
 					$layer->setCurrentCategory($origCategory);
 				}
 			}
-			
+            /**
+             * Filter all,onsale,instock,new
+             */
+            if (Mage::getStoreConfig('amastycustom/general/enable') == 1) {
+                $this->_amastyExtraFilter($this->_productCollection);
+            }
 			
 			if(Mage::getStoreConfig('vendor/settings/product_active')){
 				$eVPIds		= array();
@@ -142,7 +147,28 @@ if($flag){
 				return $this->_productCollection;
 			}
 		}
-
+        protected function _amastyExtraFilter($collection)
+        {
+            $available = array('all', 'new', 'sale', 'instock');
+            $filter = strtolower(Mage::app()->getRequest()->getParam('amf'));
+            if (!in_array($filter, $available) || $filter == "all") return $collection;
+            if ($filter == "instock") {
+                $collection->getSelect()->join('cataloginventory_stock_status', 'cataloginventory_stock_status.product_id = e.entity_id', array('stock_status'));
+                $collection->getSelect()->where("`cataloginventory_stock_status`.`stock_status` = 1");
+            }
+            if ($filter == "sale") {
+                $collection->getSelect()->where('`price_index`.`final_price` < `price_index`.`price`');
+            }
+            if ($filter == "new") {
+                /**
+                 * Select product created around xdays from now.Defalut is 10.
+                 */
+                $xday = Mage::getStoreConfig('amastycustom/general/new') ? Mage::getStoreConfig('amastycustom/general/new') : 10;
+                $newfrom = date('Y-m-d H:i:s', strtotime("-" . $xday . " days"));
+                $collection->getSelect()->where("e.`created_at` > '" . $newfrom . "'");
+            }
+            return $collection;
+        }
 		/**
 		 * Get catalog layer model
 		 *
