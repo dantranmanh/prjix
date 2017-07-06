@@ -508,7 +508,7 @@ class Amasty_Shopby_Block_Catalog_Layer_View extends Amasty_Shopby_Block_Catalog
 
 
         //$this->assertRequiredFilters($this->getFilters());
-
+        Mage::log((string)$this->getLayer()->getProductCollection()->getSelect(),null,'query.log');
         return $this;
     }
 

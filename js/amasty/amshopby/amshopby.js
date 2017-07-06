@@ -668,33 +668,23 @@ function showextrafiltercontent(id) {
     jQuery('.tab-title-second').removeClass('active');
     if (id == "am_all") {
         jQuery("#am_all").addClass('active');
-        jQuery('.am-all').show();
-        am_setCurrentTabsCookie(id);
         return;
     }
     if (id == "am_new") {
         jQuery("#am_new").addClass('active');
-        jQuery('.am-all').hide();
-        jQuery('.am-new').show();
-        am_setCurrentTabsCookie(id);
         return;
     }
     if (id == "am_onsale") {
         jQuery("#am_onsale").addClass('active');
-        jQuery('.am-all').hide();
-        jQuery('.am-onsale').show();
-        am_setCurrentTabsCookie(id);
         return;
     }
     if (id == "am_instock") {
         jQuery("#am_instock").addClass('active');
-        jQuery('.am-all').hide();
-        jQuery('.am-instock').show();
-        am_setCurrentTabsCookie(id);
         return;
     }
 }
 function amshopby_active_extra_tabs() {
+    return;
     var id = null;
     id = am_getCurrentTabsCookie();
     console.log(id);

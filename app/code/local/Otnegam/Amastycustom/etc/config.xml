@@ -5,6 +5,18 @@
             <version>0.0.1</version>
         </Otnegam_Amastycustom>
     </modules>
+    <global>
+        <blocks>
+            <amastycustom>
+                <class>Otnegam_Amastycustom_Block</class>
+            </amastycustom>
+        </blocks>
+        <helpers>
+            <amastycustom>
+                <class>Otnegam_Amastycustom_Helper</class>
+            </amastycustom>
+        </helpers>
+    </global>
     <default>
         <amastycustom>
             <general>

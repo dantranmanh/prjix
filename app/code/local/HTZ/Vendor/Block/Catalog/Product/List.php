@@ -41,7 +41,7 @@ if(Mage::getStoreConfig('vendor/settings/enabled') && ($base==$dev || $base==$li
 }  
 if($flag){
 	class HTZ_Vendor_Block_Catalog_Product_List
-    extends Mage_Catalog_Block_Product_List
+    extends Otnegam_Amastycustom_Block_Catalog_Product_List
 	{
 	}
 } else {
