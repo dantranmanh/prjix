@@ -10,6 +10,11 @@
             <amastycustom>
                 <class>Otnegam_Amastycustom_Block</class>
             </amastycustom>
+            <catalog>
+                <rewrite>
+                    <product_list>Otnegam_Amastycustom_Block_Catalog_Product_List</product_list>
+                </rewrite>
+            </catalog>
         </blocks>
         <helpers>
             <amastycustom>
