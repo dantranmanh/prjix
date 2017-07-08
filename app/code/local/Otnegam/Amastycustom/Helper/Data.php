@@ -10,8 +10,7 @@ class Otnegam_Amastycustom_Helper_Data extends Amasty_Shopby_Helper_Cached
         if ($hasParam === false) {
             $url = $url . "?" . $param;
         } else {
-            $params = Mage::app()->getRequest()->getParams();
-            $amf = $params['amf'];
+            $amf = Mage::app()->getRequest()->getParam('amf');
             if (!empty($amf)) {
                 $url = str_replace("amf=" . $amf, $param, $url);
             } else
