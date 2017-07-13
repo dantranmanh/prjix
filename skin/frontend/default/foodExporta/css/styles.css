@@ -2658,8 +2658,10 @@ tr.summary-details-excluded { font-style:italic; }
 .fillter-products .toolbar .view-mode strong.grid:before{content: "\f00a";}
 .fillter-products .toolbar .view-mode strong.list:before{content: "\f00b";}
 .fillter-products .toolbar .filter-stock{float: left;margin-right: 40px;}
+.fillter-products .toolbar select {min-width: 110px;border: none;-webkit-appearance: none;-moz-appearance: none;appearance: none;text-indent: 1px;text-overflow: '';padding-right: 30px;padding-left: 10px;}
+.amshopby-page-container .fillter-products .toolbar select {font-size:14px;text-transform: uppercase;font-family: 'flamabook';font-weight: normal;color:#898B8A;}
 .fillter-products .toolbar label{font-weight: 400;font-family: PoppinsRegular;color: #1c1c1c;padding-right: 15px;}
-.fillter-products .toolbar select {min-width: 110px;border: none;-webkit-appearance: none;-moz-appearance: none;appearance: none;text-indent: 1px;text-overflow: '';padding-right: 30px;padding-left: 10px;background: url(../images/icon_arrow_down.png) no-repeat 90% center;}
+.fillter-products .toolbar select {min-width: 110px;border: none;-webkit-appearance: none;-moz-appearance: none;appearance: none;text-indent: 1px;text-overflow: '';padding-right: 30px;padding-left: 10px;background: url(../images/icon_arrow_down_v.png) no-repeat 90% center;background-size: 18px 20px;text-transform:uppercase;}
 .category-top.container{margin: 0 0 10px 135px;background:#fff;border-radius:4px;}
 .category-child{overflow:hidden;width:100%;display:block;}
 .category-child ul{}
