@@ -616,7 +616,7 @@ function amshopby_ajax_update(data){
 
 function copy_toolbar(){
 	/** This must be work in category layer page and search page **/
-	if(jQuery('.tb-copy') != undefined){		
+	if(jQuery('.tb-copy') != undefined && jQuery('.tb-copy').length){
 		jQuery("#amshopby-page-container .toolbar").each(function() {
 			/**if(jQuery('.tb-copy .toolbar').length > 0 )  */
 			jQuery('.tb-copy .toolbar').remove();
@@ -625,7 +625,7 @@ function copy_toolbar(){
 			jQuery('.tb-copy .toolbar').show();
 		  });	
 	}
-	if(jQuery('.cat-image') != undefined){		
+	if(jQuery('.cat-image') != undefined && jQuery('.cat-image').length){
 		jQuery("#amshopby-page-container .category-top-image").each(function() {			
 			jQuery('.cat-image .category-top-image').remove();
 			jQuery( this ).detach().appendTo('.cat-image');
