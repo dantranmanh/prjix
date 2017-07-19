@@ -305,6 +305,13 @@ div.block-layered-nav ol:not(.single-choice) select option[selected] { color:whi
   max-height:81px;
   overflow-y: auto;
 }
+.amshopby-container-top #tab-content-brands .owl-pagination{
+    display:none;
+}
+.amshopby-container-top #tab-content-brands{
+    max-height:100%;
+    overflow-y: visible;
+}
 .amshopby-filters-top .tab-content dt,
 .amshopby-filters-top .actions{
   display: none;

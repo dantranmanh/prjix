@@ -40,13 +40,34 @@ $csHelper= Mage::helper('amastycustom');
                         <?php if($_filter->getItemsCount()): $i++; ?>
                             <?php  $position = Mage::helper('amshopby')->getAttributePosition($_filter); ?>
                             <div id="tab-content-<?php echo $_filter->getAttributeModel()->getAttributeCode(); ?>" class="amshopby-item-top am-toggle-content tab-content <?php if($i==1):?>active<?php endif; ?>">
-                                <dl id="narrow-by-list" class="amshopby-narrow-by-list" data-position="<?php echo $position;?>">
-                                    <?php if ($_filter->getAttributeCode() == 'price') : ?>
-                                        <?php $_filter->addData(array('amprice-position' => 'top')); ?>
-                                    <?php endif; ?>
-                                    <dt><?php echo $this->__($_filter->getName()) ?></dt>
-                                    <dd style="background:none"><?php echo $_filter->getHtml() ?></dd>
-                                </dl>
+                                <?php if($_filter->getAttributeModel()->getAttributeCode() == "brands"): ?>
+                                    <dl id="narrow-by-list" class="amshopby-narrow-by-list" data-position="<?php echo $position;?>">
+                                        <dt><?php echo $this->__($_filter->getName()) ?></dt>
+                                        <dd style="background:none"><?php echo $_filter->getHtml() ?></dd>
+                                    </dl>
+                                    <script>
+                                        jQuery( document ).ready(function() {
+                                            console.log( "ready!" );
+                                            jQuery('.owl-carousel-brand').owlCarousel({
+                                                loop:true,
+                                                center: true,
+                                                margin:10,
+                                                navigation: true,
+                                                pagination: false,
+                                                rewindNav: false,
+                                                navigationText: ["prev","next"]
+                                            })
+                                        });
+                                    </script>
+                                <?php else: ?>
+                                    <dl id="narrow-by-list" class="amshopby-narrow-by-list" data-position="<?php echo $position;?>">
+                                        <?php if ($_filter->getAttributeCode() == 'price') : ?>
+                                            <?php $_filter->addData(array('amprice-position' => 'top')); ?>
+                                        <?php endif; ?>
+                                        <dt><?php echo $this->__($_filter->getName()) ?></dt>
+                                        <dd style="background:none"><?php echo $_filter->getHtml() ?></dd>
+                                    </dl>
+                                <?php endif;?>
                             </div>
                           <script type="text/javascript">
                             jQuery('tab-content-<?php echo $_filter->getAttributeModel()->getAttributeCode(); ?>').mCustomScrollbar();
