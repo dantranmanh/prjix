@@ -129,12 +129,352 @@
   </div>
 </div>
 </div>
+
+<!--Home page Layout start-->
+<!--header & Banner-->
+<header>
+  <div class="homeTopMenu hidden-xs">
+	  <div class="container">
+		  <div class="row">
+			  <div class="col-sm-9 helpDiv">
+			    <p class="help">LOGINNEED HELP? <a href="tel:(+61) 410 562 364">(+61) 410 562 364</a></p>
+			    <p class="help help_m"><a href="mailto:help@ixport.com">HELP@IXPORT.COM</a></p>
+			  </div>
+			<div class="col-sm-3 rightButtons">   
+				<a class="signIn" href="http://ixport.com/customer/account/login/">Login</a>			
+				<a class="signUp" href="http://ixport.com/customer/account/create/">Sign Up</a>
+			</div>
+		  </div>
+	  </div>
+  </div>
+
+<div class="navbar homeMainMenu">
+   <div class="container">
+      <div class="navbar-header">
+         <button aria-controls="homeMainMenu" aria-expanded="false" class="collapsed navbar-toggle" data-target="#homeMainMenu" data-toggle="collapse" type="button"> 
+			 <span class="sr-only">Toggle navigation</span> 
+			 <span class="icon-bar"></span> 
+			 <span class="icon-bar"></span> 
+			 <span class="icon-bar"></span> 
+		 </button> 
+		 <div class="header-top-icon hidden-sm hidden-md hidden-lg">
+			<p href="#" class="button-account" data-toggle="collapse" data-target="#login-mobile"><i class="fa fa-user" aria-hidden="true"></i></p>
+			<p href="#" class="button-help" data-toggle="collapse" data-target="#help-mobile"><i class="fa fa-info" aria-hidden="true"></i></p>
+			<div id="login-mobile" class="login-mobile collapse">
+				<ul>
+					<li class="link-signup">
+						<a href="#"><i class="fa fa-user-plus" aria-hidden="true"></i>Sign Up</a>
+					</li>
+					<li class="link-login">
+						<a href="#"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</a>
+					</li>
+				</ul>
+			</div>
+			<div id="help-mobile" class="help-mobile collapse">
+				<ul>
+					<li class="help-phone">
+						<span><i class="fa fa-phone" aria-hidden="true"></i>(+61) 410 562 364</span>
+					</li>
+					<li class="help-email">
+						<a href="#"><span><i class="fa fa-envelope-o" aria-hidden="true"></i>HELP@IXPORT.COM</span></a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		 <a href="../" class="navbar-brand"><img src="<?php echo $this->getSkinUrl('images/logo_white.png'); ?>" alt="logo-white" /></a> 
+      </div>
+      <nav class="collapse navbar-collapse" id="homeMainMenu">
+         <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Features</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">Clients</a></li>
+         </ul>         
+      </nav>
+   </div>
+</div>
+</header>
+
 <div class="header-img header_new_text">
   <div class="text_hs">
-    <img src="<?php echo $this->getSkinUrl('images/bg-headers.jpg'); ?>" alt="" />
+    <img src="<?php echo $this->getSkinUrl('images/bg-headers-new.jpg'); ?>" alt="header-banner" />
+	<div class="container">
+		<h1>Food exporting, simpliﬁed</h1>
+	</div>
   </div>
 </div>
-<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('sing-up-free')->toHtml(); ?>
+<!--end-->
+
+<!--Main container start-->
+
+<div class="ecommerce-platform">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 box-eco-left">
+				<h2 class="section-title">Save time, money & hassle with our export-ready ecommerce platform</h2>
+				<div class="greenButton"><a href="">Start Free Trial</a></div>
+			</div>
+			<div class="clear"></div>
+			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12"></div>
+			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 box-eco-right">
+				<img src="<?php echo $this->getSkinUrl('images/img/Ixport-Department-2.png'); ?>" alt="Ecommerce Platform">
+			</div>
+		</div>
+	</div>
+</div><!--Ecommerce Platform Trial-->
+
+<div class="online-food">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 box-o-f-left">
+				<img src="<?php echo $this->getSkinUrl('images/img/product-page.png'); ?>" alt="Ecommerce Platform">
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 box-o-f-right">
+				<h2 class="section-title">Grow your online food business with our easy to use one-stop-shop</h2>
+				<div class="row">
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+						<div class="boxes online-box1">
+							<div class="image-box">
+								<img src="<?php echo $this->getSkinUrl('images/img/icon-1.png'); ?>" alt="Icon">
+							</div>
+							<h3>Your online <span>marketing partner</span></h3>
+							<p>Our freight partners offer the most competitive rates available</p>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+						<div class="boxes online-box2">
+							<div class="image-box">
+								<img src="<?php echo $this->getSkinUrl('images/img/icon-2.png'); ?>" alt="Icon">
+							</div>
+							<h3>Access new markets, <span>expand your reach</span></h3>
+							<p>Receive better than market rates through our exclusive partnership with WorldFirst</p>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+						<div class="boxes online-box3">
+							<div class="image-box">
+								<img src="<?php echo $this->getSkinUrl('images/img/icon-3.png'); ?>" alt="Icon">
+							</div>
+							<h3>Easy product <span>discovery</span></h3>
+							<p>Smart search and to promote your range of products</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div><!--Online Food Trial-->
+
+<div class="unique-food">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 box-u-f-left">
+				<h2 class="section-title">Unique food exporting features speed up your sales ﬂow</h2>
+				<div class="row">
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+						<div class="boxes unique-box1">
+							<div class="image-box">
+								<img src="<?php echo $this->getSkinUrl('images/img/icon-4.png'); ?>" alt="Icon">
+							</div>
+							<h3>Container <span>estimator</span></h3>
+							<p>Know your container size in volume, updated in real time</p>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+						<div class="boxes unique-box2">
+							<div class="image-box">
+								<img src="<?php echo $this->getSkinUrl('images/img/icon-5.png'); ?>" alt="Icon">
+							</div>
+							<h3>Accurate order <span>total pricing</span></h3>
+							<p>Know your container size in volume, updated in real time</p>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+						<div class="boxes unique-box3">
+							<div class="image-box">
+								<img src="<?php echo $this->getSkinUrl('images/img/icon-6.png'); ?>" alt="Icon">
+							</div>
+							<h3>All in one <span>shipping checkout</span></h3>
+							<p>Offer forex, documentation and freight all from one easy checkout process</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 box-u-f-right">
+				<img src="<?php echo $this->getSkinUrl('images/img/minicart.png'); ?>" alt="Ecommerce Platform">
+			</div>
+		</div>
+	</div>
+</div><!--Unique Food Trial-->
+
+<div class="better-rate" style="background-image: url(<?php echo $this->getSkinUrl('images/img/shipping-containers-dock-2.png'); ?>);">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<h2 class="section-title">Better rates & streamlined freight processing for your importers</h2>
+				<div class="row">
+					<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+						<div class="better-box">
+							<h3>Best forex rates</h3>
+							<img src="<?php echo $this->getSkinUrl('images/img/bet-1.png'); ?>" alt="Ecommerce Platform">
+							<p>Receive better than market rates through our exclusive partnership with WorldFirst</p>
+						</div>
+					</div>
+					<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+						<div class="better-box">
+							<h3>Easy documentation</h3>
+							<img src="<?php echo $this->getSkinUrl('images/img/bet-2.png'); ?>" alt="Ecommerce Platform">
+							<p>Simplifying the transaction with less paperwork</p>
+						</div>
+					</div>
+					<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+						<div class="better-box">
+							<h3>Freight rates compared</h3>
+							<img src="<?php echo $this->getSkinUrl('images/img/bit-3.png'); ?>" alt="Ecommerce Platform">
+							<p>Our freight partners offer the most competitive rates available</p>
+						</div>
+					</div>
+					<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+						<div class="better-box">
+							<h3>Easy freight tracking</h3>
+							<img src="<?php echo $this->getSkinUrl('images/img/bit-4.png'); ?>" alt="Ecommerce Platform">
+							<p>Track your container progress from your Ixport account</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div><!--Better Rate End-->
+
+<div class="online-export">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<h2 class="section-title">Everything you need to run your online export business</h2>
+				<div class="row">
+					<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 box-export-left">
+						<div class="export-box">
+							<h3>Get a full-featured ecommerce Content Management System</h3>
+							<p>Use our comprehensive CMS to effortlessly manage your products and customers, with no additional software needed</p>
+						</div>
+						<div class="export-box">
+							<h3>Accept payments from leading providers</h3>
+							<p>We support leading providers such as PayPal, Stripe and an exclusive partnership with WorldFirst.</p>
+						</div>
+						<div class="export-box">
+							<h3>Manage orders and inventory</h3>
+							<p>Our powerful control panel lets you process and fulﬁll orders end to end, managing inventory at the product option level</p>
+						</div>
+						<div class="export-box">
+							<h3>Manage freight, documentation & inventory</h3>
+							<p>A multitude of freight forwarders all waiting to accept your business, and provide real value for money without lifting a ﬁnger.</p>
+						</div>
+					</div>
+					<div class="col-lg-7 col-md-7 col-sm-12 col-xs-12 box-export-right">
+						<div class="export-image">
+							<img src="<?php echo $this->getSkinUrl('images/img/admin-dashboard-1.png'); ?>" alt="Ecommerce Platform">
+						</div>
+					</div>
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 box-export-btn">
+						<a href="#">SEE ALL FEATURES</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div><!--Online Export End-->
+
+<div class="exporting-success">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 box-exporting-left">
+				<h2 class="section-title">Exporting success <span>stories</span></h2>
+				<p>“Since moving to Ixport, we have seen a 36% increase in sales. The platform is a dream to use and the support is great.”</p>
+				<p class="e-name">JOHN SMITH, <br>BRITGROCER</p>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 box-exporting-right">
+				<img src="<?php echo $this->getSkinUrl('images/img/macbook-air-britgrocer.png'); ?>" 
+				alt="Macbook Air Britgrocer">
+			</div>
+		</div>
+	</div>
+</div><!--Exporting Success End-->
+
+<div class="footer-top">
+	<div class="container">
+		<h2 class="section-title">Need more information before making a decision?</h2>
+		<div class="greenButton">
+		  <a href="#" class="buttonGreen">START FREE TRIAL</a>
+		</div>
+	</div>
+</div><!--Footer Top Trial-->
+
+<!--<div class="footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 footer-box footer-box1">
+				<a href="../" class="navbar-brand footer-logo"><img src="<?php //echo $this->getSkinUrl('images/logo_white.png'); ?>" alt="logo-white" /></a> 
+				<p>NEED HELP?</p>
+				<p class="f-phone">(+61) 0410 562 364</p>
+				<p class="f-label">help@foodexporta.com</p>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 footer-box footer-box2">
+				<h3>About</h3>
+				<ul>
+					<li><a href="#">About Us</a></li>
+					<li><a href="#">Clients</a></li>
+					<li><a href="#" >Our Team</a></li>
+					<li><a href="#">Partnerships</a></li>
+				</ul>
+			</div>
+			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 footer-box footer-box3">
+				<h3>For Businesses</h3>
+				<ul>
+					<li><a href="#">Sign up as an Exporter</a></li>
+					<li><a href="#">Service Provider Registration</a></li>
+				</ul>
+			</div>
+			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 footer-box footer-box4">
+				<h3>Customer Service</h3>
+				<ul>
+					<li><a href="#">FAQ's</a></li>
+					<li><a href="#">Guides</a></li>
+					<li><a href="#" >Contact Us</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="footer-address">
+	<div class="container">
+	  <div class="row">
+		<div class="col-md-8 col-sm-7 col-xs-12 pull-right">
+			<div class="footer-address-links">
+				<ul>
+					<li><a href="#">License information</a></li>
+					<li><a href="#">Legal Agreements</a></li>
+					<li><a href="#">Terms of use</a></li>
+					<li><a href="#">Privacy Policy</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-md-4 col-sm-5 col-xs-12 copyright">
+			<p>© 2017 foodExporta.com. All Rights Reserved.</p>
+		</div>
+	  </div>
+	</div>
+  </div>-->
+
+
+
+<!--end-->
+
+
+<!--Home layout end-->
+
+
+<?php //echo $this->getLayout()->createBlock('cms/block')->setBlockId('sing-up-free')->toHtml(); ?>
 </div>
 <script type="text/javascript">
   var withHeaderRight = jQuery(".header-right").width() + 5;

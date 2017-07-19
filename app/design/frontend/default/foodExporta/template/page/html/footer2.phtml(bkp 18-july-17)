@@ -1,0 +1,17 @@
+<div class="footer-container tung">
+  <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('footer-text')->toHtml(); ?>
+  <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('footer-links')->toHtml(); ?>
+  <div class="footer-address">
+	<div class="container">
+	  <div class="row">
+		<div class="col-md-4 col-address-links">
+			<address><?php echo $this->getCopyright() ?></address>
+		</div>
+		<div class="col-md-8">
+			<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('footer-address-links')->toHtml(); ?>
+		</div>
+	  </div>
+	</div>
+  </div>
+
+</div>

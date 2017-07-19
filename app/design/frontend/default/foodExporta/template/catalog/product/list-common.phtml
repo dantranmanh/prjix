@@ -18,7 +18,7 @@ $path = $url->getPath();
             <?php $_iterator = 0; ?>
             <ol class="products-list" id="products-list">
                 <?php foreach ($_productCollection as $_product): ?>
-                    <li class="item<?php if( ++$_iterator == sizeof($_productCollection) ): ?> last<?php endif; ?>">
+                <li class="item<?php if( ++$_iterator == sizeof($_productCollection) ): ?> last<?php endif; ?>">
                         <div class="item-content">
                             <div class="amlabel-div">
                                 <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(140,250); ?>" width="140" height="250" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" /></a>
@@ -30,18 +30,258 @@ $path = $url->getPath();
                             </div>
                             <div class="product-shop">
                                 <?php $_productNameStripped = $this->stripTags($_product->getName(), null, true); ?>
-                                <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><?php echo $_helper->productAttribute($_product, $_product->getName() , 'name'); ?> <?php echo '('.Mage::helper('logistic/logistic')->getProductUnitWeightHtml($_product).')'; ?></a></h2>
+                                <h2 class="product-name pull-left"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><?php echo $_helper->productAttribute($_product, $_product->getName() , 'name'); ?> <?php echo '('.Mage::helper('logistic/logistic')->getProductUnitWeightHtml($_product).')'; ?></a></h2>
+								<div class="productPagePrice">
+								      <?php echo $this->getPriceHtml($_product, true).' <span class="caseTxt">/ Case</span>' ?>                  
+								</div>
+								
+								
+								
                                 <?php // if($_product->getRatingSummary()): ?>
                                 <div class="review-box">
                                     <?php echo $this->getReviewsSummaryHtml($_product,'short') ?>
                                 </div>
                                 <?php // endif; ?>
                                 <?php if($_product->isSaleable()): ?>
-                                    <label><?php echo $this->__('<span>Status: </span>');?><?php echo $this->__('In stock') ?></label>
+                                    <label class="stockInIco"><?php echo $this->__('');?><?php echo $this->__('In stock') ?></label>
                                 <?php else:?>
-                                    <label><?php echo $this->__('<span>Status: </span>');?><?php echo $this->__('Out of stock') ?></label>
+                                    <label class="stockOutIco"><?php echo $this->__('');?><?php echo $this->__('Out of stock') ?></label>
                                 <?php endif; ?>
-                                <div class="newstyle">
+                                  <?php // added by kapil 
+                                      $product = Mage::getModel('catalog/product')->load($_product->getId());
+                                      $productBarcodeUnit = $product->getResource()->getAttribute('product_barcode_unit')->getFrontend()->getValue($product);
+                                          $productBarcodeInner = $product->getResource()->getAttribute('product_barcode_inner')->getFrontend()->getValue($product);
+                                          $productBarcodeOuter = $product->getResource()->getAttribute('product_barcode_outer')->getFrontend()->getValue($product);
+                                          $productBestbeforedate = $product->getResource()->getAttribute('product_best_before_date')->getFrontend()->getValue($product);
+                                          $productHsCode = $product->getResource()->getAttribute('product_hs_code')->getFrontend()->getValue($product);
+                                          $productAllergens = $product->getResource()->getAttribute('product_allergens')->getFrontend()->getValue($product);
+                                          $productcountry_of_manufacture = $product->getResource()->getAttribute('country_of_manufacture')->getFrontend()->getValue($product);
+                                          $productUnitsPerCase = $product->getResource()->getAttribute('product_units_per_case')->getFrontend()->getValue($product);
+                                          $productOutersPerLayer = $product->getResource()->getAttribute('product_cases_per_layer')->getFrontend()->getValue($product);
+                                          $productLayersPerPallet = $product->getResource()->getAttribute('product_layers_per_pallet')->getFrontend()->getValue($product);
+                                          $productCasesPerPallet = $product->getResource()->getAttribute('product_cases_per_pallet')->getFrontend()->getValue($product);    
+                                          $productIngredients = $product->getResource()->getAttribute('product_ingredients')->getFrontend()->getValue($product);
+                                          $productPackaging = $product->getResource()->getAttribute('product_packaging_format')->getFrontend()->getValue($product);
+                                          $productStorageConditions = $product->getResource()->getAttribute('product_storage_conditions')->getFrontend()->getValue($product);
+                                          $productVolumePerCase = $product->getResource()->getAttribute('product_case_volume')->getFrontend()->getValue($product);
+                                          $productVolumePerPallet = $product->getResource()->getAttribute('product_volume_per_pallet')->getFrontend()->getValue($product);
+                                          $productHalaalCertified = $product->getResource()->getAttribute('product_halaal_certified')->getFrontend()->getValue($product);
+                                          $productKosher = $product->getResource()->getAttribute('product_kosher')->getFrontend()->getValue($product);
+
+
+
+                                  ?>
+
+		<div class="product-collateral">
+			<div class="padder">
+			
+				<h2 class="collateral-title product_ext_info_<?php echo $_product->getId(); ?>" onclick="my_funct('product_ext_info_<?php echo $_product->getId(); ?>');">
+				  <span>Export Information</span>
+				</h2>
+				<div class="collateral-content">
+				  <div class="box-col2">
+  <div class="col-item">
+    <table class="data-table data-products">
+      <tr>
+        <td><?php echo $this->__('Units/Case:') ?></td>
+        <td><?php echo nl2br($this->htmlEscape($productUnitsPerCase)); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $this->__('Cases/Layer') ?></td>
+        <td><?php echo nl2br($this->htmlEscape($productOutersPerLayer)); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $this->__('Layers/Pallet') ?></td>
+        <td><?php echo nl2br($this->htmlEscape($productLayersPerPallet)); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $this->__('Cases/Pallet') ?></td>
+        <td><?php echo nl2br($this->htmlEscape($productCasesPerPallet)); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $this->__('Unit Barcode (EAN -13):') ?></td>
+        <td><?php echo nl2br($this->htmlEscape($productBarcodeUnit)); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $this->__('Inner Barcode (EAN -13):') ?></td>
+        <td><?php echo nl2br($this->htmlEscape($productBarcodeInner)); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $this->__('Outer Barcode (EAN -13):') ?></td>
+        <td><?php echo nl2br($this->htmlEscape($productBarcodeOuter)); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $this->__('Country of Origin:') ?></td>
+        <td><?php echo nl2br($this->htmlEscape($productcountry_of_manufacture)); ?></td>
+      </tr>
+
+      <tr>
+        <td><?php echo $this->__('Volume (m³)/Case:') ?></td>
+        <td><?php echo nl2br($this->htmlEscape($productVolumePerCase)); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $this->__('Volume (m³)/Pallet:') ?></td>
+        <td><?php echo nl2br($this->htmlEscape($productVolumePerPallet)); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $this->__('HS/Tariff Code') ?></td>
+        <td><?php echo nl2br($this->htmlEscape($productHsCode)); ?></td>
+      </tr>
+    </table>
+  </div>
+  <div class="col-item">
+    <table class="data-table data-products">
+      <tr>
+        <td><?php echo $this->__('Halaal Certified:') ?></td>
+        <td><?php echo nl2br($this->htmlEscape($productHalaalCertified)); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $this->__('Product Kosher:') ?></td>
+        <td><?php echo nl2br($this->htmlEscape($productKosher)); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $this->__('Allergens:') ?></td>
+        <td><?php echo nl2br($this->htmlEscape($productAllergens)); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $this->__('Ingredients:') ?></td>
+        <td><?php echo nl2br($this->htmlEscape($productIngredients)); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo $this->__('Best Before Date:') ?></td>
+        <td><?php echo nl2br($this->htmlEscape($productBestbeforedate)); ?></td>
+      </tr>
+    </table>
+  </div>
+</div>
+                 <div class="clearfix"></div>
+				</div>
+
+			<h2 class="collateral-title product_info_<?php echo $_product->getId(); ?>" onclick="my_funct('product_info_<?php echo $_product->getId(); ?>');">
+			  <span>PRODUCT INFORMATION</span>
+			</h2>
+				<div class="collateral-content">
+				  <div class="box-col2">
+				  <div class="col-item">
+					<table class="data-table data-products">
+					 <tr>
+						<td><?php echo $product->getResource()->getAttribute('brands')->getFrontend()->getLabel($product); ?></td>
+						<td><?php echo nl2br($this->htmlEscape($product->getResource()->getAttribute('brands')->getFrontend()->getValue($product))); ?></td>
+					  </tr>
+					  <tr>
+						<td><?php echo $product->getResource()->getAttribute('manufacturer')->getFrontend()->getLabel($product); ?></td>
+						<td><?php echo nl2br($this->htmlEscape($product->getResource()->getAttribute('manufacturer')->getFrontend()->getValue($product))); ?></td>
+					  </tr>
+					  <tr>
+						<td><?php echo $product->getResource()->getAttribute('product_food_category')->getFrontend()->getLabel($product); ?></td>
+						<td><?php echo nl2br($this->htmlEscape($product->getResource()->getAttribute('product_food_category')->getFrontend()->getValue($product))); ?></td>
+					  </tr>
+					  <tr>
+						<td><?php echo $product->getResource()->getAttribute('product_net_weight')->getFrontend()->getLabel($product); ?></td>
+						<td><?php echo nl2br($this->htmlEscape($product->getResource()->getAttribute('product_net_weight')->getFrontend()->getValue($product))); ?></td>
+					  </tr>
+					  <tr>
+						<td><?php echo $product->getResource()->getAttribute('weight')->getFrontend()->getLabel($product); ?></td>
+						<td><?php echo nl2br($this->htmlEscape($product->getResource()->getAttribute('weight')->getFrontend()->getValue($product))); ?></td>
+					  </tr>
+					  <tr>
+						<td><?php echo $product->getResource()->getAttribute('packaging_type')->getFrontend()->getLabel($product); ?></td>
+						<td><?php echo nl2br($this->htmlEscape($product->getResource()->getAttribute('packaging_type')->getFrontend()->getValue($product))); ?></td>
+					  </tr>
+					  <tr>
+						<td><?php echo $product->getResource()->getAttribute('packaging_material_description')->getFrontend()->getLabel($product); ?></td>
+						<td><?php echo nl2br($this->htmlEscape($product->getResource()->getAttribute('packaging_material_description')->getFrontend()->getValue($product))); ?></td>
+					  </tr>
+					  <tr>
+						<td><?php echo $product->getResource()->getAttribute('product_packaging_format')->getFrontend()->getLabel($product); ?></td>
+						<td><?php echo nl2br($this->htmlEscape($product->getResource()->getAttribute('product_packaging_format')->getFrontend()->getValue($product))); ?></td>
+					  </tr>
+					  <tr>
+						<td><?php echo $product->getResource()->getAttribute('product_shelf_life')->getFrontend()->getLabel($product); ?></td>
+						<td><?php echo nl2br($this->htmlEscape($product->getResource()->getAttribute('product_shelf_life')->getFrontend()->getValue($product))); ?></td>
+					  </tr>
+					  <tr>
+						<td><?php echo $product->getResource()->getAttribute('product_storage_type')->getFrontend()->getLabel($product); ?></td>
+						<td><?php echo nl2br($this->htmlEscape($product->getResource()->getAttribute('product_storage_type')->getFrontend()->getValue($product))); ?></td>
+					  </tr>
+					  <tr>
+						<td><?php echo $product->getResource()->getAttribute('product_storage_conditions')->getFrontend()->getLabel($product); ?></td>
+						<td><?php echo nl2br($this->htmlEscape($product->getResource()->getAttribute('product_storage_conditions')->getFrontend()->getValue($product))); ?></td>
+					  </tr>
+					</table>
+				  </div>
+				  <div class="col-item">
+					<table class="data-table data-products">
+					  <tr>
+						<td><?php echo $product->getResource()->getAttribute('product_unit_weight')->getFrontend()->getLabel($product); ?></td>
+						<td><?php echo nl2br($this->htmlEscape($product->getResource()->getAttribute('product_unit_weight')->getFrontend()->getValue($product))); ?></td>
+					  </tr>
+					  <tr>
+						<td><?php echo $product->getResource()->getAttribute('product_weight_measurement')->getFrontend()->getLabel($product); ?></td>
+						<td><?php echo nl2br($this->htmlEscape($product->getResource()->getAttribute('product_weight_measurement')->getFrontend()->getValue($product))); ?></td>
+					  </tr>
+					  <tr>
+						<td><?php echo $product->getResource()->getAttribute('product_width_case')->getFrontend()->getLabel($_product); ?></td>
+						<td><?php echo nl2br($this->htmlEscape($product->getResource()->getAttribute('product_width_case')->getFrontend()->getValue($product))); ?></td>
+					  </tr>
+					  <tr>
+						<td><?php echo $product->getResource()->getAttribute('product_depth_case')->getFrontend()->getLabel($_product); ?></td>
+						<td><?php echo nl2br($this->htmlEscape($product->getResource()->getAttribute('product_depth_case')->getFrontend()->getValue($product))); ?></td>
+					  </tr>
+					  <tr>
+						<td><?php echo $product->getResource()->getAttribute('product_height_case')->getFrontend()->getLabel($_product); ?></td>
+						<td><?php echo nl2br($this->htmlEscape($product->getResource()->getAttribute('product_height_case')->getFrontend()->getValue($product))); ?></td>
+					  </tr>
+					  <tr>
+						<td><?php echo $product->getResource()->getAttribute('product_gtin')->getFrontend()->getLabel($_product); ?></td>
+						<td><?php echo nl2br($this->htmlEscape($product->getResource()->getAttribute('product_gtin')->getFrontend()->getValue($product))); ?></td>
+					  </tr>
+					  <tr>
+						<td><?php echo $product->getResource()->getAttribute('product_child_gtin')->getFrontend()->getLabel($product); ?></td>
+						<td><?php echo nl2br($this->htmlEscape($_product->getResource()->getAttribute('product_child_gtin')->getFrontend()->getValue($product))); ?></td>
+					  </tr>
+					  <tr>
+						<td><?php echo $product->getResource()->getAttribute('consumer_unit_indicator')->getFrontend()->getLabel($_product); ?></td>
+						<td><?php echo nl2br($this->htmlEscape($product->getResource()->getAttribute('consumer_unit_indicator')->getFrontend()->getValue($product))); ?></td>
+					  </tr>
+					  <tr>
+						<td><?php echo $_product->getResource()->getAttribute('product_export_countries')->getFrontend()->getLabel($_product); ?></td>
+						<td><?php echo nl2br($this->htmlEscape($product->getResource()->getAttribute('product_export_countries')->getFrontend()->getValue($product))); ?></td>
+					  </tr>
+					</table>
+				  </div>
+				</div>
+                  <div class="clearfix"></div>
+                </div>
+		
+				<h2 class="collateral-title product_nt_info_<?php echo $_product->getId(); ?>" onclick="my_funct('product_nt_info_<?php echo $_product->getId(); ?>');">
+				  <span>NUTRITION</span>
+				</h2>
+            <div class="collateral-content">
+              <div class="box-col2">
+  <div class="col-item">
+    <table class="data-table data-products">
+      <tr>
+        <td><?php echo $product->getResource()->getAttribute('product_nutritional_claims')->getFrontend()->getLabel($product); ?></td>
+        <td><?php echo nl2br($this->htmlEscape($product->getResource()->getAttribute('product_nutritional_claims')->getFrontend()->getValue($product))); ?></td>
+      </tr>
+    </table>
+  </div>
+  <div class="col-item">
+    <table class="data-table data-products">
+      <tr>
+        <td><?php echo $product->getResource()->getAttribute('product_allergens')->getFrontend()->getLabel($product); ?></td>
+        <td><?php echo nl2br($this->htmlEscape($product->getResource()->getAttribute('product_allergens')->getFrontend()->getValue($product))); ?></td>
+      </tr>
+    </table>
+  </div>
+</div>
+             <div class="clearfix"></div>
+		   </div>
+		</div>
+                      <div class="newstyle largeTxtBox">
+								<div class="row">
+								  <div class="col-sm-8">
                                     <div class="p-type">
                                         <?php echo Mage::helper('logistic/logistic')->getProductUnitLabel($_product); ?>
                                         <!-- <?php echo Mage::helper('logistic/logistic')->getProductTypeLabel($_product); ?> -->
@@ -50,19 +290,30 @@ $path = $url->getPath();
                                         <label><?php echo $this->__('Qty');?></label>
                                         <input oninput="maxLengthCheck(this)" type="number" min="0" max="9999" class="input-text input-cart product-qty-<?php echo $_product->getId(); ?>" value="1" />
                                     </div>
-                                </div>
-                                <?php if($_product->isSaleable()): ?>
-                                    <div class="actions">
-                                        <?php echo $this->getPriceHtml($_product, true) ?>
-                                        <?php $stocklevel = (int)Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty();?>
-                                        <?php $manageStock = Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getManageStock();?>                            <button data-product-id="<?php echo $_product->getId(); ?>" class="button btn-cart add-cart-button" type="button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')">
+									</div>
+									 <?php if($_product->isSaleable()): ?>
+									<div class="col-sm-4">
+										<button data-product-id="<?php echo $_product->getId(); ?>" class="proAddCartBtn button btn-cart add-cart-button" type="button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')">
                                             <span class="text"><?php echo $this->__('Add to Order') ?></span>
                                         </button>
-                                    </div>
+									 </div>	
+                                </div>
+                               
+                                   <!-- <div class="actions">
+                                        <?php echo $this->getPriceHtml($_product, true) ?>
+                                        <?php $stocklevel = (int)Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty();?>
+                                        <?php $manageStock = Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getManageStock();?>
+										
+										<button data-product-id="<?php echo $_product->getId(); ?>" class="button btn-cart add-cart-button" type="button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')">
+                                            <span class="text"><?php echo $this->__('Add to Order') ?></span>
+                                        </button>
+                                    </div>-->
                                 <?php endif; ?>
                             </div>
                         </div>
-                    </li>
+           </div>         
+					
+					</li>
                 <?php endforeach; ?>
             </ol>
             <script type="text/javascript">decorateList('products-list', 'none-recursive')</script>
@@ -88,7 +339,9 @@ $path = $url->getPath();
                         <?php endif;?>
                     </div>
 
-                    <h2 class="product-name 1"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?> <?php echo '('.Mage::helper('logistic/logistic')->getProductUnitWeightHtml($_product).')'; ?></a></h2>
+                    <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?> <?php echo '('.Mage::helper('logistic/logistic')->getProductUnitWeightHtml($_product).')'; ?></a></h2>
+
+					
                     <div class="product-actions">
                         <div class="item-price">
                             <?php echo $this->getPriceHtml($_product, true).' / Case' ?>
@@ -118,4 +371,37 @@ $path = $url->getPath();
             jQuery('body').addClass('catalog-sub-category');
         });
     </script>
+	
+
+
 <?php endif; ?>
+
+<script type="text/javascript">
+    
+    //$('.padder .collateral-title')
+    function my_funct(data){
+    jQuery('.padder .collateral-content').removeClass('active');
+      if(!jQuery('.'+data).hasClass('active')){
+        //alert('in');
+        jQuery('.padder .collateral-title').removeClass('active');
+        jQuery('.'+data).addClass('active');
+        jQuery('.'+data).next().addClass('active');
+      }else{
+        //alert('out');
+        jQuery('.padder .collateral-title').removeClass('active');
+      }
+    }
+    /*jQuer('.padder .collateral-title').click(function(){
+    alert ("safdf.ef");
+      /*jQuery('.padder .collateral-content').removeClass('active');
+      if(!jQuery(this).hasClass('active')){
+        //alert('in');
+        jQuery('.padder .collateral-title').removeClass('active');
+        jQuery(this).addClass('active');
+        jQuery(this).next().addClass('active');
+      }else{
+        //alert('out');
+        jQuery('.padder .collateral-title').removeClass('active');
+      }
+    })*/
+</script>

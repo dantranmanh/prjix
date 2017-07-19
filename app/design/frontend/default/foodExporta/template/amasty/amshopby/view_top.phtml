@@ -10,7 +10,9 @@
 $custom = Mage::getStoreConfig('amastycustom/general/enable');
 $csHelper= Mage::helper('amastycustom');
 ?>
-<?php if( ($custom == 1 && $csHelper->isExtraTabsRunning() ) || $this->canShowBlock()): ?>
+<div class="block cat-image">
+</div>
+<?php if( ($custom == 1 && $csHelper->isExtraTabsRunning() ) || $this->canShowBlock()): ?> 
     <div class="block block-layered-nav">
         <!--<div class="block-title">
             <strong><span><?php /*echo $this->__('Shop By') */?></span></strong>
@@ -50,31 +52,36 @@ $csHelper= Mage::helper('amastycustom');
                             jQuery('tab-content-<?php echo $_filter->getAttributeModel()->getAttributeCode(); ?>').mCustomScrollbar();
                           </script>
                         <?php endif; ?>
-                    <?php endforeach; ?>
-                    <?php if ( $custom == 1): ?>
-                        <div class="tabs-title-second tabs-title-style1">
-                            <div id="am_all"
-                                 onclick="ajaxgetcontent('<?php echo $csHelper->addCurrentUrlParam("amf=all");?>','am_all')"
-                                 class="tab-title-second tab-title<?php if($csHelper->getCurrentExtraTabs() == "all") echo " "."active";?>">
-                                <span><?php echo $this->__('All') ?></span>
-                            </div>
-                            <div id="am_new"
-                                 onclick="ajaxgetcontent('<?php echo $csHelper->addCurrentUrlParam("amf=new");?>','am_new')"
-                                 class="tab-title-second tab-title<?php if($csHelper->getCurrentExtraTabs() == "new") echo " "."active";?>">
-                                <span><?php echo $this->__('New') ?></span>
-                            </div>
-                            <div id="am_onsale"
-                                 onclick="ajaxgetcontent('<?php echo $csHelper->addCurrentUrlParam("amf=sale");?>','am_onsale')"
-                                 class="tab-title-second tab-title<?php if($csHelper->getCurrentExtraTabs() == "sale") echo " "."active";?>">
-                                <span><?php echo $this->__('On Sale') ?></span>
-                            </div>
-                            <div id="am_instock"
-                                 onclick="ajaxgetcontent('<?php echo $csHelper->addCurrentUrlParam("amf=instock");?>','am_instock')"
-                                 class="tab-title-second tab-title<?php if($csHelper->getCurrentExtraTabs() == "instock") echo " "."active";?>">
-                                <span><?php echo $this->__('In Stock') ?></span>
-                            </div>
-                        </div>
-                    <?php endif; ?>
+                    <?php endforeach; ?> 
+					<?php if ( $custom == 1): ?>
+						<div class="fillter-products">
+							<div class="tabs-title-second tabs-title-style1">
+								<div id="am_all"
+									 onclick="ajaxgetcontent('<?php echo $csHelper->addCurrentUrlParam("amf=all");?>','am_all')"
+									 class="tab-title-second tab-title<?php if($csHelper->getCurrentExtraTabs() == "all") echo " "."active";?>">
+									<span><?php echo $this->__('All') ?></span>
+								</div>
+								<div id="am_new"
+									 onclick="ajaxgetcontent('<?php echo $csHelper->addCurrentUrlParam("amf=new");?>','am_new')"
+									 class="tab-title-second tab-title<?php if($csHelper->getCurrentExtraTabs() == "new") echo " "."active";?>">
+									<span><?php echo $this->__('New') ?></span>
+								</div>
+								<div id="am_onsale"
+									 onclick="ajaxgetcontent('<?php echo $csHelper->addCurrentUrlParam("amf=sale");?>','am_onsale')"
+									 class="tab-title-second tab-title<?php if($csHelper->getCurrentExtraTabs() == "sale") echo " "."active";?>">
+									<span><?php echo $this->__('On Sale') ?></span>
+								</div>
+								<div id="am_instock"
+									 onclick="ajaxgetcontent('<?php echo $csHelper->addCurrentUrlParam("amf=instock");?>','am_instock')"
+									 class="tab-title-second tab-title<?php if($csHelper->getCurrentExtraTabs() == "instock") echo " "."active";?>">
+									<span><?php echo $this->__('In Stock') ?></span>
+								</div>
+								<div class="tb-copy">
+								
+								</div>
+							</div> 							
+						</div>						
+					<?php endif;?>
                 </div>
                 <script type="text/javascript">decorateDataList('narrow-by-list')</script>
                 <script type="text/javascript">

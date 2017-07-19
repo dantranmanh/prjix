@@ -54,7 +54,7 @@
       <?php endif; ?>
   </div>
   <?php endif; ?>
-  <div class="filter-stock">
+  <div class="filter-stock" style = "display:none;">
       <label><?php echo $this->__('Filter') ?></label>
       <select onchange="setLocation(this.value)">
         <option value="<?php echo $path; ?>?instock=1"><?php echo $this->__('In stock');?></option>
@@ -88,7 +88,7 @@
                   <?php echo $this->__($_order) ?>
               </option>
           <?php endforeach; ?>
-          </select>
+          </select>		  
       </div>
   </div>
   <?php endif; ?>

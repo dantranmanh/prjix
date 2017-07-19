@@ -1,48 +1,83 @@
-.amquickview-hover
-{
-    position: absolute;
-    width: 100%;
-    text-align: center;
-    z-index: 7000;
-    top: 25%;
-    background-color: #7e8081;
-    opacity: 0;
-    height: 100%;
-    padding: 10px 0;
-    left: 0;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
-  bottom: 0px;
-  top: auto!important;
-  cursor: pointer;
+.amquickview-hover{
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	 z-index: 7000; 
+/*	z-index: 90;*/
+	top: 25%;
+	background-color: #7e8081;
+	opacity: 0;
+	height: 100%;
+	padding: 10px 0;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	bottom: 0px;
+	top: auto!important;
+	cursor: pointer;
 }
 
-.amquickview-hover a, .amquickview-hover a:hover
-{
-    color: white;
-    opacity: 1;
-    text-decoration: none;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 12px;
-    display: block;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  left: 0px;
-  top: 0px;
+.amquickview-hover a, .amquickview-hover a:hover{
+	color: white;
+	opacity: 1;
+	text-decoration: none;
+	cursor: pointer;
+	font-weight: bold;
+	font-size: 12px;
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	left: 0px;
+	top: 0px;
 }
-
-.amquickview-hover img.am-quickview-icon
-{
+.amquickview-hover img.am-quickview-icon{
     max-width: 100%;
     vertical-align: middle;
     display: inline !important;
     width: auto !important;
 }
+.amquickview-hover:hover{background-color: #8898a9;}
 
-.amquickview-hover:hover
-{
-    background-color: #8898a9;
+.productPagePrice{}
+.productPagePrice .price-box .special-price .price, 
+.productPagePrice .price-box .regular-price .price{font-size: 24px; line-height: 14px;}
+.caseTxt {
+    padding-top: 3px;
+    display: inline-block;
 }
+.proAddCartBtn {
+    width: 100% !important;
+}
+.proAddCartBtn > span {
+    font-size: 16px !important;
+    padding: 14px !important;
+}
+.main-container.col3-layout .proAddCartBtn > span {
+    font-size: 13px !important;
+    padding: 10px 12px !important;
+}
+
+.largeTxtBox{}
+.products-list .item-content .largeTxtBox .p-qty input.input-text {
+    width: 70% !important;
+    text-align: left;
+    border-radius: 4px;
+    min-width: 60px;
+}
+/*.productDetailShort{}
+.showData{}
+.productDetailShort.showData .collateral-content{ display:block !important;}
+
+.productDetailShort.showData  .collateral-title.active:before{
+  -webkit-transform: rotate(-45deg) !important;
+  -moz-transform: rotate(-45deg) !important;
+  -o-transform: rotate(-45deg) !important;
+  -ms-transform: rotate(-45deg) !important;
+  transform: rotate(-45deg) !important;
+  margin-top: -5px !important;
+}*/
+
+
+

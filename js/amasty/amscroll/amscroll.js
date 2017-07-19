@@ -568,7 +568,11 @@ function amscroll() {
             	amscroll_external();
             	
             	me.loaderSet = false;
-            	
+				copy_toolbar();
+				jQuery(".arrow").each(function() {
+					if(jQuery( this ).next().hasClass("arrow")) jQuery( this ).next().remove();
+					if(jQuery( this ).next().next().hasClass("arrow")) jQuery( this ).next().remove();
+				});            	
             }
         });
 
@@ -867,6 +871,7 @@ function amscroll_test()
 
     return 'test complete!'
 }
+
 
 function amscroll_correct_height(){
     //correct frameHeight after page load
