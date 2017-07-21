@@ -47,16 +47,17 @@ $csHelper= Mage::helper('amastycustom');
                                     </dl>
                                     <script>
                                         jQuery( document ).ready(function() {
-                                            console.log( "ready!" );
                                             jQuery('.owl-carousel-brand').owlCarousel({
                                                 loop:true,
+                                                items : 10,
                                                 center: true,
                                                 margin:10,
                                                 navigation: true,
                                                 pagination: false,
                                                 rewindNav: false,
-                                                navigationText: ["prev","next"]
-                                            })
+                                                navigationText: ["<span class='fa  fa-angle-left'><span></span></span>","<span class='fa  fa-angle-right'><span></span></span>"]
+                                            });
+                                            jQuery('.owl-carousel-brand .brand-slider').show();
                                         });
                                     </script>
                                 <?php else: ?>
